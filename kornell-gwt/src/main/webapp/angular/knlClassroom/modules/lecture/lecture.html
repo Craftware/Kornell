@@ -1,5 +1,10 @@
+<style>
+	.background-color {
+		background-color: #{{classroomInfo.colorTheme}};
+	}
+</style>
 <div id="bg" style="{{bgStyle}}"></div>
-<div ng-show="!lecture.hideHeader" class="header" style="background-color: #{{classroomInfo.colorTheme}};">
+<div ng-show="!lecture.hideHeader" class="header background-color">
 	<div class="container">
 		<icon class="fa fa-align-left" style="color: #{{classroomInfo.colorTitle}};"></icon>
 		<span class="title" style="color: #{{classroomInfo.colorTitle}};">&nbsp;{{module.title}}&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;</span>
@@ -9,7 +14,7 @@
 
 <div class="outerDiv" ng-if="lecture">
 	<div class="middleDiv">
-		<div ng-include="'modules/lecture/lectureType/' + lecture.type + '.html'" class="wrapper"></div>
+		<div ng-include="'modules/lecture/lectureType/' + lecture.type + '.html?cache-buster=1.5'" class="wrapper"></div>
 	</div>
 </div>
 

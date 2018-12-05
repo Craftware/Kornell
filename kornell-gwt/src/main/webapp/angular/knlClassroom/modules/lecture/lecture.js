@@ -8,20 +8,9 @@ app.controller('LectureController', [
     '$timeout',
     '$interval',
     '$location',
+    '$window',
     'knlUtils',
-    function($scope, $rootScope, $timeout, $interval, $location, knlUtils) {
-
-        var classroomInfo = JSON.parse(decodeURI(Base64.decode(window.isPreview ? localStorage.KNLwp : $location.$$search.classroomInfo)));
-        $rootScope.studentName = $location.$$search.studentName;
-
-        classroomInfo.lectures = [];
-        angular.forEach(classroomInfo.modules, function(module){
-            angular.forEach(module.lectures, function(lecture){
-                classroomInfo.lectures.push(lecture);
-            });
-        });
-
-        $rootScope.classroomInfo = classroomInfo;
+    function($scope, $rootScope, $timeout, $interval, $location, $window, knlUtils) {
 
         $scope.getNodeByUUID = function(uuid){
             var found;
@@ -46,13 +35,13 @@ app.controller('LectureController', [
         };
 
         $scope.getFileURL = function(modelAttribute, isRoot){
-            var lectureUUID = isRoot ? classroomInfo.uuid : $scope.lectureUUID;
+            var lectureUUID = isRoot ? $scope.classroomInfo.uuid : $scope.lectureUUID;
             var id = lectureUUID + '_' + modelAttribute;
-            if(classroomInfo.files[id]){
-                var type = classroomInfo.files[id].type || 'hosted',
-                    url = classroomInfo.files[id][type+"URL"];
+            if($scope.classroomInfo.files[id]){
+                var type = $scope.classroomInfo.files[id].type || 'hosted',
+                    url = $scope.classroomInfo.files[id][type+"URL"];
                 if(type == 'uploaded'){
-                    url = classroomInfo.files._baseURL + url;
+                    url = $scope.classroomInfo.files._baseURL + url;
                     if(location.hostname === 'localhost'){
                         url = 'http://localhost:8888' + url;
                     }
@@ -82,8 +71,22 @@ app.controller('LectureController', [
             }
         };
 
-        $scope.initLecture = function(){
-            if(!$scope.classroomInfo) return;
+        $scope.initLecture = function(initData){
+            if(!initData.classroomInfo) return;
+
+            initializeHideShowControl();
+
+            var classroomInfo = JSON.parse(decodeURI(Base64.decode(initData.classroomInfo)));
+            $rootScope.studentName = initData.studentName;
+
+            classroomInfo.lectures = [];
+            angular.forEach(classroomInfo.modules, function(module){
+                angular.forEach(module.lectures, function(lecture){
+                    classroomInfo.lectures.push(lecture);
+                });
+            });
+
+            $rootScope.classroomInfo = classroomInfo;
 
             $scope.lectureUUID = $location.$$search.uuid || 0;
             $rootScope.lectureUUID = $scope.lectureUUID;
@@ -169,8 +172,24 @@ app.controller('LectureController', [
             if( document[hidden] !== undefined )
                 onchange({type: document[hidden] ? "blur" : "focus"});
         };
-        initializeHideShowControl();
 
-        $scope.initLecture();
+        if(window.isPreview) {
+            var initData = {
+                classroomInfo: localStorage.KNLwp,
+                studentName: $location.$$search.studentName
+            };
+            $scope.initLecture(initData);
+        } else {
+            $scope.postMessageToParentFrame("classroomReady", "");
+            $window.addEventListener('message',function(event) {
+                $scope.$apply(function(){
+                    var messageData = JSON.parse(event.data);
+                    if(messageData.type === 'initializeContents'){
+                        $scope.initLecture(JSON.parse(messageData.message));
+                    }
+                });
+            },false);
+        }
+
     }
 ]);

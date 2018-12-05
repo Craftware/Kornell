@@ -1,6 +1,6 @@
 package kornell.server.util
 
-import java.util.Properties
+import java.util.{Date, Properties}
 
 //Klangist Enums: https://gist.github.com/viktorklang/1057513
 trait Enum {
@@ -90,9 +90,15 @@ object Settings extends Enum {
   val SMTP_USERNAME = settting("SMTP_USERNAME")
   val SMTP_PASSWORD = settting("SMTP_PASSWORD")
   val SMTP_FROM = settting("SMTP_FROM", "suporte@eduvem.com")
-  val BUILD_NUM = settting("build.number")
   val BUILT_ON = settting("built.on")
   val DEFAULT_LOCALE = "pt_BR"
+  val BUILD_NUM = {
+    val buildNum = settting("build.number")
+    if(buildNum.get != null && buildNum.get != "Development Build") buildNum else new EnumVal {
+      val name = new Date().getTime.toString
+    }
+  }
+
 
   //??  
   def tmpDir =

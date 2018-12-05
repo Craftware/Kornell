@@ -16,23 +16,26 @@ app.controller('WizardController', [
     $scope.postMessageToParentFrame("wizardReady", "");
 
     window.addEventListener('message',function(event) {
-      if(event.data.type === 'classroomJsonLoad'){
-        $scope.root = JSON.parse(event.data.message);
-        $scope.initWizard();
-      } else if(event.data.type === 'classroomJsonNew') {
-        $scope.newTree(event.data.message);
-        $scope.initWizard();
-      } else if(event.data.type === 'classroomJsonSaved'){
-        $scope.blockPublishButton = false;
-      } else if(event.data.type === 'lastClassroomJsonPublished'){
-        $scope.lastClassroomJsonPublished = JSON.parse(event.data.message);
-        $scope.verifyTree();
-      }
+      $scope.$apply(function(){
+          var messageData = JSON.parse(event.data);
+          if(messageData.type === 'classroomJsonLoad'){
+              $scope.root = JSON.parse(messageData.message);
+              $scope.initWizard();
+          } else if(messageData.type === 'classroomJsonNew') {
+              $scope.newTree(messageData.message);
+              $scope.initWizard();
+          } else if(messageData.type === 'classroomJsonSaved'){
+              $scope.blockPublishButton = false;
+          } else if(messageData.type === 'lastClassroomJsonPublished'){
+              $scope.lastClassroomJsonPublished = JSON.parse(messageData.message);
+              $scope.verifyTree();
+          }
+      });
     },false);
 
     $scope.isUnsavedNodes = {};
     $scope.isUnpublishedNodes = {};
-    
+
     $scope.initWizard = function(){
 
       console.log($scope.root);
@@ -53,7 +56,7 @@ app.controller('WizardController', [
       };
 
       $scope.colorPickeroptions = {
-        format: 'hex', 
+        format: 'hex',
         alpha: false
       };
 
@@ -63,7 +66,7 @@ app.controller('WizardController', [
       });
 
       $scope.questionPickerSortableOptions = {
-        stop: function(e, ui) { 
+        stop: function(e, ui) {
           var item = ui.item[0],
             newPosition = parseInt(ui.item[0].innerText - 1);
           if(newPosition <= $scope.selectedQuestionIndex && $scope.oldPosition > $scope.selectedQuestionIndex){
@@ -78,7 +81,7 @@ app.controller('WizardController', [
           $scope.oldPosition = parseInt(ui.item[0].innerText - 1);
         }
       };
-      
+
       $scope.blankQuestion = {
         text: 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium?',
         options: [
@@ -100,7 +103,7 @@ app.controller('WizardController', [
           }
         ]
       };
-      
+
       $scope.data = [$scope.root];
 
       $scope.calculateLimitToDots();
@@ -124,7 +127,7 @@ app.controller('WizardController', [
           $scope.goToNode((lastExists && localStorage['KNLw.lastVisitedLectureUUID']) || $scope.lastLectureUUID || $scope.lastModuleUUID);
         }
       });
-      
+
     };
 
     $scope.toggleBlockAdvance = function() {
@@ -370,7 +373,7 @@ app.controller('WizardController', [
       angular.forEach(tree.modules, function(module){
         if(module.uuid === uuid) found = module;
         angular.forEach(module.lectures, function(lecture){
-          if(lecture.uuid === uuid) found = lecture;      
+          if(lecture.uuid === uuid) found = lecture;
         });
       });
       return found;
@@ -451,7 +454,7 @@ app.controller('WizardController', [
             lecture.showWell = true;
           } else if(lecture.type == 'image') {
             lecture.id = 'https://static.pexels.com/photos/355988/pexels-photo-355988.jpeg';
-          }          
+          }
           nodeData.lectures.push(lecture);
           $scope.goToNode(lecture.uuid);
         },
@@ -490,7 +493,7 @@ app.controller('WizardController', [
         uuid: $scope.uuid()
       };
       $scope.newModule();
-    }
+    };
 
     $scope.newModule = function(goToModule){
       var newModule = {
@@ -525,8 +528,8 @@ app.controller('WizardController', [
       }
       $scope.keepViewTab = false;
       $scope.previewURL = $sce.trustAsResourceUrl(
-        "knlClassroom/index.html?cache-buster="+(new Date().getTime())+"#!/lecture" + 
-        "?preview=1" + 
+        "knlClassroom/index.html?cache-buster="+(new Date().getTime())+"#!/lecture" +
+        "?preview=1" +
         "&uuid=" + $scope.selectedNode.uuid);
       var editPanel = $('#editPanel').get(0)
       editPanel && editPanel.scrollIntoView();
@@ -645,7 +648,7 @@ app.controller('WizardController', [
         if(!selectedIndexes.length){
           question.options[0].expected = true;
         } else {
-          // if there's more than one selected, keep only one if it's not multiple choice      
+          // if there's more than one selected, keep only one if it's not multiple choice
           angular.forEach(question.options, function(o, i){
             question.options[i].expected = (i === selectedIndexes[0]);
           });
@@ -956,7 +959,7 @@ app.controller('FileController', [
 
       uploader.onAfterAddingFile = function(fileItem) {
         fileItem.disableMultipart = true;
-        
+
         //TODO 'mpg, mpeg, mp4, mov, mkv'
         var allowedExtensions = $scope.uploaderType === 'video' ? 'mp4' : 'jpg, jpeg, gif, png',
           fileName = fileItem.file && fileItem.file.name,
@@ -1022,8 +1025,9 @@ app.controller('FileController', [
       };
 
       window.addEventListener('message',function(event) {
-        if(event.data.type === 'responseUploadPath') {
-            uploader.requestUploadPath = event.data.message;
+        var messageData = JSON.parse(event.data);
+        if(messageData.type === 'responseUploadPath') {
+            uploader.requestUploadPath = messageData.message;
             if(uploader.queue.length > 0){
               uploader.queue[0].upload();
             }

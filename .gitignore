@@ -7,6 +7,7 @@
 rebel.xml
 .externalToolBuilders
 *.iml
+.idea
 
 # Scala Worksheets
 *.sc
@@ -45,3 +46,4 @@ kornell-gwt/extras/Kornell/rpcPolicyManifest/
 sh.exe.stackdump
 kornell-api/.cache-*
 kornell-gwt/src/main/webapp/css/*
+kornell-gwt/src/main/webapp/mongoose*

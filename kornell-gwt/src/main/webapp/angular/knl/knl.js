@@ -143,7 +143,7 @@ app.run([
         };
 
         $rootScope.postMessageToParentFrame = function(messageType, message){
-            parent.postMessage({type: messageType, message: message}, $rootScope.domain);
+            parent.postMessage(JSON.stringify({type: messageType, message: message}), $rootScope.domain);
         };
 
         $rootScope.sendKornellNotification = function(notificationType, message){

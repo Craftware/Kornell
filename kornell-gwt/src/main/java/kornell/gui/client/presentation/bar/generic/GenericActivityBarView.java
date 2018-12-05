@@ -173,15 +173,19 @@ public class GenericActivityBarView extends Composite implements ActivityBarView
             e.preventDefault();
             var courseClassDetailsShown = $wnd.document.getElementsByClassName("courseClassDetailsShown").length > 0;
             if (window.CustomEvent) {
-                var event = new CustomEvent("courseClassDetailsShown", {
-                    detail: {
-                        courseClassDetailsShown: courseClassDetailsShown,
-                        time: new Date(),
-                    },
-                    bubbles: true,
-                    cancelable: true
-                });
-                e.currentTarget.dispatchEvent(event);
+                try{
+                    var event = new CustomEvent("courseClassDetailsShown", {
+                        detail: {
+                            courseClassDetailsShown: courseClassDetailsShown,
+                            time: new Date(),
+                        },
+                        bubbles: true,
+                        cancelable: true
+                    });
+                    e.currentTarget.dispatchEvent(event);
+                } catch (err) {
+
+                }
             }
         }
     }-*/;

@@ -42,7 +42,9 @@
       var selection = this.player_.currentResolution();
       this.selected(this.options_.label === selection.label);
     };
-    MenuItem.registerComponent('ResolutionMenuItem', ResolutionMenuItem);
+    if(MenuItem.registerComponent){
+        MenuItem.registerComponent('ResolutionMenuItem', ResolutionMenuItem);
+    }
 
     /*
      * Resolution menu button
@@ -96,7 +98,10 @@
     ResolutionMenuButton.prototype.buildCSSClass = function(){
       return MenuButton.prototype.buildCSSClass.call( this ) + ' vjs-resolution-button';
     };
-    MenuButton.registerComponent('ResolutionMenuButton', ResolutionMenuButton);
+
+    if(MenuItem.registerComponent){
+        MenuButton.registerComponent('ResolutionMenuButton', ResolutionMenuButton);
+    }
 
     /**
      * Initialize the plugin.

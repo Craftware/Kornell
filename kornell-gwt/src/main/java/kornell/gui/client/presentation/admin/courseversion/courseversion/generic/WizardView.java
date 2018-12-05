@@ -143,31 +143,34 @@ public class WizardView extends Composite {
 	    if($wnd.document.getElementById('angularFrame')){
     	    var iframe = $wnd.document.getElementById('angularFrame').contentWindow;
     	    var data = { type: type, message: message};
-    	    iframe.postMessage(data, domain);
+    	    iframe.postMessage(JSON.stringify(data), domain);
 	    }
 	}-*/;
 
     private native void injectEventListener(WizardView v) /*-{
 	    function postMessageListener(e) {
-	        var curUrl = $wnd.location;
-	        if(e.data.type === "wizardReady"){
-	        	v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::iframeIsReady(Ljava/lang/String;)(e.data.message);
-	        } else if(e.data.type === "wizardSave"){
-                v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::saveWizard(Ljava/lang/String;)(e.data.message);
-            } else if(e.data.type === "wizardPublish"){
-                v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::publishWizard(Ljava/lang/String;)(e.data.message);
-            } else if(e.data.type === "wizardDiscard"){
-                v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::discardWizard()();
-            } else if(e.data.type === "requestUploadPath"){
-                v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::requestUploadPath(Ljava/lang/String;)(e.data.message);
-            } else if(e.data.type === "goToSandboxClassroom"){
-                v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::goToSandboxClassroom()();
-            } else if(e.data.type === "kornellNotification"){
-                if(e.data.notificationType === "success"){
-                    @kornell.gui.client.util.view.KornellNotification::show(Ljava/lang/String;)(e.data.message);
-                } else {
-                    @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)(e.data.message);
+            try {
+                var messageData = JSON.parse(e.data);
+                if(messageData.type === "wizardReady"){
+                    v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::iframeIsReady(Ljava/lang/String;)(messageData.message);
+                } else if(messageData.type === "wizardSave"){
+                    v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::saveWizard(Ljava/lang/String;)(messageData.message);
+                } else if(messageData.type === "wizardPublish"){
+                    v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::publishWizard(Ljava/lang/String;)(messageData.message);
+                } else if(messageData.type === "wizardDiscard"){
+                    v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::discardWizard()();
+                } else if(messageData.type === "requestUploadPath"){
+                    v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::requestUploadPath(Ljava/lang/String;)(messageData.message);
+                } else if(messageData.type === "goToSandboxClassroom"){
+                    v.@kornell.gui.client.presentation.admin.courseversion.courseversion.generic.WizardView::goToSandboxClassroom()();
+                } else if(messageData.type === "kornellNotification"){
+                    if(messageData.notificationType === "success"){
+                        @kornell.gui.client.util.view.KornellNotification::show(Ljava/lang/String;)(messageData.message);
+                    } else {
+                        @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)(messageData.message);
+                    }
                 }
+            } catch(ignored){
             }
 	    }
 	    // Listen to message from child window

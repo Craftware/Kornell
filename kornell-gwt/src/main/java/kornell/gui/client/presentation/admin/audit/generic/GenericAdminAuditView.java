@@ -239,8 +239,6 @@ public class GenericAdminAuditView extends Composite implements AdminAuditView {
     }
 
     private static native String display(String from, String to) /*-{
-        console.log('from ', from);
-        console.log('to ', to);
         $wnd.init(from, to);
     }-*/;
 

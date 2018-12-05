@@ -12,7 +12,7 @@ app.config([
     '$translateProvider',
     function($routeProvider, $locationProvider, $translateProvider) {
         $routeProvider.when('/lecture', {
-            templateUrl: 'modules/lecture/lecture.html',
+            templateUrl: 'modules/lecture/lecture.html?cache-buster=1.5',
             controller: 'LectureController'
         })
         .otherwise({
@@ -56,6 +56,9 @@ app.run([
     '$timeout',
     function($rootScope, $location, $http, $timeout) {
 
+        var isLocal = window.location.host.indexOf('localhost:') >= 0;
+        $rootScope.domain = isLocal ? '*' : parent.location;
+
         if($location.$$search && $location.$$search.preview === "1"){
             window.isPreview = true;
         }
@@ -66,6 +69,10 @@ app.run([
             //ga('send', 'pageview', location.hash.substring(2, location.hash.length));
             window.scrollTo(0, 0);
         });
+
+        $rootScope.postMessageToParentFrame = function(messageType, message){
+            parent.postMessage(JSON.stringify({type: messageType, message: message}), $rootScope.domain);
+        };
 
     }
 ]);

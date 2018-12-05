@@ -20,27 +20,31 @@ import kornell.gui.client.personnel.classroom.WizardTeacher;
 import kornell.gui.client.util.view.Positioning;
 
 public class ExternalPageView extends Uidget implements ShowChatDockEventHandler {
-    private IFrameElement iframe;
 
-    FlowPanel panel = new FlowPanel();
+    private IFrameElement iframe;
+    private FlowPanel panel;
     private KornellSession session;
 
     public ExternalPageView(ExternalPage page) {
-        GenericClientFactoryImpl.EVENT_BUS.addHandler(ShowChatDockEvent.TYPE, this);
         session = GenericClientFactoryImpl.KORNELL_SESSION;
-        createIFrame();
+
+        createIFrame(page.getURL());
+
+        panel = new FlowPanel();
         panel.setStyleName("contentWrapper");
         panel.getElement().appendChild(iframe);
         String url = StringUtils.mkurl("/", page.getURL());
-        if (session.getCurrentCourseClass() != null &&
-                ContentSpec.WIZARD.equals(session.getCurrentCourseClass().getCourseVersionTO().getCourseTO().getCourse().getContentSpec())) {
+        if(session.getCurrentCourseClass() != null &&
+                ContentSpec.WIZARD.equals(session.getCurrentCourseClass().getCourseVersionTO().getCourseTO().getCourse().getContentSpec())){
             String classroomJson = new WizardTeacher(session.getCurrentCourseClass()).getClassroomJson();
-            url += "&classroomInfo=" + classroomJson;
-            url += "&studentName=" + session.getCurrentUser().getPerson().getFullName();
+            url += "&classroomInfo="+classroomJson;
+            url += "&studentName="+session.getCurrentUser().getPerson().getFullName();
         }
         iframe.setSrc(url);
         initWidget(panel);
 
+
+        GenericClientFactoryImpl.EVENT_BUS.addHandler(ShowChatDockEvent.TYPE, this);
         GenericClientFactoryImpl.EVENT_BUS.addHandler(PlaceChangeEvent.TYPE, new PlaceChangeEvent.Handler() {
             @Override
             public void onPlaceChange(PlaceChangeEvent event) {
@@ -49,7 +53,9 @@ public class ExternalPageView extends Uidget implements ShowChatDockEventHandler
         });
     }
 
-    private void createIFrame() {
+    private void createIFrame(String url) {
+        boolean isWizardClass = session.getCurrentCourseClass() != null &&
+                ContentSpec.WIZARD.equals(session.getCurrentCourseClass().getCourseVersionTO().getCourseTO().getCourse().getContentSpec());
         if (iframe == null) {
             iframe = Document.get().createIFrameElement();
             iframe.addClassName("externalContent");
@@ -74,7 +80,16 @@ public class ExternalPageView extends Uidget implements ShowChatDockEventHandler
                     fireViewReady();
                 }
             });
+            if (isWizardClass) {
+                injectEventListener(this);
+            }
         }
+        String iframeUrl = StringUtils.mkurl("/", url);
+        if (isWizardClass && Window.Location.getHostName().indexOf("localhost") >= 0){
+            iframeUrl = "http://localhost:8008" + iframeUrl;
+        }
+        iframe.setSrc(iframeUrl);
+        iframe.setId("classroomFrame");
         placeIframe();
 
         // Weird yet simple way of solving FF's weird behavior
@@ -110,5 +125,44 @@ public class ExternalPageView extends Uidget implements ShowChatDockEventHandler
             panel.removeStyleName("chatDocked");
         }
     }
+
+    public void iframeIsReady(String message) {
+        String classroomJson = new WizardTeacher(session.getCurrentCourseClass()).getClassroomJson();
+        String iframeMessage = "{" +
+                "\"classroomInfo\":\"" + classroomJson + "\"," +
+                "\"studentName\":\"" + session.getCurrentUser().getPerson().getFullName() + "\"" +
+                "}";
+        sendIFrameMessage("initializeContents", iframeMessage);
+    }
+
+    private native void sendIFrameMessage(String type, String message) /*-{
+        var domain = $wnd.location;
+        if (domain.host.indexOf('localhost:') >= 0) {
+            domain = '*';
+        }
+        if ($wnd.document.getElementById('classroomFrame')) {
+            var iframe = $wnd.document.getElementById('classroomFrame').contentWindow;
+            var data = {type: type, message: message};
+            iframe.postMessage(JSON.stringify(data), domain);
+        }
+    }-*/;
+
+    private native void injectEventListener(ExternalPageView v) /*-{
+        function postMessageListener(e) {
+            var messageData = JSON.parse(e.data);
+            if (messageData.type === "classroomReady") {
+                v.@kornell.gui.client.uidget.ExternalPageView::iframeIsReady(Ljava/lang/String;)(messageData.message);
+            }
+        }
+
+        // Listen to message from child window
+        if ($wnd.addEventListener) {
+            $wnd.addEventListener("message", postMessageListener, false);
+        } else if ($wnd.attachEvent) {
+            $wnd.attachEvent("onmessage", postMessageListener, false);
+        } else {
+            $wnd["onmessage"] = postMessageListener;
+        }
+    }-*/;
 
 }
