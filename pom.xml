@@ -12,7 +12,6 @@
         <module>kornell-core</module>
         <module>kornell-api</module>
         <module>kornell-gwt</module>
-        <module>kornell-tools</module>
   </modules>
 
   <build>
