@@ -10,13 +10,15 @@ object FilterUtils {
     if (req.getHeader(headerName) != null) {
       InstitutionsRepo.getByHostName(req.getHeader(headerName))
     } else if (req.getHeader("Referer") != null) {
-      getInstitutionFromHeader(req.getHeader("Referer"))
+      getInstitutionFromQueryParam(req.getHeader("Referer"))
+    } else if (req.getHeader("Host") != null) {
+      InstitutionsRepo.getByHostName(req.getHeader("Host"))
     } else {
       None
     }
   }
 
-  def getInstitutionFromHeader(header: String): Option[Institution] = {
+  def getInstitutionFromQueryParam(header: String): Option[Institution] = {
     val pattern = """institution=([a-z]+)$""".r
     val institutionName = pattern findFirstIn header match {
       case Some(pattern(c)) => Option(c)
