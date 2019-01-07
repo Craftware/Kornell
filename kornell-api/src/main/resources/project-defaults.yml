@@ -1,0 +1,8 @@
+swarm:
+  logging:
+    pattern-formatters:
+      NO_COLOR:
+        pattern: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c] (%t) %s%e%n"
+    console-handlers:
+      CONSOLE:
+        named-formatter: NO_COLOR
