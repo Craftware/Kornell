@@ -4,6 +4,7 @@ import java.sql.{Connection, PreparedStatement, ResultSet, Timestamp}
 import java.util.{Date => JDate}
 import java.math.BigDecimal
 import java.sql.SQLException
+import java.util.logging.Level
 
 import kornell.core.error.exception.EntityConflictException
 
@@ -34,7 +35,10 @@ class PreparedStmt(query: String, params: List[Any]) {
           case _ => throw new EntityConflictException("invalidValue")
         }
       } catch {
-        case _: SQLException => logger.severe(s"Failed to set param [${i}] value to [${param}] on query ${query}")
+        case e: SQLException => {
+          logger.log(Level.SEVERE, "SQLException for setting param: ", e)
+          logger.severe(s"Failed to set param [${i}] value to [${param}] on query ${query}")
+        }
       }
 
       params

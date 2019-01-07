@@ -337,13 +337,13 @@ object ReportCourseClassGenerator {
   def getFileName(courseUUID: String, courseClassUUID: String): String = {
     val title = if (courseUUID != null) CourseRepo(courseUUID).get.getName else CourseClassRepo(courseClassUUID).get.getName
     val normalizeTitle = Normalizer.normalize(title, Normalizer.Form.NFD)
-    val replaceTitle = normalizeTitle.replaceAll("[^\\p{ASCII}]", "")
-    replaceTitle + " - " + new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())
+    val replaceTitle = normalizeTitle.replaceAll("[^\\p{ASCII}]", "").replaceAll(" ", "_")
+    replaceTitle + "_" + new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())
   }
 
   def getCourseClassInfoReportFileName(courseUUID: String, courseClassUUID: String, fileType: String): String = {
     val fileNamePrefix = getFileName(courseUUID, courseClassUUID)
-    mkurl(ContentService.PREFIX, ContentService.REPORTS, ContentService.CLASS_INFO, fileNamePrefix + " - " + ThreadLocalAuthenticator.getAuthenticatedPersonUUID.get +
+    mkurl(ContentService.PREFIX, ContentService.REPORTS, ContentService.CLASS_INFO, fileNamePrefix + "_" + ThreadLocalAuthenticator.getAuthenticatedPersonUUID.get +
       Option(courseClassUUID).getOrElse("") + Option(courseUUID).getOrElse("") + "." + getFileType(fileType))
   }
 
