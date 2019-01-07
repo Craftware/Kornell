@@ -1,4 +1,12 @@
 swarm:
+  undertow:
+    servers:
+      default-server:
+        hosts:
+          default-host:
+            access-log-setting:
+              directory: /var/log
+              rotate: true
   logging:
     pattern-formatters:
       NO_COLOR:
