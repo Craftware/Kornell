@@ -234,7 +234,7 @@ public class AdminAssetsPresenter implements AdminAssetsView.Presenter {
                 splitFileName = file.name.split(".");
 
             if (!splitFileName || allowedFileExtensions.indexOf(splitFileName[1]) == -1) {
-                @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)("Faça o upload de uma imagem do formato exigido.");
+                @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)("Faça o upload de uma imagem com formato válido: " + allowedFileExtensions.join(", ") + ".");
                 @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::hidePacifier()();
             } else {
                 var req = new XMLHttpRequest();
@@ -243,6 +243,11 @@ public class AdminAssetsPresenter implements AdminAssetsView.Presenter {
                 req.setRequestHeader("x-ms-blob-type", "BlockBlob");
                 req.onreadystatechange = function () {
                     if (req.readyState == 4 && (req.status == 200 || req.status == 201)) {
+                        // update the href on the view button to bypass cache
+                        var oldHref = $doc.getElementById(elementId + "-anchor").href,
+                            newHref = oldHref.split("?") + "?" + (new Date()).getTime();
+                        $doc.getElementById(elementId + "-anchor").href = newHref;
+
                         @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::postProcessImageUpload(Ljava/lang/String;)(fileName);
                     } else if (req.readyState != 2) {
                         @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::hidePacifier()();

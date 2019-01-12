@@ -108,10 +108,11 @@ public class GenericInstitutionAssetsView extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 String test = fileName.replace(".", "%2E");
+                String[] allowedFileExtensions = {"jpg", "jpeg", "png", "gif"};
                 session.institution(institution.getUUID()).getUploadURL(test, new Callback<String>() {
                     @Override
                     public void ok(String url) {
-                        getFile(elementId, contentType, url);
+                        getFile(elementId, contentType, url, allowedFileExtensions);
                     }
                 });
             }
@@ -123,20 +124,23 @@ public class GenericInstitutionAssetsView extends Composite {
         anchor.setTitle("Visualizar");
         anchor.setHref(
                 StringUtils.mkurl(session.getInstitutionAssetsURL(), fileName) + "?" + System.currentTimeMillis());
+        anchor.getElement().setId(elementId+"-anchor");
         anchor.setTarget("_blank");
         fieldPanelWrapper.add(anchor);
 
         return fieldPanelWrapper;
     }
 
-    public static native void getFile(String elementId, String contentType, String url) /*-{
+    public static native void getFile(String elementId, String contentType, String url, String[] allowedFileExtensions) /*-{
         if ($wnd.document.getElementById(elementId).files.length != 1) {
             @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)("Por favor selecione uma imagem");
         } else {
             @kornell.gui.client.presentation.admin.institution.generic.GenericInstitutionAssetsView::showPacifier()();
-            var file = $wnd.document.getElementById(elementId).files[0];
-            if (file.name.indexOf(elementId.split("-")[1]) == -1) {
-                @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)("Faça o upload de uma imagem do formato exigido");
+            var file = $wnd.document.getElementById(elementId).files[0],
+                splitFileName = file.name.split(".");
+
+            if (!splitFileName || allowedFileExtensions.indexOf(splitFileName[1]) == -1) {
+                @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)("Faça o upload de uma imagem com formato válido: " + allowedFileExtensions.join(", ") + ".");
                 @kornell.gui.client.presentation.admin.institution.generic.GenericInstitutionAssetsView::hidePacifier()();
             } else {
                 var req = new XMLHttpRequest();
@@ -145,6 +149,11 @@ public class GenericInstitutionAssetsView extends Composite {
                 req.setRequestHeader("x-ms-blob-type", "BlockBlob");
                 req.onreadystatechange = function() {
                     if (req.readyState == 4 && (req.status == 200 || req.status == 201)) {
+                        // update the href on the view button to bypass cache
+                        var oldHref = $doc.getElementById(elementId + "-anchor").href,
+                            newHref = oldHref.split("?") + "?" + (new Date()).getTime();
+                        $doc.getElementById(elementId + "-anchor").href = newHref;
+
                         @kornell.gui.client.presentation.admin.institution.generic.GenericInstitutionAssetsView::hidePacifier()();
                         @kornell.gui.client.util.view.KornellNotification::show(Ljava/lang/String;)("Atualização de imagem completa");
                     }
