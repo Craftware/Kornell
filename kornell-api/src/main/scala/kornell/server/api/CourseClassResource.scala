@@ -83,6 +83,7 @@ class CourseClassResource(uuid: String) {
 
   @PUT
   @Consumes(Array(Roles.TYPE))
+  @Produces(Array(Roles.TYPE))
   @Path("admins")
   def updateAdmins(roles: Roles): Roles = AuthRepo().withPerson { person =>
     {
