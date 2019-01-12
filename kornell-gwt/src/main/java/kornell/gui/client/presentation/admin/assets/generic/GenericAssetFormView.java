@@ -424,7 +424,8 @@ public class GenericAssetFormView extends Composite {
         assetFields.add(text);
 
         fontAwesomeClassName = new KornellFormFieldWrapper("Ícone",
-                formHelper.createTextBoxFormField(courseDetailsHint.getFontAwesomeClassName()));
+                formHelper.createTextBoxFormField(courseDetailsHint.getFontAwesomeClassName()), true, null,
+                "Você pode customizar os ícones das dicas. Clique no link abaixo \"Escolha um ícone\" para ir no site do Font Awesome, depois coloque aqui o ícone desejado no formato \"fa-xxxx\".");
         fields.add(fontAwesomeClassName);
         assetFields.add(fontAwesomeClassName);
 
