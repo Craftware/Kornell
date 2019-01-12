@@ -109,37 +109,37 @@ public class AdminAssetsPresenter implements AdminAssetsView.Presenter {
         String hintsSubTitle = " Escolha também o ícone que acompanhará a dica.";
         String librariesSubTitle = null;
         switch (courseDetailsEntityType) {
-        case COURSE:
-            AdminAssetsPresenter.entityName = "courses";
-            AdminAssetsPresenter.entityType = Course.TYPE;
-            thumbSubTitle = "Edite o ícone que aparecerá na listagem dos cursos na tela inicial do participante. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
-            certificateDetailsSubTitle = "Edite o plano de fundo do certificado para este curso.";
-            sectionsSubTitle = "Edite os detalhes da tela de detalhes para este curso." + sectionsSubTitle;
-            hintsSubTitle = "Edite as dicas da tela de detalhes para este curso." + hintsSubTitle;
-            librariesSubTitle = "Faça o upload dos arquivos da biblioteca do curso.";
-            break;
-        case COURSE_VERSION:
-            AdminAssetsPresenter.entityName = "courseVersions";
-            AdminAssetsPresenter.entityType = CourseVersion.TYPE;
-            thumbSubTitle = "Edite o ícone que aparecerá na listagem dos cursos na tela inicial do participante. Este ícone será aplicado a todas as turmas desta versão do curso. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
-            certificateDetailsSubTitle = "Edite o plano de fundo do certificado para todas as turmas desta versão do curso.";
-            sectionsSubTitle = "Edite os detalhes da tela de detalhes para esta versão do curso. Detalhes de uma seção da versão que tenham o título igual a um título de uma seção do curso terão precedência."
-                    + sectionsSubTitle;
-            hintsSubTitle = "Edite as dicas da tela de detalhes para esta versão do curso. As dicas da versão serão apresentadas após as dicas do curso."
-                    + hintsSubTitle;
-            librariesSubTitle = "Faça o upload dos arquivos da biblioteca dessa versão do curso. Estes arquivos serão apresentados juntamente com os arquivos do curso.";
-            break;
-        case COURSE_CLASS:
-            AdminAssetsPresenter.entityName = "courseClasses";
-            AdminAssetsPresenter.entityType = CourseClass.TYPE;
-            thumbSubTitle = "Edite o ícone que aparecerá na listagem dos cursos na tela inicial do participante. Este ícone será aplicado somente a esta turma. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
-            certificateDetailsSubTitle = "Edite o plano de fundo do certificado para esta turma.";
-            sectionsSubTitle = "Edite os detalhes da tela de detalhes para esta turma. Detalhes de uma seção da turma que tenham o título igual a um título de uma seção do curso ou da versão terão precedência."
-                    + sectionsSubTitle;
-            hintsSubTitle = "Edite as dicas da tela de detalhes para esta turma. As dicas da versão serão apresentadas após as dicas do curso e da versão do curso."
-                    + hintsSubTitle;
-            librariesSubTitle = "Faça o upload dos arquivos da biblioteca dessa versão do curso. Estes arquivos serão apresentados juntamente com os arquivos do curso e da versão do curso.";
-            break;
+            case COURSE:
+                AdminAssetsPresenter.entityName = "courses";
+                AdminAssetsPresenter.entityType = Course.TYPE;
+                thumbSubTitle = "Edite o ícone que aparecerá na listagem dos cursos na tela inicial do participante. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
+                certificateDetailsSubTitle = "Edite o plano de fundo do certificado para este curso.";
+                sectionsSubTitle = "Edite os detalhes da tela de detalhes para este curso." + sectionsSubTitle;
+                hintsSubTitle = "Edite as dicas da tela de detalhes para este curso." + hintsSubTitle;
+                librariesSubTitle = "Faça o upload dos arquivos da biblioteca do curso.";
+                break;
+            case COURSE_VERSION:
+                AdminAssetsPresenter.entityName = "courseVersions";
+                AdminAssetsPresenter.entityType = CourseVersion.TYPE;
+                thumbSubTitle = "Edite o ícone que aparecerá na listagem dos cursos na tela inicial do participante. Este ícone será aplicado a todas as turmas desta versão do curso. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
+                certificateDetailsSubTitle = "Edite o plano de fundo do certificado para todas as turmas desta versão do curso.";
+                sectionsSubTitle = "Edite os detalhes da tela de detalhes para esta versão do curso. Detalhes de uma seção da versão que tenham o título igual a um título de uma seção do curso terão precedência."
+                        + sectionsSubTitle;
+                hintsSubTitle = "Edite as dicas da tela de detalhes para esta versão do curso. As dicas da versão serão apresentadas após as dicas do curso."
+                        + hintsSubTitle;
+                librariesSubTitle = "Faça o upload dos arquivos da biblioteca dessa versão do curso. Estes arquivos serão apresentados juntamente com os arquivos do curso.";
+                break;
+            case COURSE_CLASS:
+                AdminAssetsPresenter.entityName = "courseClasses";
+                AdminAssetsPresenter.entityType = CourseClass.TYPE;
+                thumbSubTitle = "Edite o ícone que aparecerá na listagem dos cursos na tela inicial do participante. Este ícone será aplicado somente a esta turma. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
+                certificateDetailsSubTitle = "Edite o plano de fundo do certificado para esta turma.";
+                sectionsSubTitle = "Edite os detalhes da tela de detalhes para esta turma. Detalhes de uma seção da turma que tenham o título igual a um título de uma seção do curso ou da versão terão precedência."
+                        + sectionsSubTitle;
+                hintsSubTitle = "Edite as dicas da tela de detalhes para esta turma. As dicas da versão serão apresentadas após as dicas do curso e da versão do curso."
+                        + hintsSubTitle;
+                librariesSubTitle = "Faça o upload dos arquivos da biblioteca dessa versão do curso. Estes arquivos serão apresentados juntamente com os arquivos do curso e da versão do curso.";
+                break;
         }
 
         this.info = new HashMap<>();
@@ -219,18 +219,21 @@ public class AdminAssetsPresenter implements AdminAssetsView.Presenter {
         session.assets().getUploadURL(entityName, entityUUID, fileName, "", new Callback<String>() {
             @Override
             public void ok(String url) {
-                getFile(elementId, contentType, url, fileName);
+                String[] allowedFileExtensions = {"jpg", "jpeg", "png", "gif"};
+                getFile(elementId, contentType, url, fileName, allowedFileExtensions);
             }
         });
     }
 
-    public static native void getFile(String elementId, String contentType, String url, String fileName) /*-{
+    public static native void getFile(String elementId, String contentType, String url, String fileName, String[] allowedFileExtensions) /*-{
         if ($wnd.document.getElementById(elementId).files.length != 1) {
             @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)("Por favor selecione uma imagem.");
         } else {
             @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::showPacifier()();
-            var file = $wnd.document.getElementById(elementId).files[0];
-            if (file.name.indexOf(elementId.split("-")[1]) == -1) {
+            var file = $wnd.document.getElementById(elementId).files[0],
+                splitFileName = file.name.split(".");
+
+            if (!splitFileName || allowedFileExtensions.indexOf(splitFileName[1]) == -1) {
                 @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)("Faça o upload de uma imagem do formato exigido.");
                 @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::hidePacifier()();
             } else {
@@ -238,14 +241,17 @@ public class AdminAssetsPresenter implements AdminAssetsView.Presenter {
                 req.open('PUT', url);
                 req.setRequestHeader("Content-type", contentType);
                 req.setRequestHeader("x-ms-blob-type", "BlockBlob");
-                req.onreadystatechange = function() {
+                req.onreadystatechange = function () {
                     if (req.readyState == 4 && (req.status == 200 || req.status == 201)) {
                         @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::postProcessImageUpload(Ljava/lang/String;)(fileName);
-                    } else if (req.readyState != 2){
+                    } else if (req.readyState != 2) {
                         @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::hidePacifier()();
                         @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::errorUpdatingImage()();
                     }
                 }
+
+                var formData = new FormData();
+                formData.append('file', file, fileName);
                 req.send(file);
             }
         }
