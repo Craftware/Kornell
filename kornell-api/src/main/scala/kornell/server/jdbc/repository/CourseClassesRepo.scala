@@ -357,7 +357,7 @@ object CourseClassesRepo {
 
   def byCourseVersion(courseVersionUUID: String): List[CourseClass] = {
     sql"""
-      select * from CourseClass where courseVersionUUID = ${courseVersionUUID} and state <> '${EntityState.deleted.toString}'
+      select * from CourseClass where courseVersionUUID = ${courseVersionUUID} and state <> ${EntityState.deleted.toString}
     """.map[CourseClass](toCourseClass)
   }
 

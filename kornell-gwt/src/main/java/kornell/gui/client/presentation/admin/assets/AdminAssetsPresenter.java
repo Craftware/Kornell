@@ -243,11 +243,6 @@ public class AdminAssetsPresenter implements AdminAssetsView.Presenter {
                 req.setRequestHeader("x-ms-blob-type", "BlockBlob");
                 req.onreadystatechange = function () {
                     if (req.readyState == 4 && (req.status == 200 || req.status == 201)) {
-                        // update the href on the view button to bypass cache
-                        var oldHref = $doc.getElementById(elementId + "-anchor").href,
-                            newHref = oldHref.split("?") + "?" + (new Date()).getTime();
-                        $doc.getElementById(elementId + "-anchor").href = newHref;
-
                         @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::postProcessImageUpload(Ljava/lang/String;)(fileName);
                     } else if (req.readyState != 2) {
                         @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::hidePacifier()();
@@ -257,7 +252,7 @@ public class AdminAssetsPresenter implements AdminAssetsView.Presenter {
 
                 var formData = new FormData();
                 formData.append('file', file, fileName);
-                req.send(file);
+                req.send(formData);
             }
         }
     }-*/;
