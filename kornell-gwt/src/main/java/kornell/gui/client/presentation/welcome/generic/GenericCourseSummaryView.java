@@ -223,7 +223,7 @@ public class GenericCourseSummaryView extends Composite {
         if (courseClassTO.getCourseClass().getRequiredScore() != null
                 && courseClassTO.getCourseClass().getRequiredScore().intValue() != 0
                 && courseClassTO.getEnrollment().getAssessmentScore() != null) {
-            pStatus2.getElement().setInnerHTML(" - &nbsp;" + constants.completedCourseGradeLabel() + ":");
+            pStatus2.getElement().setInnerHTML("&nbsp;&nbsp;&nbsp;&nbsp;" + constants.completedCourseGradeLabel() + ":");
             pStatusInfo2.setText("" + courseClassTO.getEnrollment().getAssessmentScore().intValue());
         }
         pStatus.setText(statusText);
