@@ -236,15 +236,15 @@ public class GenericInstitutionRepositoryView extends Composite {
             contentRepository.setUUID(institution.getAssetsRepositoryUUID());
             if (repositoryTypes.getSelectedValue().equals(RepositoryType.S3.toString())) {
                 contentRepository.setRepositoryType(RepositoryType.S3);
+                contentRepository.setPrefix(prefix.getFieldPersistText());
             } else {
                 contentRepository.setRepositoryType(RepositoryType.FS);
+                contentRepository.setPrefix(fsPrefix.getFieldPersistText());
             }
             contentRepository.setAccessKeyId(accessKeyId.getFieldPersistText());
             contentRepository.setSecretAccessKey(secretAccessKey.getFieldPersistText());
             contentRepository.setBucketName(bucketName.getFieldPersistText());
-            contentRepository.setPrefix(prefix.getFieldPersistText());
             contentRepository.setRegion(region.getFieldPersistText());
-            contentRepository.setPrefix(fsPrefix.getFieldPersistText());
             contentRepository.setPath(fsPath.getFieldPersistText());
 
             InstitutionHostNamesTO institutionHostNamesTO = toFactory.newInstitutionHostNamesTO().as();
