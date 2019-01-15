@@ -8,6 +8,8 @@ swarm:
               directory: /var/log
               rotate: true
   logging:
+    # uncaught exceptions also spam to stderr, fixed in wildfly-core 4.0.0.Final but wildfly-swarm latest (as of 2019-01-15) is still on 3.0.8.Final
+    # https://issues.jboss.org/browse/WFCORE-3319
     pattern-formatters:
       NO_COLOR:
         pattern: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c] (%t) %s%e%n"
