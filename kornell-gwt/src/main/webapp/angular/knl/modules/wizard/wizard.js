@@ -987,11 +987,20 @@ app.controller('FileController', [
           uploader.queue[0].url = uploader.requestUploadPath;
           uploader.queue[0].uploader.url = uploader.requestUploadPath;
           uploader.queue[0].method = 'PUT';
+          uploader.queue[0].headers = {};
+          uploader.queue[0].headers["x-ms-blob-type"] = "BlockBlob";
+          // if AWS
           var splitRequestUploadPath = uploader.requestUploadPath.split('.s3.amazonaws.com');
           if(splitRequestUploadPath.length > 1){
               uploader.queue[0].fullURL = splitRequestUploadPath[1].split('?AWS')[0];
           } else {
-              uploader.queue[0].fullURL = uploader.requestUploadPath;
+              // if azure
+              var splitRequestUploadPath = uploader.requestUploadPath.split('.core.windows.net/data');
+              if(splitRequestUploadPath.length > 1){
+                  uploader.queue[0].fullURL = splitRequestUploadPath[1].split('?')[0];
+              } else {
+                  uploader.queue[0].fullURL = uploader.requestUploadPath;
+              }
           }
           uploader.queue[0].fileUUID = $scope.fileUUID;
         }

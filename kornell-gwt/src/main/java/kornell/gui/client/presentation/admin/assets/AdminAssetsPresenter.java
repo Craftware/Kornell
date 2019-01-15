@@ -230,7 +230,8 @@ public class AdminAssetsPresenter implements AdminAssetsView.Presenter {
             @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)("Por favor selecione uma imagem.");
         } else {
             @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::showPacifier()();
-            var file = $wnd.document.getElementById(elementId).files[0];
+            var file = $wnd.document.getElementById(elementId).files[0],
+                splitFileName = file.name.split(".");
 
             if (!splitFileName || allowedFileExtensions.indexOf(splitFileName[1]) == -1) {
                 @kornell.gui.client.util.view.KornellNotification::showError(Ljava/lang/String;)("Faça o upload de uma imagem com formato válido: " + allowedFileExtensions.join(", ") + ".");
