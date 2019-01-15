@@ -66,7 +66,7 @@
 		<div id="content">
 			<h1></h1>
 		</div>
-		<div class="resultBox">
+		<div class="resultBox color-font">
 		    <div class="bs-callout bs-callout-info">
 		        <h3 translate>COURSE_EXAM</h3>
 		        <h4>{{classroomInfo.title}}</h4>
@@ -117,9 +117,9 @@
 					</label>
 				</div>
 				<div id="resultWrapper">
+					<button type="button" ng-if="currentQuestionIndex >= 1" ng-click="loadPrevious()" class="btn btn-default btn-sm text-uppercase" translate>PREVIOUS</button>
 					<button type="button" ng-if="currentQuestionIndex == lecture.questions.length - 1" ng-disabled="!hasAccessToQuestion(currentQuestionIndex + 1)" ng-click="finishTest()" class="btn btn-primary btn-sm text-uppercase" translate>FINISH</button>	
-					<button type="button" ng-if="lecture.questions.length - 1 > currentQuestionIndex" ng-disabled="!hasAccessToQuestion(currentQuestionIndex + 1)" ng-click="loadNext()" class="btn btn-primary btn-sm text-uppercase" translate>NEXT</button>	
-					<button type="button" ng-if="currentQuestionIndex >= 1" ng-click="loadPrevious()" class="btn btn-default btn-sm text-uppercase" translate>PREVIOUS</button>		
+					<button type="button" ng-if="lecture.questions.length - 1 > currentQuestionIndex" ng-disabled="!hasAccessToQuestion(currentQuestionIndex + 1)" ng-click="loadNext()" class="btn btn-primary btn-sm text-uppercase" translate>NEXT</button>
 				</div>
 			</fieldset>
 		</form>
