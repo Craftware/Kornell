@@ -14,7 +14,7 @@ class InstitutionHostnameFilter extends Filter {
   override def doFilter(sreq: ServletRequest, sres: ServletResponse, chain: FilterChain): Unit =
     (sreq, sres) match {
       case (hreq: HttpServletRequest, hres: HttpServletResponse) => {
-        if (hreq.getRequestURI.startsWith("/api") && !hreq.getRequestURI.equals("/api") && !hreq.getRequestURI.equals("/api/")) {
+        if (hreq.getRequestURI.startsWith("/api") && !hreq.getRequestURI.equals("/api") && !hreq.getRequestURI.equals("/api/") && !hreq.getRequestURI.equals("/api/healthCheck")) {
           doFilter(hreq, hres, chain)
         } else {
           chain.doFilter(hreq, hres)
