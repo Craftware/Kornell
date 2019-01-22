@@ -68,20 +68,13 @@ object SandboxService {
   def enrollAdmins(sandboxClassUUID: String, institutionUUID: String): Unit = {
     val rolesTO = new RolesRepo().getAllUsersWithRoleForInstitution(institutionUUID, RoleCategory.BIND_DEFAULT)
     for (roleTO <- rolesTO.getRoleTOs.asScala) {
-      val enrollment = EnrollmentsRepo.byCourseClassAndPerson(sandboxClassUUID, roleTO.getRole.getPersonUUID, getDeleted = true)
-      if (enrollment.isEmpty) {
-        enrollAdmin(sandboxClassUUID, roleTO.getRole.getPersonUUID)
-      } else if (!EnrollmentState.enrolled.equals(enrollment.get.getState)) {
-        val e = enrollment.get
-        e.setState(EnrollmentState.enrolled)
-        EnrollmentRepo(e.getUUID).update(e)
-      }
+      enrollAdmin(sandboxClassUUID, roleTO.getRole.getPersonUUID)
     }
   }
 
   def enrollAdmin(sandboxClassUUID: String, personUUID: String): Enrollment = {
-    val existingEnrollment = EnrollmentsRepo.byCourseClassAndPerson(sandboxClassUUID, personUUID, false)
-    if(!existingEnrollment.isDefined){
+    val existingEnrollment = EnrollmentsRepo.byCourseClassAndPerson(sandboxClassUUID, personUUID, true)
+    if (existingEnrollment.isEmpty) {
       val enrollment = EnrollmentsRepo.create(
         courseClassUUID = sandboxClassUUID,
         personUUID = personUUID,
@@ -90,6 +83,10 @@ object SandboxService {
         parentEnrollmentUUID = null,
         enrollmentSource = EnrollmentSource.WEBSITE)
       enrollment
+    } else if (!EnrollmentState.enrolled.equals(existingEnrollment.get.getState)) {
+      val e = existingEnrollment.get
+      e.setState(EnrollmentState.enrolled)
+      EnrollmentRepo(e.getUUID).update(e)
     } else {
       existingEnrollment.get
     }
