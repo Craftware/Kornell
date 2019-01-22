@@ -56,6 +56,22 @@ public class KornellSession extends KornellClient {
         return isPublisher() || isInstitutionAdmin();
     }
 
+    public boolean isInstitutionCourseClassesAdmin(String institutionUUID) {
+        return isValidRole(RoleType.institutionCourseClassesAdmin, institutionUUID, null) || isInstitutionAdmin();
+    }
+
+    public boolean isInstitutionCourseClassesAdmin() {
+        return isInstitutionCourseClassesAdmin(institution.getUUID());
+    }
+
+    public boolean isInstitutionCourseClassesObserver(String institutionUUID) {
+        return isValidRole(RoleType.institutionCourseClassesObserver, institutionUUID, null) || isInstitutionAdmin();
+    }
+
+    public boolean isInstitutionCourseClassesObserver() {
+        return isInstitutionCourseClassesObserver(institution.getUUID());
+    }
+
     public boolean hasCourseClassRole(String courseClassUUID) {
         return isCourseClassAdmin(courseClassUUID) || isCourseClassObserver(courseClassUUID)
                 || isCourseClassTutor(courseClassUUID);
@@ -66,7 +82,7 @@ public class KornellSession extends KornellClient {
     }
 
     public boolean isCourseClassAdmin(String courseClassUUID) {
-        return isValidRole(RoleType.courseClassAdmin, null, courseClassUUID) || isInstitutionAdmin();
+        return isValidRole(RoleType.courseClassAdmin, null, courseClassUUID) || isInstitutionCourseClassesAdmin();
     }
 
     public boolean isCourseClassAdmin() {
@@ -82,7 +98,7 @@ public class KornellSession extends KornellClient {
     }
 
     public boolean isCourseClassObserver(String courseClassUUID) {
-        return isValidRole(RoleType.courseClassObserver, null, courseClassUUID) || isInstitutionAdmin();
+        return isValidRole(RoleType.courseClassObserver, null, courseClassUUID) || isInstitutionCourseClassesObserver();
     }
 
     public boolean isCourseClassObserver() {
@@ -121,6 +137,8 @@ public class KornellSession extends KornellClient {
         return (RoleCategory.hasRole(roleTOs, RoleType.courseClassAdmin)
                 || RoleCategory.hasRole(roleTOs, RoleType.courseClassObserver) || RoleCategory.hasRole(roleTOs, RoleType.tutor)
                 || isPublisher()
+                || isInstitutionCourseClassesAdmin()
+                || isInstitutionCourseClassesObserver()
                 || isInstitutionAdmin());
     }
 

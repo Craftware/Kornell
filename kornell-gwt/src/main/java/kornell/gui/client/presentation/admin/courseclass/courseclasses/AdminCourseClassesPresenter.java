@@ -62,6 +62,8 @@ implements AdminCourseClassesView.Presenter {
                 || RoleCategory.hasRole(session.getCurrentUser().getRoles(), RoleType.courseClassObserver)
                 || RoleCategory.hasRole(session.getCurrentUser().getRoles(), RoleType.tutor)
                 || session.isPublisher()
+                || session.isInstitutionCourseClassesAdmin()
+                || session.isInstitutionCourseClassesObserver()
                 || session.isInstitutionAdmin()) {
             initializeProperties("cc.name");
             view = getView();

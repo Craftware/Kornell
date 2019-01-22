@@ -15,18 +15,45 @@
 			</b:Form>
 		</g:FlowPanel>
 
-		<g:FlowPanel addStyleNames="multiSelect">
-			<g:HTMLPanel addStyleNames="title">Editar publicadores de conteúdo</g:HTMLPanel>
-			<g:Label addStyleNames="subTitle">Escolha na lista abaixo os publicadores de conteúdo. Os publicadores de conteúdo podem alterar as configurações e conteúdos de cursos e versões.</g:Label>
-			<b:Form ui:field="publisherForm" addStyleNames="profileForm">
-				<g:FlowPanel ui:field="publisherFields" addStyleNames="fieldsWrapper marginTop25">
-				</g:FlowPanel>
-				<g:FlowPanel addStyleNames="standardButtonBar">
-					<g:Button ui:field="publisherBtnOK" addStyleNames="btnAction btnStandard"/>
-					<g:Button ui:field="publisherBtnCancel" addStyleNames="btnNotSelected btnStandard"/>
-				</g:FlowPanel>
-			</b:Form>
-		</g:FlowPanel>
-	</g:FlowPanel>
+	  <g:FlowPanel addStyleNames="multiSelect">
+		  <g:HTMLPanel addStyleNames="title">Editar publicadores de conteúdo</g:HTMLPanel>
+		  <g:Label addStyleNames="subTitle">Escolha na lista abaixo os publicadores de conteúdo. Os publicadores de conteúdo podem alterar as configurações e conteúdos de cursos e versões.</g:Label>
+		  <b:Form ui:field="publisherForm" addStyleNames="profileForm">
+			  <g:FlowPanel ui:field="publisherFields" addStyleNames="fieldsWrapper marginTop25">
+			  </g:FlowPanel>
+			  <g:FlowPanel addStyleNames="standardButtonBar">
+				  <g:Button ui:field="publisherBtnOK" addStyleNames="btnAction btnStandard"/>
+				  <g:Button ui:field="publisherBtnCancel" addStyleNames="btnNotSelected btnStandard"/>
+			  </g:FlowPanel>
+		  </b:Form>
+	  </g:FlowPanel>
+
+	  <g:FlowPanel addStyleNames="multiSelect">
+		  <g:HTMLPanel addStyleNames="title">Editar administradores globais de turmas</g:HTMLPanel>
+		  <g:Label addStyleNames="subTitle">Escolha na lista abaixo os administradores globais de turmas. Os administradores globais de turmas podem matricular alunos e responder as mensagens de todas as turmas.</g:Label>
+		  <b:Form ui:field="institutionCourseClassesAdminForm" addStyleNames="profileForm">
+			  <g:FlowPanel ui:field="institutionCourseClassesAdminFields" addStyleNames="fieldsWrapper marginTop25">
+			  </g:FlowPanel>
+			  <g:FlowPanel addStyleNames="standardButtonBar">
+				  <g:Button ui:field="institutionCourseClassesAdminBtnOK" addStyleNames="btnAction btnStandard"/>
+				  <g:Button ui:field="institutionCourseClassesAdminBtnCancel" addStyleNames="btnNotSelected btnStandard"/>
+			  </g:FlowPanel>
+		  </b:Form>
+	  </g:FlowPanel>
+
+	  <g:FlowPanel addStyleNames="multiSelect">
+		  <g:HTMLPanel addStyleNames="title">Editar observadores globais de turmas</g:HTMLPanel>
+		  <g:Label addStyleNames="subTitle">Escolha na lista abaixo os observadores globais de turmas. Os observadores globais de turmas podem visualizar as matrículas e gerar certificados, mas não podem alterar as matrículas nem as configurações da turma.</g:Label>
+		  <b:Form ui:field="institutionCourseClassesObserverForm" addStyleNames="profileForm">
+			  <g:FlowPanel ui:field="institutionCourseClassesObserverFields" addStyleNames="fieldsWrapper marginTop25">
+			  </g:FlowPanel>
+			  <g:FlowPanel addStyleNames="standardButtonBar">
+				  <g:Button ui:field="institutionCourseClassesObserverBtnOK" addStyleNames="btnAction btnStandard"/>
+				  <g:Button ui:field="institutionCourseClassesObserverBtnCancel" addStyleNames="btnNotSelected btnStandard"/>
+			  </g:FlowPanel>
+		  </b:Form>
+	  </g:FlowPanel>
+
+  </g:FlowPanel>
 
 </ui:UiBinder>

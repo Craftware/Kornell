@@ -76,6 +76,24 @@ public class RoleCategory {
                 return true;
             }
             break;
+        case institutionCourseClassesAdmin:
+            if (RoleType.institutionCourseClassesAdmin.equals(type)
+                    && institutionUUID != null
+                    && role.getInstitutionCourseClassesAdminRole()
+                    .getInstitutionUUID()
+                    .equals(institutionUUID)) {
+                return true;
+            }
+            break;
+        case institutionCourseClassesObserver:
+            if (RoleType.institutionCourseClassesObserver.equals(type)
+                    && institutionUUID != null
+                    && role.getInstitutionCourseClassesObserverRole()
+                    .getInstitutionUUID()
+                    .equals(institutionUUID)) {
+                return true;
+            }
+            break;
         default:
             break;
         }
@@ -124,6 +142,16 @@ public class RoleCategory {
                 return true;
             }
             break;
+        case institutionCourseClassesAdmin:
+            if (RoleType.institutionCourseClassesAdmin.equals(type)) {
+                return true;
+            }
+            break;
+        case institutionCourseClassesObserver:
+            if (RoleType.institutionCourseClassesObserver.equals(type)) {
+                return true;
+            }
+            break;
         default:
             break;
         }
@@ -156,6 +184,14 @@ public class RoleCategory {
 
     public static boolean isPublisher(List<RoleTO> roleTOs, String institutionUUID) {
         return isValidRole(roleTOs, RoleType.publisher, institutionUUID, null);
+    }
+
+    public static boolean isInstitutionCourseClassesAdmin(List<RoleTO> roleTOs, String institutionUUID) {
+        return isValidRole(roleTOs, RoleType.institutionCourseClassesAdmin, institutionUUID, null);
+    }
+
+    public static boolean isInstitutionCourseClassesObserver(List<RoleTO> roleTOs, String institutionUUID) {
+        return isValidRole(roleTOs, RoleType.institutionCourseClassesObserver, institutionUUID, null);
     }
 
     public static boolean isValidRole(List<RoleTO> roleTOs, RoleType type, String institutionUUID, String courseClassUUID) {

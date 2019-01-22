@@ -21,12 +21,7 @@ import kornell.api.client.Callback;
 import kornell.api.client.KornellSession;
 import kornell.core.entity.EntityFactory;
 import kornell.core.entity.Institution;
-import kornell.core.entity.role.InstitutionAdminRole;
-import kornell.core.entity.role.PublisherRole;
-import kornell.core.entity.role.Role;
-import kornell.core.entity.role.RoleCategory;
-import kornell.core.entity.role.RoleType;
-import kornell.core.entity.role.Roles;
+import kornell.core.entity.role.*;
 import kornell.core.to.RoleTO;
 import kornell.core.to.RolesTO;
 import kornell.gui.client.event.ShowPacifierEvent;
@@ -45,6 +40,8 @@ public class GenericInstitutionAdminsView extends Composite {
 
     PeopleMultipleSelect institutionAdminMultipleSelect;
     PeopleMultipleSelect publisherMultipleSelect;
+    PeopleMultipleSelect institutionCourseClassesAdminMultipleSelect;
+    PeopleMultipleSelect institutionCourseClassesObserverMultipleSelect;
 
     @UiField
     Form institutionAdminForm;
@@ -64,6 +61,24 @@ public class GenericInstitutionAdminsView extends Composite {
     @UiField
     Button publisherBtnCancel;
 
+    @UiField
+    Form institutionCourseClassesAdminForm;
+    @UiField
+    FlowPanel institutionCourseClassesAdminFields;
+    @UiField
+    Button institutionCourseClassesAdminBtnOK;
+    @UiField
+    Button institutionCourseClassesAdminBtnCancel;
+
+    @UiField
+    Form institutionCourseClassesObserverForm;
+    @UiField
+    FlowPanel institutionCourseClassesObserverFields;
+    @UiField
+    Button institutionCourseClassesObserverBtnOK;
+    @UiField
+    Button institutionCourseClassesObserverBtnCancel;
+
     private Institution institution;
     private EventBus bus;
 
@@ -80,9 +95,15 @@ public class GenericInstitutionAdminsView extends Composite {
         institutionAdminBtnCancel.setText("Cancelar Alterações");
         publisherBtnOK.setText("Salvar Alterações");
         publisherBtnCancel.setText("Cancelar Alterações");
+        institutionCourseClassesAdminBtnOK.setText("Salvar Alterações");
+        institutionCourseClassesAdminBtnCancel.setText("Cancelar Alterações");
+        institutionCourseClassesObserverBtnOK.setText("Salvar Alterações");
+        institutionCourseClassesObserverBtnCancel.setText("Cancelar Alterações");
 
         initInstitutionAdminsData();
         initPublishersData();
+        initInstitutionCourseClassesAdminData();
+        initInstitutionCourseClassesObserverData();
     }
 
     public void initInstitutionAdminsData() {
@@ -147,6 +168,68 @@ public class GenericInstitutionAdminsView extends Composite {
         publisherFields.add(fieldPanelWrapper);
     }
 
+    public void initInstitutionCourseClassesAdminData() {
+        institutionCourseClassesAdminFields.clear();
+        FlowPanel fieldPanelWrapper = new FlowPanel();
+        fieldPanelWrapper.addStyleName("fieldPanelWrapper");
+
+        FlowPanel labelPanel = new FlowPanel();
+        labelPanel.addStyleName("labelPanel");
+        Label lblLabel = new Label("Administradores globais de turmas");
+        lblLabel.addStyleName("lblLabel");
+        labelPanel.add(lblLabel);
+        fieldPanelWrapper.add(labelPanel);
+
+        bus.fireEvent(new ShowPacifierEvent(true));
+        session.institution(institution.getUUID()).getInstitutionCourseClassesAdmins(RoleCategory.BIND_WITH_PERSON, new Callback<RolesTO>() {
+            @Override
+            public void ok(RolesTO to) {
+                for (RoleTO roleTO : to.getRoleTOs()) {
+                    String item = roleTO.getUsername();
+                    if (roleTO.getPerson().getFullName() != null && !"".equals(roleTO.getPerson().getFullName())) {
+                        item += " (" + roleTO.getPerson().getFullName() + ")";
+                    }
+                    institutionCourseClassesAdminMultipleSelect.addItem(item, roleTO.getPerson().getUUID());
+                }
+                bus.fireEvent(new ShowPacifierEvent(false));
+            }
+        });
+        institutionCourseClassesAdminMultipleSelect = new PeopleMultipleSelect(session);
+        fieldPanelWrapper.add(institutionCourseClassesAdminMultipleSelect.asWidget());
+        institutionCourseClassesAdminFields.add(fieldPanelWrapper);
+    }
+
+    public void initInstitutionCourseClassesObserverData() {
+        institutionCourseClassesObserverFields.clear();
+        FlowPanel fieldPanelWrapper = new FlowPanel();
+        fieldPanelWrapper.addStyleName("fieldPanelWrapper");
+
+        FlowPanel labelPanel = new FlowPanel();
+        labelPanel.addStyleName("labelPanel");
+        Label lblLabel = new Label("Administradores globais de turmas");
+        lblLabel.addStyleName("lblLabel");
+        labelPanel.add(lblLabel);
+        fieldPanelWrapper.add(labelPanel);
+
+        bus.fireEvent(new ShowPacifierEvent(true));
+        session.institution(institution.getUUID()).getInstitutionCourseClassesObservers(RoleCategory.BIND_WITH_PERSON, new Callback<RolesTO>() {
+            @Override
+            public void ok(RolesTO to) {
+                for (RoleTO roleTO : to.getRoleTOs()) {
+                    String item = roleTO.getUsername();
+                    if (roleTO.getPerson().getFullName() != null && !"".equals(roleTO.getPerson().getFullName())) {
+                        item += " (" + roleTO.getPerson().getFullName() + ")";
+                    }
+                    institutionCourseClassesObserverMultipleSelect.addItem(item, roleTO.getPerson().getUUID());
+                }
+                bus.fireEvent(new ShowPacifierEvent(false));
+            }
+        });
+        institutionCourseClassesObserverMultipleSelect = new PeopleMultipleSelect(session);
+        fieldPanelWrapper.add(institutionCourseClassesObserverMultipleSelect.asWidget());
+        institutionCourseClassesObserverFields.add(fieldPanelWrapper);
+    }
+
     @UiHandler("institutionAdminBtnOK")
     void doOKInstituionAdmin(ClickEvent e) {
         if (session.isInstitutionAdmin()) {
@@ -199,6 +282,58 @@ public class GenericInstitutionAdminsView extends Composite {
         }
     }
 
+    @UiHandler("institutionCourseClassesAdminBtnOK")
+    void doOKInstitutionCourseClassesAdmin(ClickEvent e) {
+        if (session.isInstitutionCourseClassesAdmin()) {
+            Roles roles = entityFactory.newRoles().as();
+            List<Role> rolesList = new ArrayList<>();
+            ListBox multipleSelect = institutionCourseClassesAdminMultipleSelect.getMultipleSelect();
+            for (int i = 0; i < multipleSelect.getItemCount(); i++) {
+                String personUUID = multipleSelect.getValue(i);
+                Role role = entityFactory.newRole().as();
+                InstitutionCourseClassesAdminRole institutionCourseClassesAdminRole = entityFactory.newInstitutionCourseClassesAdminRole().as();
+                role.setPersonUUID(personUUID);
+                role.setRoleType(RoleType.institutionCourseClassesAdmin);
+                institutionCourseClassesAdminRole.setInstitutionUUID(institution.getUUID());
+                role.setInstitutionCourseClassesAdminRole(institutionCourseClassesAdminRole);
+                rolesList.add(role);
+            }
+            roles.setRoles(rolesList);
+            session.institution(institution.getUUID()).updateInstitutionCourseClassesAdmins(roles, new Callback<Roles>() {
+                @Override
+                public void ok(Roles to) {
+                    KornellNotification.show("Os administradores globais de turmas foram atualizados com sucesso.");
+                }
+            });
+        }
+    }
+
+    @UiHandler("institutionCourseClassesObserverBtnOK")
+    void doOKInstitutionCourseClassesObserver(ClickEvent e) {
+        if (session.isInstitutionCourseClassesAdmin()) {
+            Roles roles = entityFactory.newRoles().as();
+            List<Role> rolesList = new ArrayList<>();
+            ListBox multipleSelect = institutionCourseClassesObserverMultipleSelect.getMultipleSelect();
+            for (int i = 0; i < multipleSelect.getItemCount(); i++) {
+                String personUUID = multipleSelect.getValue(i);
+                Role role = entityFactory.newRole().as();
+                InstitutionCourseClassesObserverRole institutionCourseClassesObserverRole = entityFactory.newInstitutionCourseClassesObserverRole().as();
+                role.setPersonUUID(personUUID);
+                role.setRoleType(RoleType.institutionCourseClassesObserver);
+                institutionCourseClassesObserverRole.setInstitutionUUID(institution.getUUID());
+                role.setInstitutionCourseClassesObserverRole(institutionCourseClassesObserverRole);
+                rolesList.add(role);
+            }
+            roles.setRoles(rolesList);
+            session.institution(institution.getUUID()).updateInstitutionCourseClassesObservers(roles, new Callback<Roles>() {
+                @Override
+                public void ok(Roles to) {
+                    KornellNotification.show("Os observadores globais de turmas foram atualizados com sucesso.");
+                }
+            });
+        }
+    }
+
     @UiHandler("institutionAdminBtnCancel")
     void doCancelInstitutionAdmin(ClickEvent e) {
         initInstitutionAdminsData();
@@ -207,6 +342,16 @@ public class GenericInstitutionAdminsView extends Composite {
     @UiHandler("publisherBtnCancel")
     void doCancelPublisher(ClickEvent e) {
         initPublishersData();
+    }
+
+    @UiHandler("institutionCourseClassesAdminBtnCancel")
+    void doCancelInstitutionCourseClassesAdmin(ClickEvent e) {
+        initInstitutionCourseClassesAdminData();
+    }
+
+    @UiHandler("institutionCourseClassesObserverBtnCancel")
+    void doCancelInstitutionCourseClassesObserver(ClickEvent e) {
+        initInstitutionCourseClassesObserverData();
     }
 
 }

@@ -79,6 +79,48 @@ class InstitutionResource(uuid: String) {
     .get
 
   @PUT
+  @Consumes(Array(Roles.TYPE))
+  @Produces(Array(Roles.TYPE))
+  @Path("institutionCourseClassesAdmins")
+  def updateInstitutionCourseClassesAdmins(roles: Roles): Roles = {
+    new RolesRepo().updateInstitutionCourseClassesAdmins(uuid, roles)
+  }.requiring(isPlatformAdmin(uuid), AccessDeniedErr())
+    .or(isInstitutionAdmin(uuid), AccessDeniedErr())
+    .or(isInstitutionCourseClassesAdmin(uuid), AccessDeniedErr())
+    .get
+
+  @GET
+  @Produces(Array(RolesTO.TYPE))
+  @Path("institutionCourseClassesAdmins")
+  def getInstitutionCourseClassesAdmins(@QueryParam("bind") bindMode: String): RolesTO = {
+    new RolesRepo().getInstitutionCourseClassesAdmins(uuid, bindMode)
+  }.requiring(isPlatformAdmin(uuid), AccessDeniedErr())
+    .or(isInstitutionAdmin(uuid), AccessDeniedErr())
+    .or(isInstitutionCourseClassesAdmin(uuid), AccessDeniedErr())
+    .get
+
+  @PUT
+  @Consumes(Array(Roles.TYPE))
+  @Produces(Array(Roles.TYPE))
+  @Path("institutionCourseClassesObservers")
+  def updateInstitutionCourseClassesObservers(roles: Roles): Roles = {
+    new RolesRepo().updateInstitutionCourseClassesObservers(uuid, roles)
+  }.requiring(isPlatformAdmin(uuid), AccessDeniedErr())
+    .or(isInstitutionAdmin(uuid), AccessDeniedErr())
+    .or(isInstitutionCourseClassesAdmin(uuid), AccessDeniedErr())
+    .get
+
+  @GET
+  @Produces(Array(RolesTO.TYPE))
+  @Path("institutionCourseClassesObservers")
+  def getInstitutionCourseClassesObservers(@QueryParam("bind") bindMode: String): RolesTO = {
+    new RolesRepo().getInstitutionCourseClassesObservers(uuid, bindMode)
+  }.requiring(isPlatformAdmin(uuid), AccessDeniedErr())
+    .or(isInstitutionAdmin(uuid), AccessDeniedErr())
+    .or(isInstitutionCourseClassesAdmin(uuid), AccessDeniedErr())
+    .get
+
+  @PUT
   @Consumes(Array(InstitutionHostNamesTO.TYPE))
   @Produces(Array(InstitutionHostNamesTO.TYPE))
   @Path("hostnames")

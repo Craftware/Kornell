@@ -35,4 +35,10 @@ public interface Role extends Entity {
 
     PublisherRole getPublisherRole();
     void setPublisherRole(PublisherRole publisherRole);
+
+    InstitutionCourseClassesAdminRole getInstitutionCourseClassesAdminRole();
+    void setInstitutionCourseClassesAdminRole(InstitutionCourseClassesAdminRole institutionCourseClassesAdminRole);
+
+    InstitutionCourseClassesObserverRole getInstitutionCourseClassesObserverRole();
+    void setInstitutionCourseClassesObserverRole(InstitutionCourseClassesObserverRole institutionCourseClassesObserverRole);
 }
