@@ -11,12 +11,13 @@ import com.google.web.bindery.event.shared.EventBus;
 
 import kornell.api.client.Callback;
 import kornell.api.client.KornellSession;
-import kornell.core.entity.CourseClass;
+import kornell.core.entity.*;
 import kornell.core.entity.role.RoleCategory;
 import kornell.core.entity.role.RoleType;
 import kornell.core.error.KornellErrorTO;
 import kornell.core.to.CourseClassTO;
 import kornell.core.to.CourseClassesTO;
+import kornell.core.to.EnrollmentTO;
 import kornell.core.to.TOFactory;
 import kornell.core.util.StringUtils;
 import kornell.gui.client.ViewFactory;
@@ -158,6 +159,18 @@ implements AdminCourseClassesView.Presenter {
                     });
         }
 
+    }
+
+    @Override
+    public boolean showActionButton(String actionName, CourseClassTO courseClassTO) {
+        if ("Gerenciar".equals(actionName)) {
+            return session.isCourseClassAdmin();
+        } else if ("Duplicar".equals(actionName)) {
+            return session.isInstitutionAdmin();
+        } else if ("Excluir".equals(actionName)) {
+            return session.isInstitutionAdmin() && courseClassTO.getEnrollmentCount() == 0;
+        }
+        return false;
     }
 
     @Override

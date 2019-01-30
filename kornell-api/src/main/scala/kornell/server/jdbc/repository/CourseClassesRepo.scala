@@ -179,7 +179,7 @@ object CourseClassesRepo {
               (${StringUtils.isNone(adminUUID)} or
         (select count(*) from Role r where personUUID = '${adminUUID}' and (
           (r.role = '${RoleType.platformAdmin.toString}' and r.institutionUUID = '${institutionUUID}') or
-          (r.role = '${RoleType.institutionAdmin.toString}' and r.institutionUUID = '${institutionUUID}') or
+        ( (r.role = '${RoleType.institutionAdmin.toString}' or r.role = '${RoleType.institutionCourseClassesAdmin.toString}' or r.role = '${RoleType.institutionCourseClassesObserver.toString}' ) and r.institutionUUID = '${institutionUUID}') or
         ( (r.role = '${RoleType.courseClassAdmin.toString}' or r.role = '${RoleType.courseClassObserver.toString}' or r.role = '${RoleType.tutor.toString}') and r.courseClassUUID = cc.uuid)
       )) > 0)
             order by ${order}, cc.state, c.name, cv.versionCreatedAt desc, cc.name limit ${resultOffset}, ${pageSize};
@@ -188,7 +188,7 @@ object CourseClassesRepo {
       sql"""select count(cc.uuid) from CourseClass cc where cc.state <> ${EntityState.deleted.toString} and cc.sandbox in (false, ${showSandbox}) and (${StringUtils.isSome(adminUUID)} and
           (select count(*) from Role r where personUUID = ${adminUUID} and (
             (r.role = ${RoleType.platformAdmin.toString} and r.institutionUUID = ${institutionUUID}) or
-            (r.role = ${RoleType.institutionAdmin.toString} and r.institutionUUID = ${institutionUUID}) or
+            ( (r.role = ${RoleType.institutionAdmin.toString} or r.role = ${RoleType.institutionCourseClassesAdmin.toString} or r.role = ${RoleType.institutionCourseClassesObserver.toString}) and r.institutionUUID = ${institutionUUID}) or
             ( (r.role = ${RoleType.courseClassAdmin.toString} or r.role = ${RoleType.courseClassObserver.toString} or r.role = ${RoleType.tutor.toString}) and r.courseClassUUID = cc.uuid)
           )) > 0)
                 and (cc.courseVersionUUID = ${courseVersionUUID} or ${StringUtils.isNone(courseVersionUUID)})
@@ -207,7 +207,7 @@ object CourseClassesRepo {
               or cc.name like ${filteredSearchTerm}) and (${StringUtils.isSome(adminUUID)} and
         (select count(*) from Role r where personUUID = ${adminUUID} and (
           (r.role = ${RoleType.platformAdmin.toString} and r.institutionUUID = ${institutionUUID}) or
-          (r.role = ${RoleType.institutionAdmin.toString} and r.institutionUUID = ${institutionUUID}) or
+          ( (r.role = ${RoleType.institutionAdmin.toString} or r.role = ${RoleType.institutionCourseClassesAdmin.toString} or r.role = ${RoleType.institutionCourseClassesObserver.toString}) and r.institutionUUID = ${institutionUUID}) or
           ( (r.role = ${RoleType.courseClassAdmin.toString} or r.role = ${RoleType.courseClassObserver.toString} or r.role = ${RoleType.tutor.toString}) and r.courseClassUUID = cc.uuid)
         )) > 0)
                 and (cc.courseVersionUUID = ${courseVersionUUID} or ${StringUtils.isNone(courseVersionUUID)})
@@ -433,15 +433,29 @@ object CourseClassesRepo {
     hasRole
   }
 
-  private def isCourseClassAdmin(courseClassUUID: String, institutionUUID: String, roles: List[Role]): Boolean = {
+  private def isInstitutionCourseClassesAdmin(institutionUUID: String, roles: List[Role]): Boolean = {
     var hasRole: Boolean = isInstitutionAdmin(institutionUUID, roles)
+    roles.foreach(role => hasRole = hasRole
+      || RoleCategory.isValidRole(role, RoleType.institutionCourseClassesAdmin, institutionUUID, null))
+    hasRole
+  }
+
+  private def isInstitutionCourseClassesObserver(institutionUUID: String, roles: List[Role]): Boolean = {
+    var hasRole: Boolean = isInstitutionAdmin(institutionUUID, roles)
+    roles.foreach(role => hasRole = hasRole
+      || RoleCategory.isValidRole(role, RoleType.institutionCourseClassesObserver, institutionUUID, null))
+    hasRole
+  }
+
+  private def isCourseClassAdmin(courseClassUUID: String, institutionUUID: String, roles: List[Role]): Boolean = {
+    var hasRole: Boolean = isInstitutionCourseClassesAdmin(institutionUUID, roles)
     roles.foreach(role => hasRole = hasRole
       || RoleCategory.isValidRole(role, RoleType.courseClassAdmin, null, courseClassUUID))
     hasRole
   }
 
   private def isCourseClassObserver(courseClassUUID: String, institutionUUID: String, roles: List[Role]): Boolean = {
-    var hasRole: Boolean = isInstitutionAdmin(institutionUUID, roles)
+    var hasRole: Boolean = isInstitutionCourseClassesObserver(institutionUUID, roles)
     roles.foreach(role => hasRole = hasRole
       || RoleCategory.isValidRole(role, RoleType.courseClassObserver, null, courseClassUUID))
     hasRole

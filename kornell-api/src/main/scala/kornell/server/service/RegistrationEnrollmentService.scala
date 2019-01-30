@@ -38,7 +38,8 @@ object RegistrationEnrollmentService {
     val roles = new RolesRepo().getUserRoles(deanUUID, RoleCategory.BIND_DEFAULT).getRoleTOs
     !(RoleCategory.isPlatformAdmin(roles, enrollmentRequest.getInstitutionUUID) ||
       RoleCategory.isInstitutionAdmin(roles, enrollmentRequest.getInstitutionUUID) ||
-      RoleCategory.isCourseClassAdmin(roles, enrollmentRequest.getCourseClassUUID))
+      RoleCategory.isCourseClassAdmin(roles, enrollmentRequest.getCourseClassUUID) ||
+      RoleCategory.isInstitutionCourseClassesAdmin(roles, enrollmentRequest.getInstitutionUUID))
   }
 
   def postbackRequestEnrollment(req: EnrollmentRequestTO, payload: String): Unit = {

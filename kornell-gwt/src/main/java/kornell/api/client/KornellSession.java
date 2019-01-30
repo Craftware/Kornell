@@ -72,15 +72,6 @@ public class KornellSession extends KornellClient {
         return isInstitutionCourseClassesObserver(institution.getUUID());
     }
 
-    public boolean hasCourseClassRole(String courseClassUUID) {
-        return isCourseClassAdmin(courseClassUUID) || isCourseClassObserver(courseClassUUID)
-                || isCourseClassTutor(courseClassUUID);
-    }
-
-    public boolean hasCourseClassRole() {
-        return isCourseClassAdmin() || isCourseClassObserver() || isCourseClassTutor();
-    }
-
     public boolean isCourseClassAdmin(String courseClassUUID) {
         return isValidRole(RoleType.courseClassAdmin, null, courseClassUUID) || isInstitutionCourseClassesAdmin();
     }

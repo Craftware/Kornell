@@ -87,6 +87,7 @@ class PersonRepo(val uuid: String) {
             val enrollmentTOs = EnrollmentsRepo.byPerson(targetPersonUUID)
             !RoleCategory.isPlatformAdmin(targetRoles, targetPerson.getInstitutionUUID) &&
               !RoleCategory.hasRole(targetRoles, RoleType.institutionAdmin) &&
+              !RoleCategory.hasRole(targetRoles, RoleType.institutionCourseClassesAdmin) &&
               !RoleCategory.hasRole(targetRoles, RoleType.courseClassAdmin) && {
                 enrollmentTOs exists {
                   to => RoleCategory.isCourseClassAdmin(actorRoles, to.getCourseClassUUID)

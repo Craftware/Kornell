@@ -81,7 +81,7 @@ public class GenericMessageComposeView extends Composite implements MessageCompo
         for (RoleTO roleTO : session.getCurrentUser().getRoles()) {
             if (RoleType.institutionAdmin.equals(roleTO.getRole().getRoleType())) {
                 hasPlatformThreadAccess = true;
-            } else if (RoleType.courseClassAdmin.equals(roleTO.getRole().getRoleType())) {
+            } else if (RoleType.courseClassAdmin.equals(roleTO.getRole().getRoleType()) || RoleType.institutionCourseClassesAdmin.equals(roleTO.getRole().getRoleType())) {
                 hasInstitutionThreadAccess = true;
             }
         }

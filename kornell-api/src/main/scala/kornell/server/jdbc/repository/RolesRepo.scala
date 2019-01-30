@@ -48,47 +48,14 @@ class RolesRepo {
       | order by r.role, pw.username
     """.map[RoleTO](toRoleTO(_, RoleCategory.BIND_DEFAULT)))
 
-  def getInstitutionAdmins(institutionUUID: String, bindMode: String): RolesTO =
+  def getUsersForInstitutionByRole(institutionUUID: String, roleType: RoleType, bindMode: String): RolesTO =
     TOs.newRolesTO(sql"""
       | select r.*, coalesce(pw.username, p.email) as username, null as courseClassName
       | from Role r
       | left join Password pw on pw.personUUID = r.personUUID
       | join Person p on p.uuid = r.personUUID
       | where r.institutionUUID = ${institutionUUID}
-      | and r.role = ${RoleType.institutionAdmin.toString}
-      | order by r.role, pw.username
-    """.map[RoleTO](toRoleTO(_, bindMode)))
-
-  def getPublishers(institutionUUID: String, bindMode: String): RolesTO =
-    TOs.newRolesTO(sql"""
-      | select r.*, coalesce(pw.username, p.email) as username, null as courseClassName
-      | from Role r
-      | left join Password pw on pw.personUUID = r.personUUID
-      | join Person p on p.uuid = r.personUUID
-      | where r.institutionUUID = ${institutionUUID}
-      | and r.role = ${RoleType.publisher.toString}
-      | order by r.role, pw.username
-    """.map[RoleTO](toRoleTO(_, bindMode)))
-
-  def getInstitutionCourseClassesAdmins(institutionUUID: String, bindMode: String): RolesTO =
-    TOs.newRolesTO(sql"""
-      | select r.*, coalesce(pw.username, p.email) as username, null as courseClassName
-      | from Role r
-      | left join Password pw on pw.personUUID = r.personUUID
-      | join Person p on p.uuid = r.personUUID
-      | where r.institutionUUID = ${institutionUUID}
-      | and r.role = ${RoleType.institutionCourseClassesAdmin.toString}
-      | order by r.role, pw.username
-    """.map[RoleTO](toRoleTO(_, bindMode)))
-
-  def getInstitutionCourseClassesObservers(institutionUUID: String, bindMode: String): RolesTO =
-    TOs.newRolesTO(sql"""
-      | select r.*, coalesce(pw.username, p.email) as username, null as courseClassName
-      | from Role r
-      | left join Password pw on pw.personUUID = r.personUUID
-      | join Person p on p.uuid = r.personUUID
-      | where r.institutionUUID = ${institutionUUID}
-      | and r.role = ${RoleType.institutionCourseClassesObserver.toString}
+      | and r.role = ${roleType.toString}
       | order by r.role, pw.username
     """.map[RoleTO](toRoleTO(_, bindMode)))
 
@@ -107,7 +74,7 @@ class RolesRepo {
       | select r.*, pw.username, cc.name as courseClassName
       | from (select * from Role
       | where (courseClassUUID = ${courseClassUUID} and role = ${RoleType.courseClassAdmin.toString})
-      |   or (institutionUUID = ${institutionUUID} and role = ${RoleType.institutionAdmin.toString})
+      |   or (institutionUUID = ${institutionUUID} and (role = ${RoleType.institutionAdmin.toString} or role = ${RoleType.institutionCourseClassesAdmin.toString})
       |   or (institutionUUID = ${institutionUUID} and role = ${RoleType.platformAdmin.toString})
       | order by case `role`
       |  when 'platformAdmin' then 1
@@ -148,6 +115,14 @@ class RolesRepo {
 
   def updateCourseClassObservers(institutionUUID: String, courseClassUUID: String, roles: Roles): Roles = updateCourseClassRole(institutionUUID, courseClassUUID, RoleType.courseClassObserver, roles)
 
+  def updateInstitutionAdmins(institutionUUID: String, roles: Roles): Roles = updateInstitutionRole(institutionUUID, RoleType.institutionAdmin, roles)
+
+  def updatePublishers(institutionUUID: String, roles: Roles): Roles =  updateInstitutionRole(institutionUUID, RoleType.publisher, roles)
+
+  def updateInstitutionCourseClassesAdmins(institutionUUID: String, roles: Roles): Roles =  updateInstitutionRole(institutionUUID, RoleType.institutionCourseClassesAdmin, roles)
+
+  def updateInstitutionCourseClassesObservers(institutionUUID: String, roles: Roles): Roles =  updateInstitutionRole(institutionUUID, RoleType.institutionCourseClassesObserver, roles)
+
   def updateCourseClassRole(institutionUUID: String, courseClassUUID: String, roleType: RoleType, roles: Roles): Roles = {
     val from = getUsersForCourseClassByRole(courseClassUUID, roleType, RoleCategory.BIND_DEFAULT)
 
@@ -170,55 +145,26 @@ class RolesRepo {
     roles
   }
 
-  def updateInstitutionAdmins(institutionUUID: String, roles: Roles): Roles = {
-    val from = getInstitutionAdmins(institutionUUID, RoleCategory.BIND_DEFAULT)
+  def updateInstitutionRole(institutionUUID: String, roleType: RoleType, roles: Roles): Roles = {
+    val from = getUsersForInstitutionByRole(institutionUUID, roleType, RoleCategory.BIND_DEFAULT)
 
-    removeInstitutionAdmins(institutionUUID).addRoles(roles)
+    removeInstitutionRole(institutionUUID, roleType).addRoles(roles)
 
-    val to = getInstitutionAdmins(institutionUUID, RoleCategory.BIND_DEFAULT)
+    val to = getUsersForInstitutionByRole(institutionUUID, roleType, RoleCategory.BIND_DEFAULT)
+
+    val auditedEntityType = {
+      roleType match {
+        case RoleType.institutionAdmin => AuditedEntityType.institutionAdmin
+        case RoleType.publisher => AuditedEntityType.publisher
+        case RoleType.institutionCourseClassesAdmin => AuditedEntityType.institutionCourseClassesAdmin
+        case RoleType.institutionCourseClassesObserver => AuditedEntityType.institutionCourseClassesObserver
+        case _ => throw new EntityConflictException("invalidValue")
+      }
+    }
 
     //log entity change
-    EventsRepo.logEntityChange(institutionUUID, AuditedEntityType.institutionAdmin, institutionUUID, from, to)
+    EventsRepo.logEntityChange(institutionUUID, auditedEntityType, institutionUUID, from, to)
     SandboxService.fixEnrollments(institutionUUID, from, to)
-
-    roles
-  }
-
-  def updatePublishers(institutionUUID: String, roles: Roles): Roles = {
-    val from = getPublishers(institutionUUID, RoleCategory.BIND_DEFAULT)
-
-    removePublishers(institutionUUID).addRoles(roles)
-
-    val to = getPublishers(institutionUUID, RoleCategory.BIND_DEFAULT)
-
-    //log entity change
-    EventsRepo.logEntityChange(institutionUUID, AuditedEntityType.publisher, institutionUUID, from, to)
-
-    roles
-  }
-
-  def updateInstitutionCourseClassesAdmins(institutionUUID: String, roles: Roles): Roles = {
-    val from = getInstitutionCourseClassesAdmins(institutionUUID, RoleCategory.BIND_DEFAULT)
-
-    removeInstitutionCourseClassesAdmins(institutionUUID).addRoles(roles)
-
-    val to = getInstitutionCourseClassesAdmins(institutionUUID, RoleCategory.BIND_DEFAULT)
-
-    //log entity change
-    EventsRepo.logEntityChange(institutionUUID, AuditedEntityType.institutionCourseClassesAdmin, institutionUUID, from, to)
-
-    roles
-  }
-
-  def updateInstitutionCourseClassesObservers(institutionUUID: String, roles: Roles): Roles = {
-    val from = getInstitutionCourseClassesObservers(institutionUUID, RoleCategory.BIND_DEFAULT)
-
-    removeInstitutionCourseClassesObservers(institutionUUID).addRoles(roles)
-
-    val to = getInstitutionCourseClassesObservers(institutionUUID, RoleCategory.BIND_DEFAULT)
-
-    //log entity change
-    EventsRepo.logEntityChange(institutionUUID, AuditedEntityType.institutionCourseClassesObserver, institutionUUID, from, to)
 
     roles
   }
@@ -241,44 +187,14 @@ class RolesRepo {
         ${role.getRoleType.toString},
         ${RoleCategory.getCourseClassUUID(role)})
       """.executeUpdate
-    }
-    if (RoleType.institutionAdmin.equals(role.getRoleType)) {
+    } else if (RoleType.institutionAdmin.equals(role.getRoleType) || RoleType.publisher.equals(role.getRoleType)
+      || RoleType.institutionCourseClassesAdmin.equals(role.getRoleType) || RoleType.institutionCourseClassesObserver.equals(role.getRoleType)) {
       sql"""
         insert into Role (uuid, personUUID, role, institutionUUID) values (
         ${role.getUUID},
         ${role.getPersonUUID},
         ${role.getRoleType.toString},
         ${role.getInstitutionAdminRole.getInstitutionUUID})
-      """.executeUpdate
-    }
-
-    if (RoleType.publisher.equals(role.getRoleType)) {
-      sql"""
-        insert into Role (uuid, personUUID, role, institutionUUID) values (
-        ${role.getUUID},
-        ${role.getPersonUUID},
-        ${role.getRoleType.toString},
-        ${role.getPublisherRole.getInstitutionUUID})
-      """.executeUpdate
-    }
-
-    if (RoleType.institutionCourseClassesAdmin.equals(role.getRoleType)) {
-      sql"""
-        insert into Role (uuid, personUUID, role, institutionUUID) values (
-        ${role.getUUID},
-        ${role.getPersonUUID},
-        ${role.getRoleType.toString},
-        ${role.getInstitutionCourseClassesAdminRole.getInstitutionUUID})
-      """.executeUpdate
-    }
-
-    if (RoleType.institutionCourseClassesObserver.equals(role.getRoleType)) {
-      sql"""
-        insert into Role (uuid, personUUID, role, institutionUUID) values (
-        ${role.getUUID},
-        ${role.getPersonUUID},
-        ${role.getRoleType.toString},
-        ${role.getInstitutionCourseClassesObserverRole.getInstitutionUUID})
       """.executeUpdate
     }
   }
@@ -292,38 +208,11 @@ class RolesRepo {
     this
   }
 
-  def removeInstitutionAdmins(institutionUUID: String): RolesRepo = {
+  def removeInstitutionRole(institutionUUID: String, roleType: RoleType): RolesRepo = {
     sql"""
         delete from Role
         where institutionUUID = ${institutionUUID}
-        and role = ${RoleType.institutionAdmin.toString}
-    """.executeUpdate
-    this
-  }
-
-  def removePublishers(institutionUUID: String): RolesRepo = {
-    sql"""
-        delete from Role
-        where institutionUUID = ${institutionUUID}
-        and role = ${RoleType.publisher.toString}
-    """.executeUpdate
-    this
-  }
-
-  def removeInstitutionCourseClassesAdmins(institutionUUID: String): RolesRepo = {
-    sql"""
-        delete from Role
-        where institutionUUID = ${institutionUUID}
-        and role = ${RoleType.institutionCourseClassesAdmin.toString}
-    """.executeUpdate
-    this
-  }
-
-  def removeInstitutionCourseClassesObservers(institutionUUID: String): RolesRepo = {
-    sql"""
-        delete from Role
-        where institutionUUID = ${institutionUUID}
-        and role = ${RoleType.institutionCourseClassesObserver.toString}
+        and role = ${roleType.toString}
     """.executeUpdate
     this
   }
