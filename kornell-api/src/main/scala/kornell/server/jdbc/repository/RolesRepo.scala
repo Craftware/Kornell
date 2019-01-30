@@ -74,12 +74,13 @@ class RolesRepo {
       | select r.*, pw.username, cc.name as courseClassName
       | from (select * from Role
       | where (courseClassUUID = ${courseClassUUID} and role = ${RoleType.courseClassAdmin.toString})
-      |   or (institutionUUID = ${institutionUUID} and (role = ${RoleType.institutionAdmin.toString} or role = ${RoleType.institutionCourseClassesAdmin.toString})
+      |   or (institutionUUID = ${institutionUUID} and (role = ${RoleType.institutionAdmin.toString} or role = ${RoleType.institutionCourseClassesAdmin.toString}))
       |   or (institutionUUID = ${institutionUUID} and role = ${RoleType.platformAdmin.toString})
       | order by case `role`
       |  when 'platformAdmin' then 1
       |  when 'institutionAdmin' then 2
-      |  when 'courseClassAdmin' then 3
+      |  when 'institutionCourseClassesAdmin' then 3
+      |  when 'courseClassAdmin' then 4
       |  END) r
       | join Password pw on pw.personUUID = r.personUUID
       | left join CourseClass cc on r.courseClassUUID = cc.uuid

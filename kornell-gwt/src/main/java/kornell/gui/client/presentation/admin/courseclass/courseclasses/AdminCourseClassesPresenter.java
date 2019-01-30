@@ -164,7 +164,7 @@ implements AdminCourseClassesView.Presenter {
     @Override
     public boolean showActionButton(String actionName, CourseClassTO courseClassTO) {
         if ("Gerenciar".equals(actionName)) {
-            return session.isCourseClassAdmin();
+            return session.isCourseClassAdmin(courseClassTO.getCourseClass().getUUID());
         } else if ("Duplicar".equals(actionName)) {
             return session.isInstitutionAdmin();
         } else if ("Excluir".equals(actionName)) {

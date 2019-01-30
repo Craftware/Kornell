@@ -303,7 +303,7 @@ public class GenericMessageView extends Composite implements MessageView, ShowCh
             }
         case INSTITUTION_SUPPORT:
             return span(constants.institutionSupportChatThreadLabel(), PLAIN_CLASS) + separator(lineBreak)
-                    + span(unreadChatThreadTO.getEntityName(), HIGHLIGHT_CLASS);
+                    + span(session.getInstitution().getName(), HIGHLIGHT_CLASS);
         case PLATFORM_SUPPORT:
             return span(constants.platformSupportChatThreadLabel(), PLAIN_CLASS) + separator(lineBreak)
                     + span(session.getInstitution().getName(), HIGHLIGHT_CLASS);

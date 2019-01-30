@@ -2,7 +2,7 @@ package kornell.server.api
 
 import javax.ws.rs._
 import kornell.core.entity.{ChatThreadType, Institution}
-import kornell.core.entity.role.Roles
+import kornell.core.entity.role.{RoleType, Roles}
 import kornell.core.to.{InstitutionEmailWhitelistTO, InstitutionHostNamesTO, InstitutionRegistrationPrefixesTO, RolesTO}
 import kornell.server.jdbc.repository.{ChatThreadsRepo, InstitutionEmailWhitelistRepo, InstitutionHostNameRepo, InstitutionRepo, RolesRepo}
 import kornell.server.service.ContentService
@@ -54,7 +54,7 @@ class InstitutionResource(uuid: String) {
   @Produces(Array(RolesTO.TYPE))
   @Path("admins")
   def getAdmins(@QueryParam("bind") bindMode: String): RolesTO = {
-    new RolesRepo().getInstitutionAdmins(uuid, bindMode)
+    new RolesRepo().getUsersForInstitutionByRole(uuid, RoleType.institutionAdmin, bindMode)
   }.requiring(isPlatformAdmin(uuid), AccessDeniedErr())
     .or(isInstitutionAdmin(uuid), AccessDeniedErr())
     .get
@@ -73,7 +73,7 @@ class InstitutionResource(uuid: String) {
   @Produces(Array(RolesTO.TYPE))
   @Path("publishers")
   def getPublishers(@QueryParam("bind") bindMode: String): RolesTO = {
-    new RolesRepo().getPublishers(uuid, bindMode)
+    new RolesRepo().getUsersForInstitutionByRole(uuid, RoleType.publisher, bindMode)
   }.requiring(isPlatformAdmin(uuid), AccessDeniedErr())
     .or(isInstitutionAdmin(uuid), AccessDeniedErr())
     .get
@@ -93,7 +93,7 @@ class InstitutionResource(uuid: String) {
   @Produces(Array(RolesTO.TYPE))
   @Path("institutionCourseClassesAdmins")
   def getInstitutionCourseClassesAdmins(@QueryParam("bind") bindMode: String): RolesTO = {
-    new RolesRepo().getInstitutionCourseClassesAdmins(uuid, bindMode)
+    new RolesRepo().getUsersForInstitutionByRole(uuid, RoleType.institutionCourseClassesAdmin, bindMode)
   }.requiring(isPlatformAdmin(uuid), AccessDeniedErr())
     .or(isInstitutionAdmin(uuid), AccessDeniedErr())
     .or(isInstitutionCourseClassesAdmin(uuid), AccessDeniedErr())
@@ -114,7 +114,7 @@ class InstitutionResource(uuid: String) {
   @Produces(Array(RolesTO.TYPE))
   @Path("institutionCourseClassesObservers")
   def getInstitutionCourseClassesObservers(@QueryParam("bind") bindMode: String): RolesTO = {
-    new RolesRepo().getInstitutionCourseClassesObservers(uuid, bindMode)
+    new RolesRepo().getUsersForInstitutionByRole(uuid, RoleType.institutionCourseClassesObserver, bindMode)
   }.requiring(isPlatformAdmin(uuid), AccessDeniedErr())
     .or(isInstitutionAdmin(uuid), AccessDeniedErr())
     .or(isInstitutionCourseClassesAdmin(uuid), AccessDeniedErr())

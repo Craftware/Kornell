@@ -77,6 +77,9 @@ public class KornellSession extends KornellClient {
     }
 
     public boolean isCourseClassAdmin() {
+        if(isInstitutionCourseClassesAdmin()) {
+            return true;
+        }
         if (currentCourseClass == null) {
             return false;
         }
