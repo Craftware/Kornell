@@ -16,3 +16,16 @@ swarm:
     console-handlers:
       CONSOLE:
         named-formatter: NO_COLOR
+    periodic-rotating-file-handlers:
+      FILE:
+        file:
+          path: /var/log/web.log
+        suffix: .yyyy-MM-dd
+        named-formatter: NO_COLOR
+        level: INFO
+        enabled: true
+        autoflush: true
+    root-logger:
+      handlers:
+        - CONSOLE
+        - FILE
