@@ -1,6 +1,0 @@
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-.git
-.gitignore
-*
-!target/kornell-api-swarm.jar
