@@ -225,7 +225,7 @@ public class GenericCourseLibraryView extends Composite {
         fileIconAnchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                Window.open(StringUtils.mkurl(fileTO.getPath(), fileTO.getTitle()), "_blank", "");
+                Window.open(StringUtils.mkurl(fileTO.getPath(), fileTO.getTitle().replaceAll("[ &]+", "_")), "_blank", "");
             }
         });
 
@@ -240,7 +240,7 @@ public class GenericCourseLibraryView extends Composite {
         fileName.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                Window.open(StringUtils.mkurl(fileTO.getPath(), fileTO.getTitle()), "_blank", "");
+                Window.open(StringUtils.mkurl(fileTO.getPath(), fileTO.getTitle().replaceAll("[ &]+", "_")), "_blank", "");
             }
         });
 

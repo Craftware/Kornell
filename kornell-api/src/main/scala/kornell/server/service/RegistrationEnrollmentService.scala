@@ -17,7 +17,7 @@ import scala.collection.mutable.ListBuffer
 
 object RegistrationEnrollmentService {
 
-  val logger: Logger = Logger.getLogger(classOf[RegistrationEnrollmentService].getName)
+  val logger: Logger = Logger.getLogger("kornell.server.service.RegistrationEnrollmentService")
 
   def deanRequestEnrollments(enrollmentRequests: EnrollmentRequestsTO, dean: Person): Unit = {
     val courseClassUUID = enrollmentRequests.getEnrollmentRequests.get(0).getCourseClassUUID

@@ -244,7 +244,7 @@ public class GenericAssetFormView extends Composite {
     }
 
     public void getUploadURL() {
-        String fileName = courseDetailsLibrary.getTitle();
+        String fileName = courseDetailsLibrary.getTitle().replaceAll("[ &]+", "_");
         String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         String contentType = getContentType(extension);
         session.assets().getUploadURL(AdminAssetsPresenter.entityName, courseDetailsLibrary.getEntityUUID(), fileName,

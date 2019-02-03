@@ -375,7 +375,7 @@ public class GenericAdminAssetsView extends Composite implements AdminAssetsView
                 @Override
                 public void onClick(ClickEvent event) {
                     CourseDetailsLibrary cdl = (CourseDetailsLibrary) assetEntity;
-                    String fileName = StringUtils.mkurl(cdl.getPath(), cdl.getTitle());
+                    String fileName = StringUtils.mkurl(cdl.getPath(), cdl.getTitle().replaceAll("[ &]+", "_"));
                     Window.open(fileName, "_blank", "");
                 }
             });
