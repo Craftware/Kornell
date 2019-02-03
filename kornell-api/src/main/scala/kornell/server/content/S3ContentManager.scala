@@ -73,7 +73,7 @@ class S3ContentManager(repo: ContentRepository)
   }
 
   def getUploadUrl(path: String, contentType: String): String = {
-    println(path)
+    logger.fine(path)
     val presignedRequest = new GeneratePresignedUrlRequest(repo.getBucketName, path)
     presignedRequest.setMethod(HttpMethod.PUT)
     presignedRequest.setExpiration(new DateTime().plusMinutes(1).toDate)
