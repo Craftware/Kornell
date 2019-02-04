@@ -8,10 +8,12 @@ import kornell.core.util.{StringUtils, UUID}
 import kornell.server.content.ContentManagers
 import kornell.server.jdbc.SQL._
 import kornell.server.service.{AssetService, ContentService}
-import java.math.BigDecimal
-import scala.collection.JavaConverters._
+import java.util.logging.Logger
+
 
 class CourseVersionRepo(uuid: String) {
+
+  val logger: Logger = Logger.getLogger(classOf[CourseVersionRepo].getName)
 
   val finder = sql"select * from CourseVersion where uuid = $uuid and state <> ${EntityState.deleted.toString}"
 
@@ -96,7 +98,7 @@ class CourseVersionRepo(uuid: String) {
     val sourceCourseVersionUUID = courseVersion.getUUID
     val targetCourseVersionUUID = UUID.random
 
-    println(courseVersion.getThumbUrl)
+    logger.fine(courseVersion.getThumbUrl)
     //copy courseVersion
     courseVersion.setUUID(targetCourseVersionUUID)
     courseVersion.setDistributionPrefix(targetCourseVersionUUID)
@@ -105,7 +107,7 @@ class CourseVersionRepo(uuid: String) {
     if (StringUtils.isSome(courseVersion.getThumbUrl)) {
       courseVersion.setThumbUrl(courseVersion.getThumbUrl.replace(sourceCourseVersionUUID + "/thumb.jpg", targetCourseVersionUUID + "/thumb.jpg"))
     }
-    println(courseVersion.getThumbUrl)
+    logger.fine(courseVersion.getThumbUrl)
     CourseVersionsRepo.create(courseVersion, institutionUUID)
 
     AssetService.copyAssets(institutionUUID, CourseDetailsEntityType.COURSE_VERSION, sourceCourseVersionUUID, targetCourseVersionUUID, courseVersion.getThumbUrl)

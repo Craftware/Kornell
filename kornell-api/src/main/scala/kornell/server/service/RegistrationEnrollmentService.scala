@@ -9,14 +9,15 @@ import kornell.server.api.ActomResource
 import kornell.server.jdbc.repository.{CourseClassRepo, CourseVersionRepo, EnrollmentsRepo, EventsRepo, InstitutionRepo, InstitutionsRepo, PeopleRepo, PersonRepo, RolesRepo}
 import kornell.server.repository.TOs._
 import kornell.server.util.EmailService
-import java.util.Date
+import java.util.logging.Logger
 
-import org.joda.time.DateTime
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer
 
 object RegistrationEnrollmentService {
+
+  val logger: Logger = Logger.getLogger("kornell.server.service.RegistrationEnrollmentService")
 
   def deanRequestEnrollments(enrollmentRequests: EnrollmentRequestsTO, dean: Person): Unit = {
     val courseClassUUID = enrollmentRequests.getEnrollmentRequests.get(0).getCourseClassUUID
@@ -73,8 +74,7 @@ object RegistrationEnrollmentService {
   }
 
   private def deanEnrollExistingPerson(person: Person, enrollmentRequest: EnrollmentRequestTO, dean: Person, notes: String = null): Unit = {
-    println(person.getFullName)
-    println(person.getUUID)
+    logger.fine(person.getFullName + " " + RegistrationEnrollmentService)
     val personRepo = PersonRepo(person.getUUID)
     if (enrollmentRequest.getCourseVersionUUID == null) {
       EnrollmentsRepo.byCourseClassAndPerson(enrollmentRequest.getCourseClassUUID, person.getUUID, getDeleted = true) match {
