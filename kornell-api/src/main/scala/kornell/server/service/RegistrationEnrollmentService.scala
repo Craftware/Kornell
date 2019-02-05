@@ -4,13 +4,12 @@ import kornell.core.entity._
 import kornell.core.entity.role.RoleCategory
 import kornell.core.error.exception.EntityConflictException
 import kornell.core.to.{EnrollmentRequestTO, EnrollmentRequestsTO, RegistrationRequestTO, UserInfoTO}
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.api.ActomResource
 import kornell.server.jdbc.repository.{CourseClassRepo, CourseVersionRepo, EnrollmentsRepo, EventsRepo, InstitutionRepo, InstitutionsRepo, PeopleRepo, PersonRepo, RolesRepo}
 import kornell.server.repository.TOs._
 import kornell.server.util.EmailService
 import java.util.logging.Logger
-
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer
@@ -141,12 +140,12 @@ object RegistrationEnrollmentService {
   private def deanUpdateExistingEnrollment(person: Person, enrollment: Enrollment, institutionUUID: String, dean: Person, cancelEnrollment: Boolean): Unit = {
     val enrollerUUID = if (dean == null) null else dean.getUUID
     if (cancelEnrollment && !EnrollmentState.cancelled.equals(enrollment.getState))
-      EventsRepo.logEnrollmentStateChanged(UUID.random, enrollerUUID, enrollment.getUUID, enrollment.getState, EnrollmentState.cancelled, enrollment.getCourseVersionUUID == null, null)
+      EventsRepo.logEnrollmentStateChanged(enrollerUUID, enrollment.getUUID, enrollment.getState, EnrollmentState.cancelled, enrollment.getCourseVersionUUID == null, null)
     else if (!cancelEnrollment && (EnrollmentState.cancelled.equals(enrollment.getState)
       || EnrollmentState.deleted.equals(enrollment.getState)
       || EnrollmentState.requested.equals(enrollment.getState)
       || EnrollmentState.denied.equals(enrollment.getState))) {
-      EventsRepo.logEnrollmentStateChanged(UUID.random, enrollerUUID, enrollment.getUUID, enrollment.getState, EnrollmentState.enrolled, enrollment.getCourseVersionUUID == null, null)
+      EventsRepo.logEnrollmentStateChanged(enrollerUUID, enrollment.getUUID, enrollment.getState, EnrollmentState.enrolled, enrollment.getCourseVersionUUID == null, null)
     }
   }
 
@@ -212,7 +211,7 @@ object RegistrationEnrollmentService {
       parentEnrollmentUUID = parentEnrollmentUUID,
       enrollmentSource = enrollmentSource)
     EventsRepo.logEnrollmentStateChanged(
-      UUID.random, enrollerUUID,
+      enrollerUUID,
       enrollment.getUUID, enrollment.getState, enrollmentState, courseVersionUUID == null, notes)
     enrollment
   }

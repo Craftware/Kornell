@@ -1,8 +1,9 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.core.entity.AuditedEntityType
 import kornell.core.to.InstitutionHostNamesTO
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL._
 import kornell.server.repository.TOs
 
@@ -39,7 +40,7 @@ class InstitutionHostNameRepo(institutionUUID: String) {
 
   def addHostname(hostName: String): Unit = {
     sql"""insert into InstitutionHostName (uuid, hostName, institutionUUID) values
-    (${UUID.random},
+    (${UUID.randomUUID.toString},
     ${hostName},
     ${institutionUUID})""".executeUpdate
     InstitutionsRepo.updateHostNameCache(institutionUUID, hostName)

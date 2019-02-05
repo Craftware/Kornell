@@ -1,10 +1,10 @@
 package kornell.server.jdbc.repository
 
-import java.util.Date
+import java.util.{Date, UUID}
 
 import kornell.core.entity.{AuditedEntityType, CourseDetailsEntityType, CourseVersion, EntityState}
 import kornell.core.error.exception.EntityConflictException
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.content.ContentManagers
 import kornell.server.jdbc.SQL._
 import kornell.server.service.{AssetService, ContentService}
@@ -96,7 +96,7 @@ class CourseVersionRepo(uuid: String) {
     val courseVersion = CourseVersionRepo(uuid).first.get
     val institutionUUID = CoursesRepo.byCourseVersionUUID(courseVersion.getUUID).get.getInstitutionUUID
     val sourceCourseVersionUUID = courseVersion.getUUID
-    val targetCourseVersionUUID = UUID.random
+    val targetCourseVersionUUID = UUID.randomUUID.toString
 
     logger.fine(courseVersion.getThumbUrl)
     //copy courseVersion

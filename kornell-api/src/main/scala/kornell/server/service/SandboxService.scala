@@ -1,16 +1,15 @@
 package kornell.server.service
 
 import java.math.BigDecimal
-import java.util.Date
+import java.util.{Date, UUID}
 
 import kornell.core.entity.{EnrollmentSource, EnrollmentState, _}
 import kornell.core.entity.role.RoleCategory
 import kornell.core.error.exception.EntityNotFoundException
 import kornell.core.to.RolesTO
-import kornell.core.util.UUID
 import kornell.server.authentication.ThreadLocalAuthenticator
 import kornell.server.jdbc.SQL._
-import kornell.server.jdbc.repository.{CourseClassRepo, CourseClassesRepo, CourseRepo, CourseVersionRepo, CourseVersionsRepo, EnrollmentRepo, EnrollmentsRepo, EventsRepo, InstitutionRepo, PersonRepo, RolesRepo}
+import kornell.server.jdbc.repository.{CourseClassesRepo, CourseRepo, CourseVersionRepo, CourseVersionsRepo, EnrollmentRepo, EnrollmentsRepo, EventsRepo, InstitutionRepo, PersonRepo, RolesRepo}
 import kornell.server.repository.Entities
 
 import scala.collection.JavaConverters._
@@ -33,7 +32,7 @@ object SandboxService {
       if (version.getParentVersionUUID == null) {
         val creator = if (ThreadLocalAuthenticator.getAuthenticatedPersonUUID.isDefined) ThreadLocalAuthenticator.getAuthenticatedPersonUUID.get else "system"
         val courseClass = CourseClassesRepo.create(Entities.newCourseClass(
-          uuid = UUID.random,
+          uuid = UUID.randomUUID.toString,
           name = "[Sandbox] " + course.getName + " / " + version.getName,
           courseVersionUUID = courseVersionUUID,
           institutionUUID = institution.getUUID,
@@ -60,7 +59,7 @@ object SandboxService {
   def manageExistingEnrollment(sandboxClassUUID: String, personUUID: String, state: EnrollmentState): Unit = {
     val enrollment = EnrollmentsRepo.byCourseClassAndPerson(sandboxClassUUID, personUUID, getDeleted = false)
     if(enrollment.isDefined) {
-      EventsRepo.logEnrollmentStateChanged(UUID.random, ThreadLocalAuthenticator.getAuthenticatedPersonUUID.get, enrollment.get.getUUID, EnrollmentState.enrolled, state, sendEmail = false, "Sandbox class enrollment: " + state.toString)
+      EventsRepo.logEnrollmentStateChanged(ThreadLocalAuthenticator.getAuthenticatedPersonUUID.get, enrollment.get.getUUID, EnrollmentState.enrolled, state, sendEmail = false, "Sandbox class enrollment: " + state.toString)
       EventsRepo.deleteActoms(enrollment.get.getUUID)
     }
   }

@@ -1,11 +1,11 @@
 package kornell.server.jdbc.repository
 
-import java.util.Date
+import java.util.{Date, UUID}
 
 import kornell.core.entity._
 import kornell.core.entity.role.RoleCategory
 import kornell.core.error.exception.EntityConflictException
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.authentication.ThreadLocalAuthenticator
 import kornell.server.jdbc.SQL.{SQLHelper, rsToString}
 import kornell.server.service.AssetService
@@ -87,8 +87,8 @@ class CourseClassRepo(uuid: String) {
   def copy: CourseClass = {
     val courseClass = CourseClassRepo(uuid).first.get
     val sourceCourseClassUUID = courseClass.getUUID
-    val targetCourseClassUUID = UUID.random
-    val ecommerceIdentifier = UUID.random.replace("-", "").substring(0, 20)
+    val targetCourseClassUUID = UUID.randomUUID.toString
+    val ecommerceIdentifier = UUID.randomUUID.toString.replace("-", "").substring(0, 20)
 
     //copy courseClass
     courseClass.setUUID(targetCourseClassUUID)
@@ -105,7 +105,7 @@ class CourseClassRepo(uuid: String) {
     val roles = new RolesRepo().getAllUsersWithRoleForCourseClass(sourceCourseClassUUID)
     roles.getRoleTOs.asScala.foreach(roleTO => {
       val role = roleTO.getRole
-      role.setUUID(UUID.random)
+      role.setUUID(UUID.randomUUID.toString)
       RoleCategory.setCourseClassUUID(role, targetCourseClassUUID)
       new RolesRepo().create(role)
     })

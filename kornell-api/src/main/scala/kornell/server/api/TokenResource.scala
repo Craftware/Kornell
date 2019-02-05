@@ -1,6 +1,6 @@
 package kornell.server.api
 
-import java.util.Date
+import java.util.{Date, UUID}
 
 import javax.servlet.http.HttpServletRequest
 import javax.ws.rs.{FormParam, POST, Path, Produces}
@@ -8,7 +8,6 @@ import javax.ws.rs.core.{Context, Response}
 import kornell.core.entity.AuthClientType
 import kornell.core.error.exception.{AuthenticationException, UnauthorizedAccessException}
 import kornell.core.to.TokenTO
-import kornell.core.util.UUID
 import kornell.server.jdbc.repository.{AuthRepo, TokenRepo}
 
 @Path("auth")
@@ -36,11 +35,11 @@ class TokenResource {
         } else {
           //token expired, we delete old one and create a new one
           TokenRepo().deleteToken(token.get.getToken)
-          TokenRepo.createToken(UUID.random(), personUUID, authClientType)
+          TokenRepo.createToken(UUID.randomUUID.toString, personUUID, authClientType)
         }
       } else {
         //token did not exist, we create one
-        TokenRepo.createToken(UUID.random(), personUUID, authClientType)
+        TokenRepo.createToken(UUID.randomUUID.toString, personUUID, authClientType)
       }
     } else {
       //throw login exception

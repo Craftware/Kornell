@@ -1,9 +1,10 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.core.entity.{AuditedEntityType, Course, EntityState}
 import kornell.core.error.exception.EntityConflictException
 import kornell.core.to.{CourseTO, CoursesTO}
-import kornell.core.util.UUID
 import kornell.server.jdbc.PreparedStmt
 import kornell.server.jdbc.SQL._
 import kornell.server.repository.TOs
@@ -21,7 +22,7 @@ object CoursesRepo {
       """.first[String].get
     if (courseExists == "0") {
       if (course.getUUID == null) {
-        course.setUUID(UUID.random)
+        course.setUUID(UUID.randomUUID.toString)
       }
       sql"""
       | insert into Course (uuid,code,name,description,infoJson,state,institutionUUID, thumbUrl, contentSpec)

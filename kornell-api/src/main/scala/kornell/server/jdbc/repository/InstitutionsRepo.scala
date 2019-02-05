@@ -1,11 +1,10 @@
 package kornell.server.jdbc.repository
 
-import java.util.Date
+import java.util.{Date, UUID}
 import java.util.concurrent.TimeUnit.MINUTES
 
 import com.google.common.cache.{CacheBuilder, CacheLoader, LoadingCache}
 import kornell.core.entity.{AuditedEntityType, Institution, InstitutionType}
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL._
 
 object InstitutionsRepo {
@@ -59,7 +58,7 @@ object InstitutionsRepo {
 
   def create(institution: Institution): Institution = {
     if (institution.getUUID == null) {
-      institution.setUUID(UUID.random)
+      institution.setUUID(UUID.randomUUID.toString)
     }
     if (institution.getActivatedAt == null) {
       institution.setActivatedAt(new Date)

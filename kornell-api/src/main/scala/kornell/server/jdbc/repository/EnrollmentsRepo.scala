@@ -1,13 +1,12 @@
 package kornell.server.jdbc.repository
 
-import java.util.Date
+import java.util.{Date, UUID}
 import java.util.concurrent.TimeUnit.MINUTES
 
 import com.google.common.cache.{CacheBuilder, CacheLoader, LoadingCache}
 import kornell.core.entity._
 import kornell.core.error.exception.{EntityConflictException, ServerErrorException}
 import kornell.core.to._
-import kornell.core.util.UUID
 import kornell.server.api.getAuthenticatedPersonUUID
 import kornell.server.jdbc.PreparedStmt
 import kornell.server.jdbc.SQL._
@@ -147,7 +146,7 @@ object EnrollmentsRepo {
   def create(enrollment: Enrollment): Enrollment = {
 
     if (enrollment.getUUID == null)
-      enrollment.setUUID(UUID.random)
+      enrollment.setUUID(UUID.randomUUID.toString)
     if (enrollment.getCourseClassUUID != null && enrollment.getCourseVersionUUID != null)
       throw new EntityConflictException("doubleEnrollmentCriteria")
 

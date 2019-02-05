@@ -6,13 +6,12 @@ import kornell.core.entity.{AuditedEntityType, EnrollmentState, EntityState}
 import kornell.core.error.exception.EntityConflictException
 import kornell.core.event._
 import kornell.core.to.EntityChangedEventsTO
-import kornell.core.util.UUID
 import kornell.server.authentication.ThreadLocalAuthenticator
-import kornell.server.ep.EnrollmentSEP
 import kornell.server.jdbc.SQL.{SQLHelper, _}
 import kornell.server.repository.TOs._
 import kornell.server.util.{EmailService, Settings}
 import org.joda.time.DateTime
+import java.util.UUID
 
 import scala.collection.JavaConverters._
 
@@ -25,7 +24,7 @@ object EventsRepo {
   def logActomEntered(event: ActomEntered): Unit = {
     sql"""
     insert into ActomEntered(uuid,eventFiredAt,enrollmentUUID,actomKey)
-    values(${event.getUUID},
+    values(${UUID.randomUUID.toString},
          now(),
            ${event.getEnrollmentUUID},
        ${event.getActomKey})
@@ -47,16 +46,16 @@ object EventsRepo {
     if (attendanceSheetSignedUUID.isEmpty)
       sql"""
         insert into AttendanceSheetSigned(uuid,eventFiredAt,institutionUUID,personUUID)
-        values(${event.getUUID}, now(), ${event.getInstitutionUUID}, ${event.getPersonUUID});
+        values(${UUID.randomUUID.toString}, now(), ${event.getInstitutionUUID}, ${event.getPersonUUID});
       """.executeUpdate
 
   }
 
-  def logEnrollmentStateChanged(uuid: String, fromPersonUUID: String,
+  def logEnrollmentStateChanged(fromPersonUUID: String,
     enrollmentUUID: String, fromState: EnrollmentState, toState: EnrollmentState, sendEmail: Boolean, notes: String): Unit = {
 
     sql"""insert into EnrollmentStateChanged(uuid,eventFiredAt,personUUID,enrollmentUUID,fromState,toState,notes)
-      values(${uuid},
+      values(${UUID.randomUUID.toString},
          now(),
          ${fromPersonUUID},
          ${enrollmentUUID},
@@ -85,14 +84,14 @@ object EventsRepo {
   }
 
   def logEnrollmentStateChanged(event: EnrollmentStateChanged): Unit =
-    logEnrollmentStateChanged(event.getUUID, event.getFromPersonUUID,
+    logEnrollmentStateChanged(event.getFromPersonUUID,
       event.getEnrollmentUUID, event.getFromState, event.getToState, true, null)
 
-  def logCourseClassStateChanged(uuid: String, fromPersonUUID: String,
+  def logCourseClassStateChanged(fromPersonUUID: String,
     courseClassUUID: String, fromState: EntityState, toState: EntityState): Unit = {
 
     sql"""insert into CourseClassStateChanged(uuid,eventFiredAt,personUUID,courseClassUUID,fromState,toState)
-      values(${uuid},
+      values(${UUID.randomUUID.toString},
      now(),
          ${fromPersonUUID},
          ${courseClassUUID},
@@ -106,7 +105,7 @@ object EventsRepo {
   }
 
   def logCourseClassStateChanged(event: CourseClassStateChanged): Unit =
-    logCourseClassStateChanged(event.getUUID, event.getFromPersonUUID,
+    logCourseClassStateChanged(event.getFromPersonUUID,
       event.getCourseClassUUID, event.getFromState, event.getToState)
 
   def logEnrollmentTransferred(event: EnrollmentTransferred): Unit = {
@@ -114,7 +113,7 @@ object EventsRepo {
       throw new EntityConflictException("userAlreadyEnrolledInClass")
     }
     sql"""insert into EnrollmentTransferred (uuid, personUUID, enrollmentUUID, fromCourseClassUUID, toCourseClassUUID, eventFiredAt)
-        values (${UUID.random},
+        values (${UUID.randomUUID.toString},
         ${event.getFromPersonUUID},
         ${event.getEnrollmentUUID},
         ${event.getFromCourseClassUUID},
@@ -147,7 +146,7 @@ object EventsRepo {
     }
     if (logChange) {
       sql"""insert into EntityChanged(uuid, personUUID, institutionUUID, entityType, entityUUID, fromValue, toValue, eventFiredAt)
-        values(${UUID.random},
+        values(${UUID.randomUUID.toString},
            ${ThreadLocalAuthenticator.getAuthenticatedPersonUUID.getOrElse(personUUID)},
            ${institutionUUID},
            ${auditedEntityType.toString},
