@@ -12,7 +12,6 @@ import kornell.core.event.EnrollmentTransferred;
 import kornell.core.event.Event;
 import kornell.core.event.EventFactory;
 import kornell.core.to.EntityChangedEventsTO;
-import kornell.core.util.UUID;
 
 public class EventsClient extends RESTClient {
     // TODO: Move all object creation to client factory
@@ -22,7 +21,6 @@ public class EventsClient extends RESTClient {
         ActomEntered actomEntered = factory.newActomEntered().as();
         actomEntered.setEnrollmentUUID(enrollmentUUID);
         actomEntered.setActomKey(actomKey);
-        actomEntered.setUUID(UUID.random());
         return withEvent("/events/actomEntered", ActomEntered.TYPE, actomEntered);
     }
 
@@ -30,7 +28,6 @@ public class EventsClient extends RESTClient {
         AttendanceSheetSigned attendanceSheetSigned = factory.newAttendanceSheetSigned().as();
         attendanceSheetSigned.setInstitutionUUID(institutionUUID);
         attendanceSheetSigned.setPersonUUID(personUUID);
-        attendanceSheetSigned.setUUID(UUID.random());
         return withEvent("/events/attendanceSheetSigned", AttendanceSheetSigned.TYPE, attendanceSheetSigned);
     }
 
@@ -41,7 +38,6 @@ public class EventsClient extends RESTClient {
         enrollmentStateChanged.setFromPersonUUID(personUUID);
         enrollmentStateChanged.setFromState(fromState);
         enrollmentStateChanged.setToState(toState);
-        enrollmentStateChanged.setUUID(UUID.random());
         return withEvent("/events/enrollmentStateChanged", EnrollmentStateChanged.TYPE, enrollmentStateChanged);
     }
 
@@ -52,7 +48,6 @@ public class EventsClient extends RESTClient {
         courseClassStateChanged.setFromPersonUUID(personUUID);
         courseClassStateChanged.setFromState(fromState);
         courseClassStateChanged.setToState(toState);
-        courseClassStateChanged.setUUID(UUID.random());
         return withEvent("/events/courseClassStateChanged", CourseClassStateChanged.TYPE, courseClassStateChanged);
     }
 
@@ -63,7 +58,6 @@ public class EventsClient extends RESTClient {
         enrollmentTransferred.setEnrollmentUUID(enrollmentUUID);
         enrollmentTransferred.setFromCourseClassUUID(fromCourseClassUUID);
         enrollmentTransferred.setToCourseClassUUID(toCourseClassUUID);
-        enrollmentTransferred.setUUID(UUID.random());
         return withEvent("/events/enrollmentTransferred", EnrollmentTransferred.TYPE, enrollmentTransferred);
     }
 

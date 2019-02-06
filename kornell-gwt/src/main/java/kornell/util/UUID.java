@@ -1,4 +1,4 @@
-package kornell.core.util;
+package kornell.util;
 
 /*
  File: Math.uuid.js

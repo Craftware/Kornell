@@ -1,7 +1,9 @@
 package kornell.server.service
 
+import java.util.UUID
+
 import kornell.core.entity.CourseDetailsEntityType
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.content.S3ContentManager
 import kornell.server.jdbc.repository.{CertificatesDetailsRepo, ContentRepositoriesRepo, CourseDetailsHintsRepo, CourseDetailsLibrariesRepo, CourseDetailsSectionsRepo, InstitutionRepo}
 
@@ -27,7 +29,7 @@ object AssetService {
     val certificateDetailsOption = CertificatesDetailsRepo.getForEntity(sourceEntityUUID, entityType)
     if (certificateDetailsOption.isDefined) {
       val certificateDetails = certificateDetailsOption.get
-      certificateDetails.setUUID(UUID.random)
+      certificateDetails.setUUID(UUID.randomUUID.toString)
       certificateDetails.setBgImage(certificateDetails.getBgImage.replace(sourceEntityUUID, targetEntityUUID))
       certificateDetails.setEntityUUID(targetEntityUUID)
       CertificatesDetailsRepo.create(certificateDetails)
@@ -43,7 +45,7 @@ object AssetService {
     val sections = CourseDetailsSectionsRepo.getForEntity(sourceEntityUUID, entityType)
     sections.getCourseDetailsSections.asScala.foreach(courseDetailsSection => {
       courseDetailsSection.setEntityUUID(targetEntityUUID)
-      courseDetailsSection.setUUID(UUID.random)
+      courseDetailsSection.setUUID(UUID.randomUUID.toString)
       CourseDetailsSectionsRepo.create(courseDetailsSection)
     })
 
@@ -51,7 +53,7 @@ object AssetService {
     val hints = CourseDetailsHintsRepo.getForEntity(sourceEntityUUID, entityType)
     hints.getCourseDetailsHints.asScala.foreach(courseDetailsHint => {
       courseDetailsHint.setEntityUUID(targetEntityUUID)
-      courseDetailsHint.setUUID(UUID.random)
+      courseDetailsHint.setUUID(UUID.randomUUID.toString)
       CourseDetailsHintsRepo.create(courseDetailsHint)
     })
 
@@ -59,7 +61,7 @@ object AssetService {
     val libraries = CourseDetailsLibrariesRepo.getForEntity(sourceEntityUUID, entityType)
     libraries.getCourseDetailsLibraries.asScala.foreach(courseDetailsLibrary => {
       courseDetailsLibrary.setEntityUUID(targetEntityUUID)
-      courseDetailsLibrary.setUUID(UUID.random)
+      courseDetailsLibrary.setUUID(UUID.randomUUID.toString)
       CourseDetailsLibrariesRepo.create(courseDetailsLibrary)
 
       val sourceLibraryPath = ContentService.getCourseAssetUrl(institutionUUID, sourceEntityUUID, ContentService.THUMB_FILENAME, "library")

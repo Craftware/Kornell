@@ -2,12 +2,11 @@ package kornell.server.api
 
 import java.sql.ResultSet
 import java.util
-import java.util.Map
+import java.util.UUID
 
 import javax.ws.rs._
 import javax.ws.rs.core.Response
 import kornell.core.entity.ActomEntries
-import kornell.core.util.UUID
 import kornell.server.ep.EnrollmentSEP
 import kornell.server.jdbc.PreparedStmt
 import kornell.server.jdbc.SQL._
@@ -42,7 +41,7 @@ class ActomResource(enrollmentUUID: String, actomURL: String) {
   @PUT
   def putValue(@PathParam("entryKey") entryKey: String, entryValue: String): Response = {
     sql"""insert into ActomEntries (uuid, enrollmentUUID, actomKey, entryKey, entryValue)
-    values (${UUID.random}, ${enrollmentUUID} , ${actomKey}, ${entryKey}, ${entryValue})
+    values (${UUID.randomUUID.toString}, ${enrollmentUUID} , ${actomKey}, ${entryKey}, ${entryValue})
     on duplicate key update entryValue = $entryValue
     """.executeUpdate
     Response.noContent.build
@@ -53,7 +52,7 @@ class ActomResource(enrollmentUUID: String, actomURL: String) {
     var queryModelQuery = "insert into ActomEntries (uuid, enrollmentUUID, actomKey, entryKey, entryValue) values "
     val queryModelStrings = new ListBuffer[String]
     for ((key, value) <- actomEntries) {
-      queryModelStrings += ("('" + UUID.random + "','" + enrollmentUUID + "','" + actomKey + "','" + key + "','" + value + "')")
+      queryModelStrings += ("('" + UUID.randomUUID.toString + "','" + enrollmentUUID + "','" + actomKey + "','" + key + "','" + value + "')")
     }
     queryModelQuery += queryModelStrings.mkString(",")
     queryModelQuery += " on duplicate key update entryValue = VALUES(entryValue)"

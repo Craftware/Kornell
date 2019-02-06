@@ -1,12 +1,11 @@
 package kornell.server.jdbc.repository
 
 import java.sql.ResultSet
-import java.util.Date
+import java.util.{Date, UUID}
 
 import kornell.core.entity._
 import kornell.core.entity.role.{RoleCategory, RoleType}
 import kornell.core.to.{ChatThreadMessageTO, ChatThreadMessagesTO, UnreadChatThreadTO, UnreadChatThreadsTO}
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL.SQLHelper
 import kornell.server.repository.{Entities, TOs}
 import kornell.server.util.EmailService
@@ -127,7 +126,7 @@ object ChatThreadsRepo {
   def createChatThreadParticipant(chatThreadUUID: String, personUUID: String): Unit = {
     sql"""
     insert into ChatThreadParticipant (uuid, chatThreadUUID, personUUID, lastReadAt, active, lastJoinDate)
-    values (${UUID.random}, ${chatThreadUUID} , ${personUUID}, now(), 1, now())""".executeUpdate
+    values (${UUID.randomUUID.toString}, ${chatThreadUUID} , ${personUUID}, now(), 1, now())""".executeUpdate
   }
 
   def removeChatThreadParticipant(chatThreadUUID: String, personUUID: String): Unit = {
@@ -138,12 +137,12 @@ object ChatThreadsRepo {
   }
 
   def createChatThread(institutionUUID: String, courseClassUUID: String, personUUID: String, threadType: ChatThreadType): ChatThread = {
-    createChatThread(Entities.newChatThread(UUID.random, new Date(), institutionUUID, courseClassUUID, personUUID, threadType.toString))
+    createChatThread(Entities.newChatThread(UUID.randomUUID.toString, new Date(), institutionUUID, courseClassUUID, personUUID, threadType.toString))
   }
 
   def createChatThread(chatThread: ChatThread): ChatThread = {
     if (chatThread.getUUID == null)
-      chatThread.setUUID(UUID.random)
+      chatThread.setUUID(UUID.randomUUID.toString)
     sql"""
     insert into ChatThread (uuid, createdAt, institutionUUID, courseClassUUID, personUUID, threadType, active)
     values (${chatThread.getUUID}, ${chatThread.getCreatedAt}, ${chatThread.getInstitutionUUID}, ${chatThread.getCourseClassUUID}, ${chatThread.getPersonUUID}, ${chatThread.getThreadType}, 1)
@@ -158,7 +157,7 @@ object ChatThreadsRepo {
   def createChatThreadMessage(chatThreadUUID: String, personUUID: String, message: String): Unit = {
     sql"""
     insert into ChatThreadMessage (uuid, chatThreadUUID, sentAt, personUUID, message)
-    values (${UUID.random}, ${chatThreadUUID} , now(), ${personUUID}, ${message})
+    values (${UUID.randomUUID.toString}, ${chatThreadUUID} , now(), ${personUUID}, ${message})
     """.executeUpdate
 
     sql"""
@@ -340,7 +339,7 @@ object ChatThreadsRepo {
 
   def createCourseClassGlobalChatThread(institutionUUID: String, courseClassUUID: String): Unit = {
     sql"""insert into ChatThread (uuid, institutionUUID, courseClassUUID, threadType, createdAt, active) values (
-    ${UUID.random}, ${institutionUUID}, ${courseClassUUID}, ${ChatThreadType.COURSE_CLASS.toString}, ${new Date}, 1)
+    ${UUID.randomUUID.toString}, ${institutionUUID}, ${courseClassUUID}, ${ChatThreadType.COURSE_CLASS.toString}, ${new Date}, 1)
     """.executeUpdate
   }
 

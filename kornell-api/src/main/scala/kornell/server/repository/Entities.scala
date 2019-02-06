@@ -2,12 +2,11 @@ package kornell.server.repository
 
 import java.math.BigDecimal
 import java.util
-import java.util.Date
+import java.util.{Date, UUID}
 
 import com.google.web.bindery.autobean.vm.AutoBeanFactorySource
 import kornell.core.entity._
 import kornell.core.entity.role.{Role, RoleType, Roles}
-import kornell.core.util.UUID
 import kornell.server.util.DateConverter
 import org.joda.time.LocalDate
 
@@ -17,7 +16,7 @@ import scala.collection.JavaConverters.seqAsJavaListConverter
 object Entities {
   val factory: EntityFactory = AutoBeanFactorySource.create(classOf[EntityFactory])
 
-  def randUUID: String = UUID.random
+  def randUUID: String = UUID.randomUUID.toString
 
   def newPerson: Person = factory.newPerson.as
 

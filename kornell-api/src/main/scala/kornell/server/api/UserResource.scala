@@ -1,6 +1,7 @@
 package kornell.server.api
 
 import java.net.URL
+import java.util.UUID
 
 import javax.servlet.http.HttpServletRequest
 import javax.ws.rs._
@@ -9,7 +10,7 @@ import kornell.core.entity.role.RoleCategory
 import kornell.core.entity.{AuditedEntityType, Person, RegistrationType}
 import kornell.core.error.exception.{EntityNotFoundException, UnauthorizedAccessException}
 import kornell.core.to.{RegistrationRequestTO, UserHelloTO, UserInfoTO}
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.jdbc.repository.{AuthRepo, CourseClassesRepo, EventsRepo, InstitutionRepo, InstitutionsRepo, PeopleRepo, PersonRepo, RolesRepo, TokenRepo}
 import kornell.server.repository.TOs
 import kornell.server.repository.TOs.{newUserHelloTO, newUserInfoTO}
@@ -126,7 +127,7 @@ class UserResource(private val authRepo: AuthRepo) {
     val institution = InstitutionsRepo.getByName(institutionName)
     val person = PeopleRepo.getByEmail(institution.get.getUUID, email)
     if (person.isDefined && institution.isDefined) {
-      val requestPasswordChangeUUID = UUID.random
+      val requestPasswordChangeUUID = UUID.randomUUID.toString
 
       AuthRepo().getUsernameByPersonUUID(person.get.getUUID) match {
         case Some(_) => authRepo.updateRequestPasswordChangeUUID(person.get.getUUID, requestPasswordChangeUUID)

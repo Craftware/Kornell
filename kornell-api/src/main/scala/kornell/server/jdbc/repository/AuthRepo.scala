@@ -1,11 +1,11 @@
 package kornell.server.jdbc.repository
 
 import java.sql.ResultSet
+import java.util.UUID
 
 import kornell.core.entity.Person
 import kornell.core.entity.role.RoleType
 import kornell.core.error.exception.{EntityNotFoundException, UnauthorizedAccessException}
-import kornell.core.util.UUID
 import kornell.server.authentication.ThreadLocalAuthenticator
 import kornell.server.jdbc.SQL._
 import kornell.server.util.SHA256
@@ -145,7 +145,7 @@ class AuthRepo() {
     }
     sql"""
       insert into Password (uuid,personUUID,username,password,requestPasswordChangeUUID,institutionUUID)
-      values (${UUID.random},$personUUID,$username,$pwd,$requestPasswordChangeUUID,$institutionUUID)
+      values (${UUID.randomUUID.toString},$personUUID,$username,$pwd,$requestPasswordChangeUUID,$institutionUUID)
       on duplicate key update
       username = $username, password = $pwd, requestPasswordChangeUUID = $requestPasswordChangeUUID
     """.executeUpdate
@@ -167,7 +167,7 @@ class AuthRepo() {
   def grantPlatformAdmin(personUUID: String, institutionUUID: String): Unit = {
     sql"""
         insert into Role (uuid, personUUID, role, institutionUUID, courseClassUUID)
-        values (${UUID.random}, ${personUUID},
+        values (${UUID.randomUUID.toString}, ${personUUID},
         ${RoleType.platformAdmin.toString},
         ${institutionUUID},
         ${null})
@@ -177,7 +177,7 @@ class AuthRepo() {
   def grantInstitutionAdmin(personUUID: String, institutionUUID: String): Unit =
     sql"""
         insert into Role (uuid, personUUID, role, institutionUUID, courseClassUUID)
-        values (${UUID.random},
+        values (${UUID.randomUUID.toString},
         ${personUUID},
         ${RoleType.institutionAdmin.toString},
         ${institutionUUID},

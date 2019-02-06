@@ -4,7 +4,6 @@ import javax.ws.rs._
 import javax.ws.rs.core.Response
 import kornell.core.entity.{Enrollment, EnrollmentState}
 import kornell.core.to.{DashboardLeaderboardTO, EnrollmentRequestsTO, EnrollmentsTO, SimplePeopleTO}
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL.SQLHelper
 import kornell.server.jdbc.repository.{AuthRepo, CourseClassRepo, EnrollmentRepo, EnrollmentsRepo, EventsRepo, PersonRepo}
 import kornell.server.service.RegistrationEnrollmentService
@@ -29,11 +28,11 @@ class EnrollmentsResource {
       val oldState = existingEnrollment.get.getState
       existingEnrollment.get.setState(enrollment.getState)
       EnrollmentRepo(existingEnrollment.get.getUUID).update(existingEnrollment.get)
-      EventsRepo.logEnrollmentStateChanged(UUID.random, getAuthenticatedPersonUUID, existingEnrollment.get.getUUID, oldState, existingEnrollment.get.getState, false, null)
+      EventsRepo.logEnrollmentStateChanged(getAuthenticatedPersonUUID, existingEnrollment.get.getUUID, oldState, existingEnrollment.get.getState, false, null)
       existingEnrollment.get
     } else {
       val e = EnrollmentsRepo.create(enrollment)
-      EventsRepo.logEnrollmentStateChanged(UUID.random, getAuthenticatedPersonUUID, e.getUUID, EnrollmentState.notEnrolled, e.getState, false, null)
+      EventsRepo.logEnrollmentStateChanged(getAuthenticatedPersonUUID, e.getUUID, EnrollmentState.notEnrolled, e.getState, false, null)
       e
     }
   }.requiring(PersonRepo(getAuthenticatedPersonUUID).hasPowerOver(enrollment.getPersonUUID), AccessDeniedErr())
