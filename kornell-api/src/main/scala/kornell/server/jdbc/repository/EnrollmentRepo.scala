@@ -193,10 +193,22 @@ class EnrollmentRepo(uuid: String) {
       val isValid = newProgress >= 0 && newProgress <= 100
       if (isValid) {
         e.setProgress(newProgress)
-        update(e)
-        checkCompletion(e)
       } else {
         logger.warning(s"Invalid progress [${currentProgress} to ${newProgress}] on enrollment [${e.getUUID}]")
+      }
+      val isPassed = Assessment.PASSED == e.getAssessment
+      val isCompleted = e.getProgress == 100
+      val isUncertified = e.getCertifiedAt == null
+      if (isPassed && isCompleted && isUncertified) {
+        e.setCertifiedAt(DateTime.now.toDate)
+      }
+
+      if (isValid || (isPassed && isCompleted && isUncertified)) {
+        update(e)
+      }
+
+      if (isPassed && isCompleted && isUncertified) {
+        EmailService.sendEmailClassCompletion(EnrollmentRepo(e.getUUID).get)
       }
     }
   }
@@ -215,8 +227,17 @@ class EnrollmentRepo(uuid: String) {
       val (maxScore, assessment) = assess(e)
       e.setAssessmentScore(maxScore)
       e.setAssessment(assessment)
+
+      val isPassed = Assessment.PASSED == e.getAssessment
+      val isCompleted = e.getProgress == 100
+      val isUncertified = e.getCertifiedAt == null
+      if (isPassed && isCompleted && isUncertified) {
+        e.setCertifiedAt(DateTime.now.toDate)
+      }
       update(e)
-      checkCompletion(e)
+      if (isPassed && isCompleted && isUncertified) {
+        EmailService.sendEmailClassCompletion(EnrollmentRepo(e.getUUID).get)
+      }
     }
   }
 
@@ -229,17 +250,6 @@ class EnrollmentRepo(uuid: String) {
     else
       Assessment.FAILED
     (maxScore, assessment)
-  }
-
-  def checkCompletion(e: Enrollment): Unit = {
-    val isPassed = Assessment.PASSED == e.getAssessment
-    val isCompleted = e.getProgress == 100
-    val isUncertified = e.getCertifiedAt == null
-    if (isPassed && isCompleted && isUncertified) {
-      e.setCertifiedAt(DateTime.now.toDate)
-      update(e)
-      EmailService.sendEmailClassCompletion(EnrollmentRepo(e.getUUID).get)
-    }
   }
 
   def checkExistingEnrollment(courseClassUUID: String): Boolean = {

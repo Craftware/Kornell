@@ -2,11 +2,11 @@ package kornell.server.service
 
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.{Date, UUID}
 
 import kornell.core.entity._
 import kornell.core.to.CourseClassTO
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.authentication.ThreadLocalAuthenticator
 import kornell.server.jdbc.repository.{CourseClassesRepo, CourseDetailsHintsRepo, CourseDetailsSectionsRepo, CourseVersionsRepo, CoursesRepo}
 import kornell.server.repository.{Entities, TOs}
@@ -14,20 +14,20 @@ import kornell.server.repository.{Entities, TOs}
 object CourseCreationService {
 
   def generateCourseDetails(courseUUID: String, to: Course): Unit = {
-    CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.random, "duration",
+    CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.randomUUID.toString, "duration",
       "Carga de estudo: XXX horas", CourseDetailsEntityType.COURSE, courseUUID, 0, "fa fa-clock-o"))
-    CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.random, "help",
+    CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.randomUUID.toString, "help",
       "Se precisar entrar em contato, clique em ajuda no menu acima.", CourseDetailsEntityType.COURSE, courseUUID, 1, "fa fa-question-circle"))
-    CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.random, "multimedia-warning",
+    CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.randomUUID.toString, "multimedia-warning",
       "Este curso contém vídeo e áudio, certifique que seu dispositivo possa reproduzi-los.", CourseDetailsEntityType.COURSE, courseUUID, 2, "fa fa-warning"))
-    CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.random, "certificate",
+    CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.randomUUID.toString, "certificate",
       "Curso com certificação.", CourseDetailsEntityType.COURSE, courseUUID, 3, "fa fa-certificate"))
 
-    CourseDetailsSectionsRepo.create(Entities.newCourseDetailsSection(UUID.random, "Apresentação", to.getDescription, CourseDetailsEntityType.COURSE, courseUUID, 0))
+    CourseDetailsSectionsRepo.create(Entities.newCourseDetailsSection(UUID.randomUUID.toString, "Apresentação", to.getDescription, CourseDetailsEntityType.COURSE, courseUUID, 0))
   }
 
   def createCourse(institutionUUID: String, to: Course): Course = {
-    val courseUUID = UUID.random
+    val courseUUID = UUID.randomUUID.toString
     if (StringUtils.isNone(to.getCode)) {
       val formattedDate = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date)
       to.setCode(to.getName.toLowerCase.replaceAll(" ", "-") + "-" + formattedDate)
@@ -49,7 +49,7 @@ object CourseCreationService {
   }
 
   def createCourseVersion(institutionUUID: String, courseUUID: String, to: Course): CourseVersion = {
-    val versionUUID = UUID.random
+    val versionUUID = UUID.randomUUID.toString
     val formattedDate = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date)
     val distributionPrefix = to.getName.toLowerCase.replaceAll(" ", "-") + "-" + formattedDate
     val version = CourseVersionsRepo.create(Entities.newCourseVersion(
@@ -68,7 +68,7 @@ object CourseCreationService {
 
   def createCourseClass(institutionUUID: String, versionUUID: String, to: Course): CourseClass = {
     val courseClass = CourseClassesRepo.create(Entities.newCourseClass(
-      UUID.random,
+      UUID.randomUUID.toString,
       to.getName,
       versionUUID,
       institutionUUID,

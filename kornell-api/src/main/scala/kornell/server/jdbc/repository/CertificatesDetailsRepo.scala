@@ -1,14 +1,15 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.core.entity.{CertificateDetails, CourseDetailsEntityType}
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL._
 
 object CertificatesDetailsRepo {
 
   def create(certificateDetails: CertificateDetails): CertificateDetails = {
     if (certificateDetails.getUUID == null) {
-      certificateDetails.setUUID(UUID.random)
+      certificateDetails.setUUID(UUID.randomUUID.toString)
     }
     sql"""
          | insert into CertificateDetails (uuid,bgImage,certificateType,entityType,entityUUID)

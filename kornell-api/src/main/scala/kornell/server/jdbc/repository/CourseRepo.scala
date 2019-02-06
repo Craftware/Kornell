@@ -1,8 +1,10 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.core.entity.{AuditedEntityType, Course, CourseDetailsEntityType, EntityState}
 import kornell.core.error.exception.EntityConflictException
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.jdbc.SQL._
 import kornell.server.service.AssetService
 
@@ -67,7 +69,7 @@ class CourseRepo(uuid: String) {
   def copy: Course = {
     val course = CourseRepo(uuid).first.get
     val sourceCourseUUID = course.getUUID
-    val targetCourseUUID = UUID.random
+    val targetCourseUUID = UUID.randomUUID.toString
 
     //copy course
     course.setUUID(targetCourseUUID)

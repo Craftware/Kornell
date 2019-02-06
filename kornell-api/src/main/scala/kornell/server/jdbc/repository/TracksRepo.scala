@@ -1,14 +1,15 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.core.entity.Track
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL._
 
 object TracksRepo {
 
   def create(track: Track): Track = {
     if (track.getUUID == null) {
-      track.setUUID(UUID.random)
+      track.setUUID(UUID.randomUUID.toString)
     }
     sql"""
       insert into Track (uuid, institutionUUID, name) values (${track.getUUID}, ${track.getInstitutionUUID}, ${track.getName})

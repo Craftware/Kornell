@@ -1,8 +1,9 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.core.entity.{CourseDetailsEntityType, CourseDetailsSection}
 import kornell.core.to.CourseDetailsSectionsTO
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL._
 import kornell.server.repository.TOs
 
@@ -10,7 +11,7 @@ object CourseDetailsSectionsRepo {
 
   def create(courseDetailsSection: CourseDetailsSection): CourseDetailsSection = {
     if (courseDetailsSection.getUUID == null) {
-      courseDetailsSection.setUUID(UUID.random)
+      courseDetailsSection.setUUID(UUID.randomUUID.toString)
     }
     sql"""
     | insert into CourseDetailsSection (uuid,text,entityType,entityUUID,`index`,title)

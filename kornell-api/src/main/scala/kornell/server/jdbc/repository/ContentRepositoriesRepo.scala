@@ -1,17 +1,17 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
 import java.util.concurrent.TimeUnit.MINUTES
 
 import com.google.common.cache.{CacheBuilder, CacheLoader, LoadingCache}
 import kornell.core.entity.ContentRepository
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL._
 
 object ContentRepositoriesRepo {
 
   def createRepo(repo: ContentRepository): ContentRepository = {
     if (repo.getUUID == null) {
-      repo.setUUID(UUID.random)
+      repo.setUUID(UUID.randomUUID.toString)
     }
     sql"""insert into ContentRepository (uuid,repositoryType,prefix,institutionUUID,accessKeyId,secretAccessKey,bucketName,prefix,region,path,accountName,accountKey,container) values (
       ${repo.getUUID},

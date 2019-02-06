@@ -1,10 +1,10 @@
 package kornell.server.jdbc.repository
 
 import java.text.Normalizer
+import java.util.UUID
 
 import kornell.core.entity.{CourseDetailsEntityType, CourseDetailsLibrary}
 import kornell.core.to.CourseDetailsLibrariesTO
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL._
 import kornell.server.repository.TOs
 
@@ -12,7 +12,7 @@ object CourseDetailsLibrariesRepo {
 
   def create(courseDetailsLibrary: CourseDetailsLibrary): CourseDetailsLibrary = {
     if (courseDetailsLibrary.getUUID == null) {
-      courseDetailsLibrary.setUUID(UUID.random)
+      courseDetailsLibrary.setUUID(UUID.randomUUID.toString)
     }
     val normalizedTitle = Normalizer.normalize(courseDetailsLibrary.getTitle, Normalizer.Form.NFC)
     sql"""

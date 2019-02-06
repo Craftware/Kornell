@@ -1,9 +1,8 @@
 package kornell.server
 
 import java.io.{File, InputStream}
-import java.util.HashMap
+import java.util.{HashMap, UUID}
 
-import kornell.core.util.UUID
 import kornell.server.jdbc.repository.{CourseClassRepo, CourseRepo}
 import kornell.server.util.Settings
 import net.sf.jasperreports.engine.{JRExporterParameter, JasperFillManager, JasperReport, JasperRunManager}
@@ -32,7 +31,7 @@ package object report {
 
   def runReportToPdf(certificateData: List[Any], parameters: HashMap[String, Object], jasperReport: JasperReport, fileType: String): Array[Byte] =
     if (fileType != null && fileType == "xls") {
-      val fileName = Settings.tmpDir + "tmp-" + UUID.random + ".xls"
+      val fileName = Settings.tmpDir + "tmp-" + UUID.randomUUID.toString + ".xls"
       val exporterXLS = new JRXlsExporter()
       val jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JRBeanCollectionDataSource(certificateData asJava))
       exporterXLS.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint)

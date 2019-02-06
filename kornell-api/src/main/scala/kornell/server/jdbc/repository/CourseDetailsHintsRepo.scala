@@ -1,8 +1,9 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.core.entity.{CourseDetailsEntityType, CourseDetailsHint}
 import kornell.core.to.CourseDetailsHintsTO
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL._
 import kornell.server.repository.TOs
 
@@ -10,7 +11,7 @@ object CourseDetailsHintsRepo {
 
   def create(courseDetailsHint: CourseDetailsHint): CourseDetailsHint = {
     if (courseDetailsHint.getUUID == null) {
-      courseDetailsHint.setUUID(UUID.random)
+      courseDetailsHint.setUUID(UUID.randomUUID.toString)
     }
     sql"""
     | insert into CourseDetailsHint (uuid,title,text,entityType,entityUUID,`index`,fontAwesomeClassName)

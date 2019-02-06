@@ -2,21 +2,19 @@ package kornell.server.jdbc.repository
 
 import java.sql.ResultSet
 import java.util
-import java.util.Date
+import java.util.{Date, UUID}
 
 import kornell.core.entity._
 import kornell.core.entity.role.{Role, RoleCategory, RoleType}
 import kornell.core.error.exception.{EntityConflictException, EntityNotFoundException}
 import kornell.core.to.{CourseClassTO, CourseClassesTO}
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.jdbc.PreparedStmt
 import kornell.server.jdbc.SQL.SQLHelper
 import kornell.server.repository.TOs
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
-import java.math.BigDecimal
-
 import kornell.server.dev.util.WizardParser
 
 object CourseClassesRepo {
@@ -29,7 +27,7 @@ object CourseClassesRepo {
       """.first[String].get
     if (courseClassExists == "0") {
       if (courseClass.getUUID == null) {
-        courseClass.setUUID(UUID.random)
+        courseClass.setUUID(UUID.randomUUID.toString)
       }
       if (courseClass.isSandbox == null) {
         courseClass.setSandbox(false)
@@ -40,7 +38,7 @@ object CourseClassesRepo {
         val courseVersion = CourseVersionRepo(courseClass.getCourseVersionUUID).get
         courseClass.setRequiredScore(WizardParser.getRequiredScore(courseVersion, courseClass.isSandbox))
       }
-      val ecommerceIdentifier = UUID.random.replace("-", "").substring(0, 20)
+      val ecommerceIdentifier = UUID.randomUUID.toString.replace("-", "").substring(0, 20)
       courseClass.setEcommerceIdentifier(ecommerceIdentifier)
       sql"""
         insert into CourseClass(uuid,

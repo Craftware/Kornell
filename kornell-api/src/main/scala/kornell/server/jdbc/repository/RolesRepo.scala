@@ -1,10 +1,12 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.core.entity.AuditedEntityType
 import kornell.core.entity.role.{Role, RoleCategory, RoleType, Roles}
 import kornell.core.error.exception.EntityConflictException
 import kornell.core.to.{RoleTO, RolesTO}
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.jdbc.SQL._
 import kornell.server.repository.TOs
 import kornell.server.service.SandboxService
@@ -179,7 +181,7 @@ class RolesRepo {
 
   def create(role: Role): Unit = {
     if (StringUtils.isNone(role.getUUID)) {
-      role.setUUID(UUID.random)
+      role.setUUID(UUID.randomUUID.toString)
     }
     if (RoleType.courseClassAdmin.equals(role.getRoleType) || RoleType.tutor.equals(role.getRoleType)
       || RoleType.courseClassObserver.equals(role.getRoleType)) {

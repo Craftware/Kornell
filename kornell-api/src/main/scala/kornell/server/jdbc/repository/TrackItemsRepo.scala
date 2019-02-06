@@ -1,14 +1,15 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.server.jdbc.SQL._
 import kornell.core.entity.TrackItem
-import kornell.core.util.UUID
 
 object TrackItemsRepo {
 
   def create(trackItem: TrackItem): TrackItem = {
     if (trackItem.getUUID == null) {
-      trackItem.setUUID(UUID.random)
+      trackItem.setUUID(UUID.randomUUID.toString)
     }
     sql"""
       insert into TrackItem (uuid, courseVersionUUID, trackUUID, parentUUID, `order`, havingPreRequirements, startDate) values

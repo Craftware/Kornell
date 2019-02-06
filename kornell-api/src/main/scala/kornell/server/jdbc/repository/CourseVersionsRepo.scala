@@ -1,11 +1,11 @@
 package kornell.server.jdbc.repository
 
-import java.util.Date
+import java.util.{Date, UUID}
 
 import kornell.core.entity.{AuditedEntityType, CourseVersion, EntityState, InstitutionType}
 import kornell.core.error.exception.EntityConflictException
 import kornell.core.to.{CourseVersionTO, CourseVersionsTO}
-import kornell.core.util.{StringUtils, UUID}
+import kornell.core.util.StringUtils
 import kornell.server.jdbc.PreparedStmt
 import kornell.server.jdbc.SQL._
 import kornell.server.repository.TOs._
@@ -26,7 +26,7 @@ object CourseVersionsRepo {
       """.first[String].get
     if (courseVersionExists == "0") {
       if (courseVersion.getUUID == null) {
-        courseVersion.setUUID(UUID.random)
+        courseVersion.setUUID(UUID.randomUUID.toString)
       }
       courseVersion.setVersionCreatedAt(new Date())
 

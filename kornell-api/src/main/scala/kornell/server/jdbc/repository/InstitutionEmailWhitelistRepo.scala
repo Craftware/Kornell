@@ -1,8 +1,9 @@
 package kornell.server.jdbc.repository
 
+import java.util.UUID
+
 import kornell.core.entity.AuditedEntityType
 import kornell.core.to.InstitutionEmailWhitelistTO
-import kornell.core.util.UUID
 import kornell.server.jdbc.SQL._
 import kornell.server.repository.TOs
 
@@ -37,7 +38,7 @@ class InstitutionEmailWhitelistRepo(institutionUUID: String) {
 
   def addDomain(domain: String): Unit = {
     sql"""insert into InstitutionEmailWhitelist (uuid, domain, institutionUUID) values
-    (${UUID.random},
+    (${UUID.randomUUID.toString},
     ${domain},
     ${institutionUUID})""".executeUpdate
   }
