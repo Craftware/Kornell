@@ -364,13 +364,13 @@ public class GenericAdminAssetsView extends Composite implements AdminAssetsView
         buttonsBar.addStyleName("buttonsBar");
 
         if (AdminAssetsPresenter.LIBRARY.equals(assetType)) {
-            Tooltip tooltipMoveUp = new Tooltip("Baixar");
-            tooltipMoveUp.setPlacement(Placement.TOP);
+            Tooltip tooltipDownload = new Tooltip("Baixar");
+            tooltipDownload.setPlacement(Placement.TOP);
             Button btnMoveUp = new Button();
             btnMoveUp.addStyleName("btnSelected");
             FormHelper.createIcon(btnMoveUp, "fa-download");
-            tooltipMoveUp.add(btnMoveUp);
-            buttonsBar.add(tooltipMoveUp);
+            tooltipDownload.add(btnMoveUp);
+            buttonsBar.add(tooltipDownload);
             btnMoveUp.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {

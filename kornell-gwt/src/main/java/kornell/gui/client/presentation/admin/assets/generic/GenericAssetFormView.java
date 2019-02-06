@@ -468,6 +468,11 @@ public class GenericAssetFormView extends Composite {
 
         assetFields.add(buildFileUploadPanel("Arquivo"));
 
+        String fileUrl = StringUtils.mkurl(courseDetailsLibrary.getPath(), courseDetailsLibrary.getTitle().replaceAll("[ &]+", "_"));
+        Anchor librayFileLink = new Anchor("Link para o arquivo", fileUrl, "_blank");
+        librayFileLink.addStyleName("faLink");
+        assetFields.add(librayFileLink);
+
         assetFields.add(formHelper.getImageSeparator());
     }
 
