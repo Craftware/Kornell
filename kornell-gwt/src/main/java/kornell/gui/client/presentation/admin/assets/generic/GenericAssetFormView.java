@@ -265,7 +265,7 @@ public class GenericAssetFormView extends Composite {
         }
         return contentType;
     }
-	
+
     public static native String getFileName() /*-{
         var files = $wnd.document.getElementById("uploadFormElement").files;
         if (files.length != 1) {
@@ -283,17 +283,17 @@ public class GenericAssetFormView extends Composite {
             return files[0].size;
         }
     }-*/;
-	
+
     public static native void getFile(String url, String contentType) /*-{
         @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::showPacifier()();
         var req = new XMLHttpRequest();
         req.open('PUT', url);
         req.setRequestHeader("Content-type", contentType);
         req.setRequestHeader("x-ms-blob-type", "BlockBlob");
-        req.onreadystatechange = function() {
+        req.onreadystatechange = function () {
             if (req.readyState == 4 && (req.status == 200 || req.status == 201)) {
                 @kornell.gui.client.presentation.admin.assets.generic.GenericAssetFormView::postProcessImageUpload()();
-            } else if (req.readyState != 2){
+            } else if (req.readyState != 2) {
                 @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::hidePacifier()();
                 @kornell.gui.client.presentation.admin.assets.AdminAssetsPresenter::errorUpdatingImage()();
             }
@@ -352,9 +352,9 @@ public class GenericAssetFormView extends Composite {
         this.assetType = assetType;
         GenericAssetFormView.saveMode = saveMode;
 
-        String modalTitle = AdminAssetsPresenter.ADD.equals(saveMode) ? "Adicionar " : "Editar";
+        String modalTitle = AdminAssetsPresenter.ADD.equals(saveMode) ? "Adicionar " : "Editar ";
         modalTitle += AdminAssetsPresenter.SECTION.equals(assetType) ? "Seção"
-                : (AdminAssetsPresenter.HINT.equals(assetType) ? "Dica" : "Arquivo à Biblioteca");
+                : (AdminAssetsPresenter.HINT.equals(assetType) ? "Dica" : "Arquivo da Biblioteca");
         assetModal.setTitle(modalTitle);
 
         fields.clear();
@@ -468,10 +468,12 @@ public class GenericAssetFormView extends Composite {
 
         assetFields.add(buildFileUploadPanel("Arquivo"));
 
-        String fileUrl = StringUtils.mkurl(courseDetailsLibrary.getPath(), courseDetailsLibrary.getTitle().replaceAll("[ &]+", "_"));
-        Anchor librayFileLink = new Anchor("Link para o arquivo", fileUrl, "_blank");
-        librayFileLink.addStyleName("faLink");
-        assetFields.add(librayFileLink);
+        if (AdminAssetsPresenter.EDIT.equals(saveMode)) {
+            String fileUrl = StringUtils.mkurl(courseDetailsLibrary.getPath(), courseDetailsLibrary.getTitle().replaceAll("[ &]+", "_"));
+            Anchor librayFileLink = new Anchor("Link para o arquivo", fileUrl, "_blank");
+            librayFileLink.addStyleName("faLink");
+            assetFields.add(librayFileLink);
+        }
 
         assetFields.add(formHelper.getImageSeparator());
     }
