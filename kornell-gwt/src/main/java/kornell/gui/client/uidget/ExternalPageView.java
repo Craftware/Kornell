@@ -6,12 +6,8 @@ import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.place.shared.PlaceChangeEvent;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.EventListener;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.*;
 import com.google.gwt.user.client.ui.FlowPanel;
-
 import kornell.api.client.KornellSession;
 import kornell.core.entity.ContentSpec;
 import kornell.core.entity.InstitutionType;
@@ -36,11 +32,11 @@ public class ExternalPageView extends Uidget implements ShowChatDockEventHandler
         panel.setStyleName("contentWrapper");
         panel.getElement().appendChild(iframe);
         String url = StringUtils.mkurl("/", page.getURL());
-        if(session.getCurrentCourseClass() != null &&
-                ContentSpec.WIZARD.equals(session.getCurrentCourseClass().getCourseVersionTO().getCourseTO().getCourse().getContentSpec())){
+        if (session.getCurrentCourseClass() != null &&
+                ContentSpec.WIZARD.equals(session.getCurrentCourseClass().getCourseVersionTO().getCourseTO().getCourse().getContentSpec())) {
             String classroomJson = new WizardTeacher(session.getCurrentCourseClass()).getClassroomJson();
-            url += "&classroomInfo="+classroomJson;
-            url += "&studentName="+session.getCurrentUser().getPerson().getFullName();
+            url += "&classroomInfo=" + classroomJson;
+            url += "&studentName=" + session.getCurrentUser().getPerson().getFullName();
         }
         iframe.setSrc(url);
         initWidget(panel);
@@ -58,18 +54,24 @@ public class ExternalPageView extends Uidget implements ShowChatDockEventHandler
             iframe = Document.get().createIFrameElement();
             iframe.addClassName("externalContent");
             iframe.setAttribute("allowtransparency", "true");
-            iframe.setAttribute("style", "background-color: transparent;");
+            iframe.setAttribute("style", "background-color: transparent; opacity:0;");
             // allowing html5 video player to work on fullscreen inside the iframe
             iframe.setAttribute("allowFullScreen", "true");
             iframe.setAttribute("webkitallowfullscreen", "true");
             iframe.setAttribute("mozallowfullscreen", "true");
+            Timer preventWhiteFlashTimer = new Timer() {
+                @Override
+                public void run() {
+                    iframe.setAttribute("style", "background-color: transparent; opacity:1;");
+                }
+            };
+            preventWhiteFlashTimer.schedule(333);
             Event.sinkEvents(iframe, Event.ONLOAD);
             Event.setEventListener(iframe, new EventListener() {
 
                 @Override
                 public void onBrowserEvent(Event event) {
                     fireViewReady();
-
                 }
             });
         }
