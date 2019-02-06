@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS Curriculum (
-  institutionUUID char(36) DEFAULT NULL,
-  courseUUID char(36) DEFAULT NULL,
+  institutionUUID char(36),
+  courseUUID char(36),
   addedOn datetime DEFAULT NULL,
   PRIMARY KEY (institutionUUID, courseUUID),
   KEY institutionUUID (institutionUUID),
