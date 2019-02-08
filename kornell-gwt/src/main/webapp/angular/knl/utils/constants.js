@@ -16,6 +16,10 @@ app.constant('LECTURE_TYPES', [
     name: "Imagem"
   },
   {
+    type: "faq",
+    name: "Dúvidas"
+  },
+  {
     type: "lectureTypeSeparator",
     name: "-----------------------------------------"
   },

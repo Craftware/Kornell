@@ -182,6 +182,32 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="editLecture_faq.html">
+    <div class="form-group">
+        <label>Dúvidas</label>
+        <a uib-tooltip="Adicionar dúvida" tooltip-placement="left" tooltip-append-to-body="true" class="pull-right btn btn-default btn-xs" data-nodrag ng-click="selectedNode.faqs.push(blankFaq)" style="margin-right: 3px;">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+        <p class="help-block">Digite abaixo as perguntas e respostas. Você pode arrastar e soltar as dúvidas caso deseje reordená-las. Obs: Use shift+enter para espaçamento simples entre linhas.</p>
+        <div ui-sortable="sortableOptions" data-ng-model="selectedNode.faqs">
+            <div class="row optionDraggableArea" ng-repeat="faq in selectedNode.faqs">
+                <div class="col-sm-12">
+                    <p class="help-block">Pergunta {{$index + 1}}</p>
+                    <div ng-model="faq.question" text-angular class="text-angular text-angular-xs optionTextArea"></div>
+                    <a ng-disabled="selectedNode.faqs.length <= 1" uib-tooltip="Remover dúvida" tooltip-placement="bottom" tooltip-append-to-body="true" class="pull-right btn btn-danger btn-xs removeOptionButton" data-nodrag confirm-click="selectedNode.faqs.splice($index, 1)" confirm-message="Confirma?" style="margin-right: 3px; margin-top: 17px;">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+                </div>
+                <div class="col-sm-12">
+                    <p class="help-block">Resposta {{$index + 1}}</p>
+                    <div ng-model="faq.answer" text-angular class="text-angular text-angular-xs optionTextArea"></div>
+                </div>
+                <br>&nbsp;
+            </div>
+        </div>
+    </div>
+</script>
+
 <script type="text/ng-template" id="editLecture_image.html">
     <div class="form-group">
         <label>Imagem</label>
