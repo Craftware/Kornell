@@ -32,6 +32,7 @@ public class GenericPageView extends Composite implements ProgressEventHandler {
     private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
 
     private EventBus bus;
+    private KornellSession session;
     private String IMAGES_PATH = mkurl(ClientConstants.IMAGES_PATH, "courseDetails");
 
     @UiField
@@ -51,6 +52,7 @@ public class GenericPageView extends Composite implements ProgressEventHandler {
             final ExternalPage page, CourseClassTO currentCourse, boolean enableAnchor) {
         this.bus = eventBus;
         this.page = page;
+        this.session = session;
         bus.addHandler(ProgressEvent.TYPE, this);
         initWidget(uiBinder.createAndBindUi(this));
         display(enableAnchor);
@@ -83,7 +85,7 @@ public class GenericPageView extends Composite implements ProgressEventHandler {
         int index = page.getIndex();
         page.setVisited(index <= event.getPagesVisitedCount().intValue());
         // enable the anchor until the next one after the current
-        display(index == event.getPagesVisitedCount());
+        display(!session.getInstitution().isEnforceSequentialProgress() || index == event.getPagesVisitedCount());
     }
 
 }

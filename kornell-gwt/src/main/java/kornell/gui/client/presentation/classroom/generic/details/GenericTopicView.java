@@ -131,9 +131,10 @@ public class GenericTopicView extends Composite {
             if (!page.getTitle().startsWith("###")) { // TODO MDA
                 Enrollment enrollment = currentCourse != null ? currentCourse.getEnrollment() : null;
                 EnrollmentState state = enrollment != null ? enrollment.getState() : null;
-                boolean enableAnchor = (page.isVisited() || (childrenIndex == 0 && enableAnchorOnFirstChild))
+                boolean enableAnchor = !session.getInstitution().isEnforceSequentialProgress() ||
+                        ((page.isVisited() || (childrenIndex == 0 && enableAnchorOnFirstChild))
                         && EnrollmentState.enrolled.equals(state)
-                        && !EntityState.inactive.equals(currentCourse.getCourseClass().getState());
+                        && !EntityState.inactive.equals(currentCourse.getCourseClass().getState()));
                 childrenPanel.add(new GenericPageView(bus, session, placeCtrl, page, currentCourse, enableAnchor));
             }
             childrenIndex++;
