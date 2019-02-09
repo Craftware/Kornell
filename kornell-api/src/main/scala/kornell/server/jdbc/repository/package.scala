@@ -47,7 +47,8 @@ package object repository {
       rs.getBoolean("advancedMode"),
       rs.getBoolean("notifyInstitutionAdmins"),
       rs.getString("allowedLanguages"),
-      rs.getBoolean("disabled"))
+      rs.getBoolean("disabled"),
+      rs.getBoolean("enforceSequentialProgress"))
 
   implicit def toContentRepository(rs: ResultSet): ContentRepository =
     newContentRepository(rs.getString("uuid"),

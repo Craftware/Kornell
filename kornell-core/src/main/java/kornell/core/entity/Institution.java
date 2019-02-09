@@ -65,4 +65,7 @@ public interface Institution extends Named {
 
     boolean isDisabled();
     void setDisabled(boolean disabled);
+
+    boolean isEnforceSequentialProgress();
+    void setEnforceSequentialProgress(boolean enforceSequentialProgress);
 }
