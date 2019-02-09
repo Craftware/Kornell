@@ -5,7 +5,7 @@
 	    <b:CollapseTrigger ui:field="trigger">
 			<g:FlowPanel ui:field="topicWrapper" addStyleNames="topicWrapper shy">
 				<g:FlowPanel ui:field="topicPanel" addStyleNames="topicPanel">
-					<g:Image ui:field="topicIcon" addStyleNames="topicIcon"></g:Image>
+					<b:Icon ui:field="topicIcon" addStyleNames="topicIcon" type="CHEVRON_SIGN_RIGHT"></b:Icon>
 					<g:Label ui:field="lblTopic" addStyleNames="lblTopic"></g:Label>
 				</g:FlowPanel>
 			</g:FlowPanel>

@@ -8,6 +8,8 @@ import java.util.List;
 import com.github.gwtbootstrap.client.ui.Collapse;
 import com.github.gwtbootstrap.client.ui.CollapseTrigger;
 import com.github.gwtbootstrap.client.ui.FluidRow;
+import com.github.gwtbootstrap.client.ui.Icon;
+import com.github.gwtbootstrap.client.ui.constants.IconType;
 import com.github.gwtbootstrap.client.ui.event.HideEvent;
 import com.github.gwtbootstrap.client.ui.event.HideHandler;
 import com.github.gwtbootstrap.client.ui.event.ShowEvent;
@@ -58,7 +60,7 @@ public class GenericTopicView extends Composite {
     @UiField
     FlowPanel topicPanel;
     @UiField
-    Image topicIcon;
+    Icon topicIcon;
     @UiField
     Label lblTopic;
     @UiField
@@ -152,8 +154,8 @@ public class GenericTopicView extends Composite {
 
     private void updateIconURL(boolean isOpened) {
         if (isOpened)
-            topicIcon.setUrl(mkurl(IMAGES_PATH, "topic-expanded.png"));
+            topicIcon.setType(IconType.CHEVRON_SIGN_DOWN);
         else
-            topicIcon.setUrl(mkurl(IMAGES_PATH, "topic-contracted.png"));
+            topicIcon.setType(IconType.CHEVRON_SIGN_RIGHT);
     }
 }
