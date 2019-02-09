@@ -137,8 +137,6 @@ public class SCORM12Adapter implements CMIConstants {
                 }
 
                 private void syncAfterSet(String moduleUUID, String moduleActomKey) {
-                    // GWT.log("Sync Scheduled: cause["+syncCause+"] -
-                    // key["+actomKey+"]");
                     sync(moduleUUID, moduleActomKey, syncCause);
                     timer = null;
                 }

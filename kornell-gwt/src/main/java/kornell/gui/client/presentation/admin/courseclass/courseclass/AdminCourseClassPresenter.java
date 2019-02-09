@@ -90,6 +90,8 @@ public class AdminCourseClassPresenter extends PaginationPresenterImpl<Enrollmen
         if (RoleCategory.hasRole(session.getCurrentUser().getRoles(), RoleType.courseClassAdmin)
                 || RoleCategory.hasRole(session.getCurrentUser().getRoles(), RoleType.courseClassObserver)
                 || RoleCategory.hasRole(session.getCurrentUser().getRoles(), RoleType.tutor)
+                || session.isInstitutionCourseClassesAdmin()
+                || session.isInstitutionCourseClassesObserver()
                 || session.isInstitutionAdmin()) {
             view = getView();
             view.setPresenter(this);

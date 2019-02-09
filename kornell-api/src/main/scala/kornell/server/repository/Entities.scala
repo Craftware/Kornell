@@ -268,6 +268,26 @@ object Entities {
     role
   }
 
+  def newInstitutionCourseClassesAdminRole(personUUID: String, institutionUUID: String): Role = {
+    val role = factory.newRole().as
+    role.setPersonUUID(personUUID)
+    val institutionCourseClassesAdminRole = factory.newInstitutionCourseClassesAdminRole().as
+    institutionCourseClassesAdminRole.setInstitutionUUID(institutionUUID)
+    role.setRoleType(RoleType.institutionCourseClassesAdmin)
+    role.setInstitutionCourseClassesAdminRole(institutionCourseClassesAdminRole)
+    role
+  }
+
+  def newInstitutionCourseClassesObserverRole(personUUID: String, institutionUUID: String): Role = {
+    val role = factory.newRole().as
+    role.setPersonUUID(personUUID)
+    val institutionCourseClassesObserverRole = factory.newInstitutionCourseClassesObserverRole().as
+    institutionCourseClassesObserverRole.setInstitutionUUID(institutionUUID)
+    role.setRoleType(RoleType.institutionCourseClassesObserver)
+    role.setInstitutionCourseClassesObserverRole(institutionCourseClassesObserverRole)
+    role
+  }
+
   def newCourseVersion(
     uuid: String = randUUID, name: String = null,
     courseUUID: String = null, versionCreatedAt: Date = new Date, distributionPrefix: String = null,

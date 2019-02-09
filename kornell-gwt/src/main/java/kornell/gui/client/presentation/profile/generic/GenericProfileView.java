@@ -242,7 +242,9 @@ public class GenericProfileView extends Composite implements ProfileView, Valida
                 .equals(((ProfilePlace) placeCtrl.getWhere()).getPersonUUID());
         isEditMode = ((ProfilePlace) placeCtrl.getWhere()).isEdit() && isCurrentUser;
         isAdmin = RoleCategory.hasRole(session.getCurrentUser().getRoles(), RoleType.courseClassAdmin)
-                || session.isInstitutionAdmin() || session.isPlatformAdmin();
+                || session.isInstitutionCourseClassesAdmin()
+                || session.isInstitutionAdmin()
+                || session.isPlatformAdmin();
 
         form.addStyleName("shy");
 

@@ -303,7 +303,7 @@ public class GenericMessageView extends Composite implements MessageView, ShowCh
             }
         case INSTITUTION_SUPPORT:
             return span(constants.institutionSupportChatThreadLabel(), PLAIN_CLASS) + separator(lineBreak)
-                    + span(unreadChatThreadTO.getEntityName(), HIGHLIGHT_CLASS);
+                    + span(session.getInstitution().getName(), HIGHLIGHT_CLASS);
         case PLATFORM_SUPPORT:
             return span(constants.platformSupportChatThreadLabel(), PLAIN_CLASS) + separator(lineBreak)
                     + span(session.getInstitution().getName(), HIGHLIGHT_CLASS);
@@ -451,7 +451,8 @@ public class GenericMessageView extends Composite implements MessageView, ShowCh
         case institutionAdmin:
             return getIcons(2, "fa fa-star", EnumTranslator.translateEnum(type));
         case courseClassAdmin:
-            return getIcons(1, "fa fa-star", EnumTranslator.translateEnum(type));
+        case institutionCourseClassesAdmin:
+            return getIcons(1, "fa fa-star", EnumTranslator.translateEnum(RoleType.courseClassAdmin));
         case tutor:
             return getIcons(1, "fa fa-graduation-cap", EnumTranslator.translateEnum(type));
         default:

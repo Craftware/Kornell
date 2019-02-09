@@ -387,7 +387,7 @@ public interface KornellConstants extends ConstantsWithLookup {
     @DefaultStringValue("Tutor")
     String tutorLabel();
 
-    @DefaultStringValue("Institution help for class:")
+    @DefaultStringValue("Institution support:")
     String institutionSupportChatThreadLabel();
 
     @DefaultStringValue("Platform support:")

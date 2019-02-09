@@ -44,6 +44,22 @@ public class InstitutionClient extends RESTClient {
         PUT("institutions", institutionUUID, "publishers").withContentType(Roles.TYPE).withEntityBody(roles).go(cb);
     }
 
+    public void getInstitutionCourseClassesAdmins(String bindMode, Callback<RolesTO> cb) {
+        GET("institutions", institutionUUID, "institutionCourseClassesAdmins" + "?bind=" + bindMode).withContentType(CourseClass.TYPE).go(cb);
+    }
+
+    public void updateInstitutionCourseClassesAdmins(Roles roles, Callback<Roles> cb) {
+        PUT("institutions", institutionUUID, "institutionCourseClassesAdmins").withContentType(Roles.TYPE).withEntityBody(roles).go(cb);
+    }
+
+    public void getInstitutionCourseClassesObservers(String bindMode, Callback<RolesTO> cb) {
+        GET("institutions", institutionUUID, "institutionCourseClassesObservers" + "?bind=" + bindMode).withContentType(CourseClass.TYPE).go(cb);
+    }
+
+    public void updateInstitutionCourseClassesObservers(Roles roles, Callback<Roles> cb) {
+        PUT("institutions", institutionUUID, "institutionCourseClassesObservers").withContentType(Roles.TYPE).withEntityBody(roles).go(cb);
+    }
+
     public void getHostnames(Callback<InstitutionHostNamesTO> cb) {
         GET("institutions", institutionUUID, "hostnames").go(cb);
     }

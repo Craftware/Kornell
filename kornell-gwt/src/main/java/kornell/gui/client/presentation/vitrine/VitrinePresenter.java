@@ -129,6 +129,7 @@ public class VitrinePresenter implements VitrineView.Presenter {
                 && userInfoTO.getPerson().getCity() == null) {
             newPlace = new ProfilePlace(userInfoTO.getPerson().getUUID(), true);
         } else if (RoleCategory.hasRole(session.getCurrentUser().getRoles(), RoleType.courseClassAdmin)
+                || session.isInstitutionCourseClassesAdmin()
                 || session.isInstitutionAdmin()) {
             newPlace = new AdminCourseClassesPlace();
         } else {
