@@ -53,7 +53,12 @@ public class GenericAdminCourseVersionContentView extends Composite implements A
         initWidget(uiBinder.createAndBindUi(this));
 
         courseVersionUpload.addStyleName("fieldPanelWrapper fileUploadPanel");
-        FlowPanel labelPanel = new FlowPanel();
+
+        //remove below lines when we support unzip
+        Label lblLabel = new Label("Entre em contato com o suporte para atualizar o conteúdo da versão do curso.");
+        lblLabel.addStyleName("lblLabel");
+        courseVersionUpload.add(lblLabel);
+        /*FlowPanel labelPanel = new FlowPanel();
         labelPanel.addStyleName("labelPanel");
         Label lblLabel = new Label("Atualização de versão");
         lblLabel.addStyleName("lblLabel");
@@ -83,7 +88,7 @@ public class GenericAdminCourseVersionContentView extends Composite implements A
                 });
             }
         });
-        courseVersionUpload.add(btnOK);
+        courseVersionUpload.add(btnOK);*/
 
         sandboxButton.addClickHandler(new ClickHandler() {
             @Override

@@ -77,7 +77,7 @@ public class KornellSession extends KornellClient {
     }
 
     public boolean isCourseClassAdmin() {
-        if(isInstitutionCourseClassesAdmin()) {
+        if (isInstitutionCourseClassesAdmin()) {
             return true;
         }
         if (currentCourseClass == null) {
@@ -251,6 +251,19 @@ public class KornellSession extends KornellClient {
 
     public Institution getInstitution() {
         return institution;
+    }
+
+    public String getAssetsSkinModifier() {
+        String lightModifier = "_light";
+        if (institution != null) {
+            String skin = institution.getSkin();
+            // if it's a lighter skin, the assets don't have a modifier.
+            if (skin != null && skin.contains(lightModifier)) {
+                return "";
+            }
+        }
+        // if it's a darker skin, the assets have a ""_light" modifier.
+        return lightModifier;
     }
 
     public void setInstitution(Institution institution) {

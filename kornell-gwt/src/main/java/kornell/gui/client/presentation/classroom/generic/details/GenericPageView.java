@@ -59,7 +59,7 @@ public class GenericPageView extends Composite implements ProgressEventHandler {
     }
 
     private void display(boolean enableAnchor) {
-        String status = page.isVisited() ? "finished" : "toStart";
+        String status = (page.isVisited() ? "finished" : "toStart") + session.getAssetsSkinModifier();
         topicImg.setUrl(mkurl(IMAGES_PATH, "pageIdent.png"));
         topicIcon.setUrl(mkurl(IMAGES_PATH, "status_" + status + ".png"));
         lblPage.clear();
