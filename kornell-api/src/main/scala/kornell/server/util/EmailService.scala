@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat
 import java.util.logging.{Level, Logger}
 
 import kornell.core.entity._
+import kornell.core.entity.role.RoleType
 import kornell.core.util.StringUtils
 import kornell.core.util.StringUtils._
 import kornell.server.jdbc.repository.{CourseClassRepo, CourseRepo, CourseVersionRepo, EmailTemplatesRepo, InstitutionEmailWhitelistRepo, InstitutionsRepo, PersonRepo, RolesRepo}
@@ -166,7 +167,7 @@ object EmailService {
       val from = getFromEmail(institution)
       val imgFile = getInstitutionLogoImage(institution)
       val template = processTemplate(EmailTemplateType.CLASS_COMPLETION, values)
-      for (admin <- new RolesRepo().getInstitutionAdmins(institution.getUUID, "PERSON").getRoleTOs.asScala) {
+      for (admin <- new RolesRepo().getUsersForInstitutionByRole(institution.getUUID, RoleType.institutionAdmin, "PERSON").getRoleTOs.asScala) {
         EmailSender.sendEmail(template._1, from, admin.getPerson.getEmail, from, template._2, imgFile, person.getUUID)
       }
     }

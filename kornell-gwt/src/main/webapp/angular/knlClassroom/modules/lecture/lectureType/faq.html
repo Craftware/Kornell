@@ -1,0 +1,26 @@
+<style>
+	.well {
+	    background: #{{classroomInfo.colorTheme}} !important;
+	    border: 1px solid #{{classroomInfo.colorTheme}} !important;
+        color: #{{classroomInfo.colorTitle}} !important;
+        font-size: 1.2em;
+        padding: 30px;
+		border-radius: 12px;
+		margin-top: 20px;
+	}
+	.text {
+        font-size: 1.2em;
+        padding: 30px;
+		border-radius: 12px;
+        color: #{{classroomInfo.colorFont}};
+	}
+</style>
+<div class="innerDiv container" ng-controller="FaqLectureController">
+    <div ng-repeat="faq in lecture.faqs">
+        <div class="well text">
+            <span ng-bind-html="sce.trustAsHtml(faq.question)"></span>
+            <hr>
+            <span ng-bind-html="sce.trustAsHtml(faq.answer)"></span>
+        </p>
+    </div>
+</div>

@@ -8,5 +8,7 @@ public enum RoleType {
     tutor,
     courseClassObserver,
     controlPanelAdmin,
-    publisher
+    publisher,
+    institutionCourseClassesAdmin,
+    institutionCourseClassesObserver,
 }

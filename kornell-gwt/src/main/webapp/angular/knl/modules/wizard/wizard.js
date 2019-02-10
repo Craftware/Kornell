@@ -100,6 +100,11 @@ app.controller('WizardController', [
           }
         ]
       };
+
+      $scope.blankFaq = {
+          question: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?',
+          answer: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      };
       
       $scope.data = [$scope.root];
 
@@ -344,6 +349,11 @@ app.controller('WizardController', [
                 });
               });
             }
+            if(lecture.type === 'faq'){
+              angular.forEach(lecture.facs, function(faq){
+                faq.uuid = faq.uuid || $scope.uuid();
+              });
+            }
             if(lecture.blockAdvanceDate){
               lecture.blockAdvanceDate = lecture.blockAdvanceDate.valueOf ? lecture.blockAdvanceDate.valueOf() : lecture.blockAdvanceDate;
             }
@@ -426,7 +436,7 @@ app.controller('WizardController', [
             title: lectureName,
             type: selectedType,
             uuid: $scope.uuid()
-          }
+          };
           if(lecture.type == 'bubble') {
             lecture.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
             lecture.id = 'https://images.pexels.com/photos/428341/pexels-photo-428341.jpeg?w=200&h=200&auto=compress';
@@ -440,7 +450,7 @@ app.controller('WizardController', [
           } else if(lecture.type == 'video') {
 
           } else if(lecture.type == 'question') {
-            lecture.text = $scope.blankQuestion.text;;
+            lecture.text = $scope.blankQuestion.text;
             lecture.isMultiple = false;
             lecture.shuffleQuestions = false;
             lecture.options = angular.copy($scope.blankQuestion.options);
@@ -451,7 +461,9 @@ app.controller('WizardController', [
             lecture.showWell = true;
           } else if(lecture.type == 'image') {
             lecture.id = 'https://static.pexels.com/photos/355988/pexels-photo-355988.jpeg';
-          }          
+          }  else if(lecture.type == 'faq') {
+            lecture.faqs = [$scope.blankFaq];
+          }
           nodeData.lectures.push(lecture);
           $scope.goToNode(lecture.uuid);
         },

@@ -14,6 +14,8 @@ public interface AdminCourseClassesView extends IsWidget {
         void deleteCourseClass(CourseClassTO courseClassTO);
 
         void duplicateCourseClass(CourseClassTO courseClassTO);
+
+        boolean showActionButton(String actionName, CourseClassTO courseClassTO);
     }
 
     void setPresenter(AdminCourseClassesView.Presenter presenter);

@@ -308,7 +308,7 @@ public class GenericAdminCourseClassesView extends Composite implements AdminCou
                 @Override
                 public void render(com.google.gwt.cell.client.Cell.Context context, CourseClassTO object,
                         SafeHtmlBuilder sb) {
-                    if (!"Excluir".equals(actionName) || object.getEnrollmentCount() == 0) {
+                    if (presenter.showActionButton(actionName, object)) {
                         SafeHtml html = SafeHtmlUtils.fromTrustedString(buildButtonHTML(actionName));
                         sb.append(html);
                     } else {

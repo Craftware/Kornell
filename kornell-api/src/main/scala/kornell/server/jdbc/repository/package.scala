@@ -47,7 +47,8 @@ package object repository {
       rs.getBoolean("advancedMode"),
       rs.getBoolean("notifyInstitutionAdmins"),
       rs.getString("allowedLanguages"),
-      rs.getBoolean("disabled"))
+      rs.getBoolean("disabled"),
+      rs.getBoolean("enforceSequentialProgress"))
 
   implicit def toContentRepository(rs: ResultSet): ContentRepository =
     newContentRepository(rs.getString("uuid"),
@@ -284,6 +285,8 @@ package object repository {
       case RoleType.courseClassObserver => Entities.newCourseClassObserverRole(rs.getString("personUUID"), rs.getString("courseClassUUID"))
       case RoleType.controlPanelAdmin => Entities.newControlPanelAdminRole(rs.getString("personUUID"))
       case RoleType.publisher => Entities.newPublisherRole(rs.getString("personUUID"), rs.getString("institutionUUID"))
+      case RoleType.institutionCourseClassesAdmin => Entities.newInstitutionCourseClassesAdminRole(rs.getString("personUUID"), rs.getString("institutionUUID"))
+      case RoleType.institutionCourseClassesObserver => Entities.newInstitutionCourseClassesAdminRole(rs.getString("personUUID"), rs.getString("institutionUUID"))
     }
     role
   }

@@ -262,67 +262,63 @@ object ChatThreadsRepo {
         """.map[UnreadChatThreadTO](toUnreadChatThreadTO))
   }
 
-  def getChatThreadMessagesSince(chatThreadUUID: String, lastFetchedMessageSentAt: Date): ChatThreadMessagesTO = {
-    TOs.newChatThreadMessagesTO(sql"""
-      select
-        p.fullName as senderFullName,
-        (select role
-        from Role r
-        where r.personUUID = p.uuid and
-        (r.institutionUUID = t.institutionUUID or r.courseClassUUID = t.courseClassUUID) and
-        (r.role <> ${RoleType.tutor.toString} or t.threadType = ${ChatThreadType.TUTORING.toString})
-        order by
-          case
-            when (r.role = ${RoleType.tutor.toString} and
-              (t.threadType = ${ChatThreadType.TUTORING.toString} or
-               t.threadType = ${ChatThreadType.COURSE_CLASS.toString})) then 1
-            when r.role = ${RoleType.platformAdmin.toString} then 2
-            when r.role = ${RoleType.institutionAdmin.toString}  then 3
-            when r.role = ${RoleType.courseClassAdmin.toString}  then 4
-            else 5
-            end
-        limit 1
-        ) as senderRole,
-        tm.sentAt,
-          tm.message
-      from ChatThreadMessage tm
-      join ChatThread t on t.uuid = tm.chatThreadUUID
-      join Person p on p.uuid = tm.personUUID
-        where tm.chatThreadUUID = ${chatThreadUUID}
-          and tm.sentAt > ${lastFetchedMessageSentAt}
-        order by tm.sentAt
-      """.map[ChatThreadMessageTO](toChatThreadMessageTO))
-  }
+  def getChatThreadMessagesSince(chatThreadUUID: String, lastFetchedMessageSentAt: Date): ChatThreadMessagesTO = TOs.newChatThreadMessagesTO(sql"""
+    select
+      p.fullName as senderFullName,
+      (select role
+      from Role r
+      where r.personUUID = p.uuid and
+      (r.institutionUUID = t.institutionUUID or r.courseClassUUID = t.courseClassUUID) and
+      (r.role <> ${RoleType.tutor.toString} or t.threadType = ${ChatThreadType.TUTORING.toString})
+      order by
+        case
+          when (r.role = ${RoleType.tutor.toString} and
+            (t.threadType = ${ChatThreadType.TUTORING.toString} or
+             t.threadType = ${ChatThreadType.COURSE_CLASS.toString})) then 1
+          when r.role = ${RoleType.platformAdmin.toString} then 2
+          when r.role = ${RoleType.institutionAdmin.toString} then 3
+          when (r.role = ${RoleType.courseClassAdmin.toString}  || r.role = ${RoleType.institutionCourseClassesAdmin.toString}) then 4
+          else 5
+          end
+      limit 1
+      ) as senderRole,
+      tm.sentAt,
+        tm.message
+    from ChatThreadMessage tm
+    join ChatThread t on t.uuid = tm.chatThreadUUID
+    join Person p on p.uuid = tm.personUUID
+      where tm.chatThreadUUID = ${chatThreadUUID}
+        and tm.sentAt > ${lastFetchedMessageSentAt}
+      order by tm.sentAt
+    """.map[ChatThreadMessageTO](toChatThreadMessageTO))
 
-  def getChatThreadMessagesBefore(chatThreadUUID: String, firstFetchedMessageSentAt: Date): ChatThreadMessagesTO = {
-    TOs.newChatThreadMessagesTO(sql"""
-      select
-        p.fullName as senderFullName,
-        (select role
-        from Role r
-        where r.personUUID = p.uuid and
-        (r.institutionUUID = t.institutionUUID or r.courseClassUUID = t.courseClassUUID) and
-        (r.role <> ${RoleType.tutor.toString} or t.threadType = ${ChatThreadType.TUTORING.toString})
-        order by
-          case
-            when (r.role = ${RoleType.tutor.toString} and t.threadType = ${ChatThreadType.TUTORING.toString}) then 1
-            when r.role = ${RoleType.platformAdmin.toString} then 2
-            when r.role = ${RoleType.institutionAdmin.toString}  then 3
-            when r.role = ${RoleType.courseClassAdmin.toString}  then 4
-            else 5
-            end
-        limit 1
-        ) as senderRole,
-        tm.sentAt,
-          tm.message
-      from ChatThreadMessage tm
-      join ChatThread t on t.uuid = tm.chatThreadUUID
-      join Person p on p.uuid = tm.personUUID
-       where tm.chatThreadUUID = ${chatThreadUUID}
-          and tm.sentAt < ${firstFetchedMessageSentAt}
-       order by tm.sentAt desc limit 20
-      """.map[ChatThreadMessageTO](toChatThreadMessageTO))
-  }
+  def getChatThreadMessagesBefore(chatThreadUUID: String, firstFetchedMessageSentAt: Date): ChatThreadMessagesTO = TOs.newChatThreadMessagesTO(sql"""
+    select
+      p.fullName as senderFullName,
+      (select role
+      from Role r
+      where r.personUUID = p.uuid and
+      (r.institutionUUID = t.institutionUUID or r.courseClassUUID = t.courseClassUUID) and
+      (r.role <> ${RoleType.tutor.toString} or t.threadType = ${ChatThreadType.TUTORING.toString})
+      order by
+        case
+          when (r.role = ${RoleType.tutor.toString} and t.threadType = ${ChatThreadType.TUTORING.toString}) then 1
+          when r.role = ${RoleType.platformAdmin.toString} then 2
+          when r.role = ${RoleType.institutionAdmin.toString}  then 3
+          when (r.role = ${RoleType.courseClassAdmin.toString} || r.role = ${RoleType.institutionCourseClassesAdmin.toString}) then 4
+          else 5
+          end
+      limit 1
+      ) as senderRole,
+      tm.sentAt,
+        tm.message
+    from ChatThreadMessage tm
+    join ChatThread t on t.uuid = tm.chatThreadUUID
+    join Person p on p.uuid = tm.personUUID
+     where tm.chatThreadUUID = ${chatThreadUUID}
+        and tm.sentAt < ${firstFetchedMessageSentAt}
+     order by tm.sentAt desc limit 20
+    """.map[ChatThreadMessageTO](toChatThreadMessageTO))
 
   def markAsRead(chatThreadUUID: String, personUUID: String): Unit = {
     sql"""

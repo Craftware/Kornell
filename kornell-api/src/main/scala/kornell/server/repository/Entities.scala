@@ -163,7 +163,7 @@ object Entities {
     demandsPersonContactDetails: Boolean, validatePersonContactDetails: Boolean, allowRegistration: Boolean, allowRegistrationByUsername: Boolean,
     activatedAt: Date, skin: String, billingType: BillingType, institutionType: InstitutionType, dashboardVersionUUID: String,
     useEmailWhitelist: Boolean = false, assetsRepositoryUUID: String = null, timeZone: String, institutionSupportEmail: String, advancedMode: Boolean,
-    notifyInstitutionAdmins: Boolean, allowedLanguages: String, disabled: Boolean): Institution = {
+    notifyInstitutionAdmins: Boolean, allowedLanguages: String, disabled: Boolean, enforceSequentialProgress: Boolean): Institution = {
     val i = factory.newInstitution.as
     i.setName(name)
     i.setFullName(fullName)
@@ -188,6 +188,7 @@ object Entities {
     i.setNotifyInstitutionAdmins(notifyInstitutionAdmins)
     i.setAllowedLanguages(allowedLanguages)
     i.setDisabled(disabled)
+    i.setEnforceSequentialProgress(enforceSequentialProgress)
     i
   }
 
@@ -264,6 +265,26 @@ object Entities {
     publisherRole.setInstitutionUUID(institutionUUID)
     role.setRoleType(RoleType.publisher)
     role.setPublisherRole(publisherRole)
+    role
+  }
+
+  def newInstitutionCourseClassesAdminRole(personUUID: String, institutionUUID: String): Role = {
+    val role = factory.newRole().as
+    role.setPersonUUID(personUUID)
+    val institutionCourseClassesAdminRole = factory.newInstitutionCourseClassesAdminRole().as
+    institutionCourseClassesAdminRole.setInstitutionUUID(institutionUUID)
+    role.setRoleType(RoleType.institutionCourseClassesAdmin)
+    role.setInstitutionCourseClassesAdminRole(institutionCourseClassesAdminRole)
+    role
+  }
+
+  def newInstitutionCourseClassesObserverRole(personUUID: String, institutionUUID: String): Role = {
+    val role = factory.newRole().as
+    role.setPersonUUID(personUUID)
+    val institutionCourseClassesObserverRole = factory.newInstitutionCourseClassesObserverRole().as
+    institutionCourseClassesObserverRole.setInstitutionUUID(institutionUUID)
+    role.setRoleType(RoleType.institutionCourseClassesObserver)
+    role.setInstitutionCourseClassesObserverRole(institutionCourseClassesObserverRole)
     role
   }
 

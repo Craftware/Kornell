@@ -206,8 +206,6 @@ public class MessagePresenter implements MessageView.Presenter, UnreadMessagesPe
         }
 
         if (placeCtrl.getWhere() instanceof MessagePlace && MessagePanelType.inbox.equals(messagePanelType)) {
-            GWT.log(Window.getClientWidth() + " - " + Positioning.MOBILE_CHAT_THRESHOLD + " - "
-                    + (selectedChatThreadInfo != null) + " - " + messagePanelType);
             if (selectedChatThreadInfo != null && Window.getClientWidth() <= Positioning.MOBILE_CHAT_THRESHOLD) {
                 List<IsWidget> widgets = new ArrayList<IsWidget>();
                 Button btn = new Button();
@@ -394,7 +392,6 @@ public class MessagePresenter implements MessageView.Presenter, UnreadMessagesPe
     @Override
     public void clearThreadSelection() {
         this.selectedChatThreadInfo = null;
-        GWT.log(" clearThreadSelection ");
     }
 
     @Override
