@@ -190,7 +190,7 @@
         </a>
         <p class="help-block">Digite abaixo as perguntas e respostas. Você pode arrastar e soltar as dúvidas caso deseje reordená-las. Obs: Use shift+enter para espaçamento simples entre linhas.</p>
         <div ui-sortable="sortableOptions" data-ng-model="selectedNode.faqs">
-            <div class="row optionDraggableArea" ng-repeat="faq in selectedNode.faqs">
+            <div class="row optionDraggableArea" ng-repeat="faq in selectedNode.faqs track by $index">
                 <div class="col-sm-12">
                     <p class="help-block">Pergunta {{$index + 1}}</p>
                     <div ng-model="faq.question" text-angular class="text-angular text-angular-xs optionTextArea"></div>

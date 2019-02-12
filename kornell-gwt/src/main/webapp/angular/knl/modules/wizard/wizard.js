@@ -350,7 +350,7 @@ app.controller('WizardController', [
               });
             }
             if(lecture.type === 'faq'){
-              angular.forEach(lecture.facs, function(faq){
+              angular.forEach(lecture.faqs, function(faq){
                 faq.uuid = faq.uuid || $scope.uuid();
               });
             }
