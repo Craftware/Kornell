@@ -2,8 +2,8 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
   <g:FlowPanel addStyleNames="rolesAdmin">
 	  <g:FlowPanel addStyleNames="multiSelect">
-			<g:HTMLPanel addStyleNames="title">Editar Administradores da Turma</g:HTMLPanel>
-			<g:Label addStyleNames="subTitle">Escolha na lista abaixo os administradores desta turma. Os administradores da turma podem matricular alunos e responder as mensagens da turma, mas não poderão alterar as configurações da turma ou adicionar novos administradores.</g:Label>
+			<g:HTMLPanel addStyleNames="title">Editar administradores do grupo</g:HTMLPanel>
+			<g:Label addStyleNames="subTitle">Escolha na lista abaixo os administradores deste grupo. Os administradores do grupo podem matricular alunos e responder as mensagens do grupo, mas não poderão alterar as configurações do grupo ou adicionar novos administradores.</g:Label>
 			<b:Form ui:field="courseClassAdminsForm" addStyleNames="profileForm">
 				<g:FlowPanel ui:field="courseClassAdminsFields" addStyleNames="fieldsWrapper marginTop25">		
 				</g:FlowPanel>		
@@ -15,8 +15,8 @@
 		</g:FlowPanel>
 	
 		<g:FlowPanel addStyleNames="multiSelect">
-	        <g:HTMLPanel addStyleNames="title">Editar Tutores da Turma</g:HTMLPanel>
-	        <g:Label addStyleNames="subTitle">Escolha na lista abaixo os tutores desta turma. Os tutores da turma tem acesso às mensagens de ajuda da turma e às mensagens de tutoria. Eles podem gerar relatórios, mas não podem alterar as matrículas nem as configurações da turma.</g:Label>
+	        <g:HTMLPanel addStyleNames="title">Editar tutores do grupo</g:HTMLPanel>
+	        <g:Label addStyleNames="subTitle">Escolha na lista abaixo os tutores deste grupo. Os tutores do grupo tem acesso às mensagens de ajuda do grupo e às mensagens de tutoria. Eles podem gerar relatórios, mas não podem alterar as matrículas nem as configurações do grupo.</g:Label>
 	        <b:Form ui:field="tutorsForm" addStyleNames="profileForm">
 	            <g:FlowPanel ui:field="tutorsFields" addStyleNames="fieldsWrapper marginTop25">     
 	            </g:FlowPanel>      
@@ -28,8 +28,8 @@
 	    </g:FlowPanel>
 	
 		<g:FlowPanel addStyleNames="multiSelect">
-	        <g:HTMLPanel addStyleNames="title">Editar Observadores da Turma</g:HTMLPanel>
-	        <g:Label addStyleNames="subTitle">Escolha na lista abaixo os observadores desta turma. Os observadores da turma podem visualizar as matrículas e gerar certificados, mas não podem alterar as matrículas nem as configurações da turma.</g:Label>
+	        <g:HTMLPanel addStyleNames="title">Editar observadores do grupo</g:HTMLPanel>
+	        <g:Label addStyleNames="subTitle">Escolha na lista abaixo os observadores deste grupo. Os observadores do grupo podem visualizar as matrículas e gerar certificados, mas não podem alterar as matrículas nem as configurações do grupo.</g:Label>
 	        <b:Form ui:field="observersForm" addStyleNames="profileForm">
 	            <g:FlowPanel ui:field="observersFields" addStyleNames="fieldsWrapper marginTop25">     
 	            </g:FlowPanel>      

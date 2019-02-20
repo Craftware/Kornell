@@ -104,7 +104,7 @@
 					<font fontName="Serif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[" INFORMAÇÕES " + ($P{courseClassName} != null ? "DA TURMA" : "DO CURSO")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" INFORMAÇÕES " + ($P{courseClassName} != null ? "DO GRUPO" : "DO CONTEÚDO")]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement uuid="4d46551b-db2d-4924-9cce-aa1988bcafbe" positionType="Float" x="12" y="131" width="540" height="1" forecolor="#666666"/>
@@ -136,7 +136,7 @@
 					<font fontName="Serif" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Nome da turma: ]]></text>
+				<text><![CDATA[Nome do grupo: ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="634de2c0-0057-4b27-b19d-3c80bc1aadcc" positionType="Float" mode="Opaque" x="3" y="84" width="142" height="16" forecolor="#525252" backcolor="#FFFFFF"/>
@@ -144,7 +144,7 @@
 					<font fontName="Serif" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Curso: ]]></text>
+				<text><![CDATA[Conteúdo: ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="3c41db9b-5a78-47c3-bee4-5756ca0349b7" positionType="Float" mode="Opaque" x="3" y="99" width="142" height="16" forecolor="#525252" backcolor="#FFFFFF">
@@ -162,7 +162,7 @@
 					<font fontName="Serif" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA["RELATÓRIO DETALHADO DE " + ($P{courseClassName} != null ? "TURMA" : "CURSO")]]></textFieldExpression>
+				<textFieldExpression><![CDATA["RELATÓRIO DETALHADO DE " + ($P{courseClassName} != null ? "GRUPO" : "CONTEÚDO")]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement uuid="b85be7c1-237f-4971-bf9e-0f5f00c78265" positionType="Float" mode="Opaque" x="3" y="143" width="142" height="16" forecolor="#525252" backcolor="#FFFFFF"/>

@@ -5,13 +5,13 @@
     <b:TabPanel tabPosition="middle" ui:field="tabsPanel">
       <b:Tab ui:field="editTab" icon="COGS" heading="Configuração" active="true">
 		  <g:FlowPanel addStyleNames="courseClassConfig">
-		    <g:HTMLPanel ui:field="titleEdit" addStyleNames="title unclear left fillWidth marginBottom25">Editar Curso</g:HTMLPanel>
-		    <g:HTMLPanel ui:field="titleCreate" addStyleNames="title unclear left fillWidth">Criar Curso</g:HTMLPanel>
+		    <g:HTMLPanel ui:field="titleEdit" addStyleNames="title unclear left fillWidth marginBottom25">Editar Conteúdo</g:HTMLPanel>
+		    <g:HTMLPanel ui:field="titleCreate" addStyleNames="title unclear left fillWidth">Criar Conteúdo</g:HTMLPanel>
 		    <g:HTMLPanel ui:field="subtitleCreate" addStyleNames="subTitle unclear left fillWidth marginBottom25">
-		    	Um curso pode possuir várias versões, com conteúdos diferentes. Uma versão inicial será criada após salvar o seu novo curso, e você irá automaticamente para a tela de gerenciamento dessa versão.
-		    	<br/>Tipos de curso:
+		    	Um conteúdo pode possuir várias versões, com material diferente. Uma versão inicial será criada após salvar o seu novo conteúdo, e você irá automaticamente para a tela de gerenciamento dessa versão.
+		    	<br/>Tipos de conteúdo:
 		    	<ul>
-		    	<li><b>WIZARD</b>: Monte seu próprio curso usando a ferramenta de construção da Eduvem. Esse é o tipo recomendado.</li>
+		    	<li><b>WIZARD</b>: Monte seu próprio conteúdo usando a ferramenta de construção da Eduvem. Esse é o tipo recomendado.</li>
 		    	<li><b>SCORM12</b>: Padrão de conteúdo bastante utilizado. É necessário fazer o upload de um arquivo .zip para publicar seu conteúdo.</li>
 		    	<li><b>KNL</b>: Formato antigo utilizado pela Eduvem.</li>
 		    	</ul>

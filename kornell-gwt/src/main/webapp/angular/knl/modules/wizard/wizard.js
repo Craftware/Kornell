@@ -144,12 +144,12 @@ app.controller('WizardController', [
         steps: [
             {
                 element: '#treeHelp1',
-                intro: 'Aqui você monta a estrutura do seu curso, agrupando as aulas dentro de módulos. Cada aula é uma página. Existem vários tipos de aula, como imagem, texto, vídeo, youtube, exercício, etc.',
+                intro: 'Aqui você monta a estrutura do seu conteúdo, agrupando as aulas dentro de módulos. Cada aula é uma página. Existem vários tipos de aula, como imagem, texto, vídeo, youtube, exercício, etc.',
                 position: 'right'
             },
             {
                 element: '#treeHelp2',
-                intro: 'O conteúdo é salvo automaticamente à medida que o edita. Mas o fato de ser salvo não quer dizer que os participantes matriculados nas turmas desse curso terão acesso a esse conteúdo. Para que isso aconteça, é necessário que você publique o conteúdo, disponibilizando-o para todos os alunos.',
+                intro: 'O conteúdo é salvo automaticamente à medida que o edita. Mas o fato de ser salvo não quer dizer que os participantes matriculados nos grupos desse conteúdo terão acesso a esse conteúdo. Para que isso aconteça, é necessário que você publique o conteúdo, disponibilizando-o para todos os alunos.',
                 position: 'right'
             },
             {
@@ -174,7 +174,7 @@ app.controller('WizardController', [
             },
             {
                 element: '#treeHelp7',
-                intro: 'Para cada versão criada, existe uma turma "sandbox", onde os administradores da instituição e publicadores de conteúdo podem testar as alterações no conteúdo de seus cursos. A qualquer momento, um administrador pode reiniciar todas as matrículas da turma, caso seja necessário testar alguma alteração. Lembre-se que em turmas "sandbox" você verá o conteúdo que está SALVO, ao invés de ver o conteúdo publicado.',
+                intro: 'Para cada versão criada, existe um grupo "sandbox", onde os administradores da instituição e publicadores de conteúdo podem testar as alterações no material de seus conteúdos. A qualquer momento, um administrador pode reiniciar todas as matrículas do grupo, caso seja necessário testar alguma alteração. Lembre-se que em grupos "sandbox" você verá o conteúdo que está SALVO, ao invés de ver o conteúdo publicado.',
                 position: 'right'
             },
             {
@@ -203,7 +203,7 @@ app.controller('WizardController', [
         return;
       }
       var publishTreeMessage = "Suas alterações até o momento foram salvas automaticamente, mas ainda não foram publicadas.<br><br>" +
-        "Tem certeza que deseja publicá-las? O conteúdo será imediatamente acessível para todos os participantes de turmas que utilizam essa versão. Essa operação não poderá ser desfeita.";
+        "Tem certeza que deseja publicá-las? O conteúdo será imediatamente acessível para todos os participantes de grupos que utilizam essa versão. Essa operação não poderá ser desfeita.";
       var publishTreeCallback = function(){
         $scope.blockPublishButton = true;
         $scope.root.publishingUUID = $scope.uuid();

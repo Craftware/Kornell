@@ -75,7 +75,7 @@
 					<font fontName="Serif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[TURMA DE DESTINO]]></text>
+				<text><![CDATA[GRUPO DE DESTINO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="b908e2f3-8afa-44ff-89dc-ad9c740338d9" mode="Opaque" x="1800" y="52" width="150" height="14" forecolor="#ACC2BF" backcolor="#FFFFFF"/>
@@ -99,7 +99,7 @@
 					<font fontName="Serif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[TURMA DE ORIGEM]]></text>
+				<text><![CDATA[GRUPO DE ORIGEM]]></text>
 			</staticText>
 		</band>
 	</title>

@@ -76,7 +76,7 @@
 					<font fontName="Serif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[NOME DO CURSO]]></text>
+				<text><![CDATA[NOME DO CONTEÚDO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="6b789ac0-5462-4e69-8dc9-8610d85f5c49" mode="Opaque" x="550" y="52" width="250" height="14" forecolor="#ACC2BF" backcolor="#FFFFFF"/>
@@ -84,7 +84,7 @@
 					<font fontName="Serif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[NOME DA VERSÃO DO CURSO]]></text>
+				<text><![CDATA[NOME DA VERSÃO DO CONTEÚDO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="0c62d5e8-cccb-4104-983a-c1ba7d799594" mode="Opaque" x="800" y="52" width="250" height="14" forecolor="#ACC2BF" backcolor="#FFFFFF"/>
@@ -92,7 +92,7 @@
 					<font fontName="Serif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[NOME DA TURMA]]></text>
+				<text><![CDATA[NOME DA GRUPO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="713adc44-f77a-46a2-84c9-719993f4ab01" mode="Opaque" x="1550" y="52" width="250" height="14" forecolor="#ACC2BF" backcolor="#FFFFFF"/>

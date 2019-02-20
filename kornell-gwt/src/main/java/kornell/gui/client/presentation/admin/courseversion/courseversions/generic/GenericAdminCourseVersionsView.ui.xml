@@ -8,7 +8,7 @@
 	    <g:FlowPanel ui:field="courseVersionsPanel" addStyleNames="courseClassesHeaderWrapper">
 		    <g:FlowPanel addStyleNames="left">
     			<g:Label ui:field="title" addStyleNames="title"></g:Label>
-		      	<g:HTMLPanel addStyleNames="subTitle"><ui:msg description="Course version panel sub-title">Escolha abaixo a versão de curso que deseja gerenciar</ui:msg></g:HTMLPanel>
+		      	<g:HTMLPanel addStyleNames="subTitle"><ui:msg description="Course version panel sub-title">Escolha abaixo a versão de conteúdo que deseja gerenciar</ui:msg></g:HTMLPanel>
 		    </g:FlowPanel>
 			<b:Button ui:field="btnAddCourseVersion" addStyleNames="btnAction btnIcon right" size="MINI" icon="PLUS_SIGN"/>
 		</g:FlowPanel>

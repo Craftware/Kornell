@@ -445,7 +445,7 @@ public class GenericAdminInstitutionView extends Composite implements AdminInsti
 
             notifyInstitutionAdmins = new KornellFormFieldWrapper("Notificar certificações",
                     formHelper.createCheckBoxFormField(institution.isNotifyInstitutionAdmins()), isPlatformAdmin, null,
-                    "Enviar um email para todos os administradores da institução toda vez que um aluno concluir o curso.");
+                    "Enviar um email para todos os administradores da institução toda vez que um aluno concluir o conteúdo.");
 
             fields.add(notifyInstitutionAdmins);
             institutionFields.add(notifyInstitutionAdmins);

@@ -232,7 +232,7 @@ public class GenericAdminCourseView extends Composite implements AdminCourseView
         courseFields.add(contentSpec);
 
         if (InstitutionType.DASHBOARD.equals(session.getInstitution().getInstitutionType())) {
-            childCourse = new KornellFormFieldWrapper("Curso Filho?",
+            childCourse = new KornellFormFieldWrapper("Conteúdo Filho?",
                     formHelper.createCheckBoxFormField(course.isChildCourse()), hasPublishingRole);
             fields.add(childCourse);
             courseFields.add(childCourse);

@@ -3,7 +3,7 @@ var translations_pt_BR = {
 	VALIDATE: 'Validar',
 	QUESTION_CORRECT_ANSWER: 'Parabéns, acertou a resposta. Avance!',
 	QUESTION_WRONG_ANSWER: 'Releia as opções e tente novamente.',
-	COURSE_EXAM: 'Avaliação do curso',
+	COURSE_EXAM: 'Avaliação do conteúdo',
 	NEEDS_APPROVAL_FOR_CERTIFICATE: 'A aprovação nesta avaliação é necessária para retirada do certificado.',
 	MULTIPLE_QUESTIONS_PRE: 'Serão',
 	MULTIPLE_QUESTIONS_POST: 'questões.',

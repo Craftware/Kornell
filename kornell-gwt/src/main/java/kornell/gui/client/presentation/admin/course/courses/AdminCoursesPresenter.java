@@ -112,7 +112,7 @@ public class AdminCoursesPresenter extends PaginationPresenterImpl<CourseTO> imp
         if (!blockActions) {
             blockActions = true;
 
-            confirmModal.showModal("Tem certeza que deseja excluir o curso \"" + courseTO.getCourse().getName() + "\"?",
+            confirmModal.showModal("Tem certeza que deseja excluir o conteúdo \"" + courseTO.getCourse().getName() + "\"?",
                     new com.google.gwt.core.client.Callback<Void, Void>() {
                 @Override
                 public void onSuccess(Void result) {
@@ -122,7 +122,7 @@ public class AdminCoursesPresenter extends PaginationPresenterImpl<CourseTO> imp
                         public void ok(Course to) {
                             blockActions = false;
                             bus.fireEvent(new ShowPacifierEvent(false));
-                            KornellNotification.show("Curso excluído com sucesso.");
+                            KornellNotification.show("Conteúdo excluído com sucesso.");
                             updateData();
                         }
 
@@ -130,7 +130,7 @@ public class AdminCoursesPresenter extends PaginationPresenterImpl<CourseTO> imp
                         public void internalServerError(KornellErrorTO error) {
                             blockActions = false;
                             bus.fireEvent(new ShowPacifierEvent(false));
-                            KornellNotification.show("Erro ao tentar excluir o curso.", AlertType.ERROR);
+                            KornellNotification.show("Erro ao tentar excluir o conteúdo.", AlertType.ERROR);
                         }
                     });
                 }
@@ -149,7 +149,7 @@ public class AdminCoursesPresenter extends PaginationPresenterImpl<CourseTO> imp
             blockActions = true;
 
             confirmModal.showModal(
-                    "Tem certeza que deseja duplicar o curso \"" + courseTO.getCourse().getName() + "\"?",
+                    "Tem certeza que deseja duplicar o conteúdo \"" + courseTO.getCourse().getName() + "\"?",
                     new com.google.gwt.core.client.Callback<Void, Void>() {
                         @Override
                         public void onSuccess(Void result) {
@@ -160,7 +160,7 @@ public class AdminCoursesPresenter extends PaginationPresenterImpl<CourseTO> imp
                                 public void ok(Course course) {
                                     blockActions = false;
                                     bus.fireEvent(new ShowPacifierEvent(false));
-                                    KornellNotification.show("Curso duplicado com sucesso.");
+                                    KornellNotification.show("Conteúdo duplicado com sucesso.");
                                     placeController.goTo(new AdminCoursePlace(course.getUUID()));
                                 }
 
@@ -168,7 +168,7 @@ public class AdminCoursesPresenter extends PaginationPresenterImpl<CourseTO> imp
                                 public void internalServerError(KornellErrorTO error) {
                                     blockActions = false;
                                     bus.fireEvent(new ShowPacifierEvent(false));
-                                    KornellNotification.show("Erro ao tentar duplicar o curso.", AlertType.ERROR);
+                                    KornellNotification.show("Erro ao tentar duplicar o conteúdo.", AlertType.ERROR);
                                 }
                             });
                         }

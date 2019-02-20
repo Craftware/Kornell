@@ -99,7 +99,7 @@ public class GenericCourseClassReportItemView extends Composite {
     }
 
     private void displayCourseClassAudit() {
-        this.name = "Relatório de auditoria da turma";
+        this.name = "Relatório de auditoria do grupo";
         this.description = "Geração do relatório de histórico de alteração de matrículas e de transferências.";
 
         certificationIcon.setUrl(StringUtils.mkurl(ADMIN_IMAGES_PATH, type + ".png"));
@@ -124,8 +124,8 @@ public class GenericCourseClassReportItemView extends Composite {
     }
 
     private void displayCourseClassInfo() {
-        this.name = "Relatório de detalhes da turma";
-        this.description = "Geração do relatório de detalhes da turma e de suas matrículas. Por padrão ele é gerado em PDF contendo somente matriculas ativas.";
+        this.name = "Relatório de detalhes do grupo";
+        this.description = "Geração do relatório de detalhes do grupo e de suas matrículas. Por padrão ele é gerado em PDF contendo somente matriculas ativas.";
 
         certificationIcon.setUrl(StringUtils.mkurl(ADMIN_IMAGES_PATH, type + ".png"));
         lblName.setText(name);
@@ -155,7 +155,7 @@ public class GenericCourseClassReportItemView extends Composite {
         trigger.setTarget("#toggleClassInfoUsernames");
         collapse.setId("toggleClassInfoUsernames");
 
-        checkBoxCollapse = new CheckBox("Gerar somente para um conjunto de participantes dessa turma");
+        checkBoxCollapse = new CheckBox("Gerar somente para um conjunto de participantes deste grupo");
 
         FlowPanel triggerPanel = new FlowPanel();
         triggerPanel.add(checkBoxCollapse);
@@ -226,8 +226,8 @@ public class GenericCourseClassReportItemView extends Composite {
     }
 
     private void displayCertificate() {
-        this.name = "Certificados de conclusão de curso";
-        this.description = "Geração do certificado de todos os alunos desta turma que concluíram o curso. A geração pode chegar a levar a alguns minutos, dependendo do tamanho da turma. Assim que o relatório for gerado, ele estará disponível para ser baixado aqui.";
+        this.name = "Certificados de conclusão de conteúdo";
+        this.description = "Geração do certificado de todos os alunos deste grupo que concluíram o conteúdo. A geração pode chegar a levar a alguns minutos, dependendo do tamanho do grupo. Assim que o relatório for gerado, ele estará disponível para ser baixado aqui.";
 
         certificationIcon.setUrl(StringUtils.mkurl(ADMIN_IMAGES_PATH, type + ".png"));
         lblName.setText(name);
@@ -241,7 +241,7 @@ public class GenericCourseClassReportItemView extends Composite {
         collapse.setId("toggleCertUsernames");
 
         Image img = new Image(StringUtils.mkurl(LIBRARY_IMAGES_PATH, "pdf.png"));
-        checkBoxCollapse = new CheckBox("Gerar somente para um conjunto de participantes dessa turma");
+        checkBoxCollapse = new CheckBox("Gerar somente para um conjunto de participantes deste grupo");
 
         FlowPanel triggerPanel = new FlowPanel();
         triggerPanel.add(img);
@@ -250,7 +250,7 @@ public class GenericCourseClassReportItemView extends Composite {
 
         FlowPanel collapsePanel = new FlowPanel();
         Label infoLabel = new Label(
-                "Digite os usuários, cada um em uma linha. Só serão gerados os certificados dos participantes matriculados nessa turma e que terminaram o curso.");
+                "Digite os usuários, cada um em uma linha. Só serão gerados os certificados dos participantes matriculados neste grupo e que terminaram o curso.");
         usernamesTextArea = new TextArea();
         collapsePanel.add(infoLabel);
         collapsePanel.add(usernamesTextArea);
@@ -299,7 +299,7 @@ public class GenericCourseClassReportItemView extends Composite {
                     @Override
                     public void internalServerError(KornellErrorTO kornellErrorTO) {
                         KornellNotification.show(
-                                "Erro na geração dos certificados. Certifique-se que existem alunos que concluíram o curso nessa turma.",
+                                "Erro na geração dos certificados. Certifique-se que existem alunos que concluíram o curso neste grupo.",
                                 AlertType.ERROR, 3000);
                         displayActionCell(null);
                         bus.fireEvent(new ShowPacifierEvent(false));

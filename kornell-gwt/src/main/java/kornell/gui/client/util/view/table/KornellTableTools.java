@@ -103,7 +103,7 @@ public class KornellTableTools<T> extends FlowPanel {
         }
 
         txtSearch.setValue(presenter.getSearchTerm());
-        txtSearch.setTitle("insira o nome ou o código do curso");
+        txtSearch.setTitle("insira o nome ou o código do conteúdo");
         return txtSearch;
     }
 

@@ -112,33 +112,33 @@ public class AdminAssetsPresenter implements AdminAssetsView.Presenter {
             case COURSE:
                 AdminAssetsPresenter.entityName = "courses";
                 AdminAssetsPresenter.entityType = Course.TYPE;
-                thumbSubTitle = "Edite o ícone que aparecerá na listagem dos cursos na tela inicial do participante. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
-                certificateDetailsSubTitle = "Edite o plano de fundo do certificado para este curso.";
-                sectionsSubTitle = "Edite os detalhes da tela de detalhes para este curso." + sectionsSubTitle;
-                hintsSubTitle = "Edite as dicas da tela de detalhes para este curso." + hintsSubTitle;
-                librariesSubTitle = "Faça o upload dos arquivos da biblioteca do curso.";
+                thumbSubTitle = "Edite o ícone que aparecerá na listagem dos conteúdos na tela inicial do participante. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
+                certificateDetailsSubTitle = "Edite o plano de fundo do certificado para este conteúdo.";
+                sectionsSubTitle = "Edite os detalhes da tela de detalhes para este conteúdo." + sectionsSubTitle;
+                hintsSubTitle = "Edite as dicas da tela de detalhes para este conteúdo." + hintsSubTitle;
+                librariesSubTitle = "Faça o upload dos arquivos da biblioteca do conteúdo.";
                 break;
             case COURSE_VERSION:
                 AdminAssetsPresenter.entityName = "courseVersions";
                 AdminAssetsPresenter.entityType = CourseVersion.TYPE;
-                thumbSubTitle = "Edite o ícone que aparecerá na listagem dos cursos na tela inicial do participante. Este ícone será aplicado a todas as turmas desta versão do curso. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
-                certificateDetailsSubTitle = "Edite o plano de fundo do certificado para todas as turmas desta versão do curso.";
-                sectionsSubTitle = "Edite os detalhes da tela de detalhes para esta versão do curso. Detalhes de uma seção da versão que tenham o título igual a um título de uma seção do curso terão precedência."
+                thumbSubTitle = "Edite o ícone que aparecerá na listagem dos conteúdos na tela inicial do participante. Este ícone será aplicado a todos os grupos desta versão do conteúdo. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
+                certificateDetailsSubTitle = "Edite o plano de fundo do certificado para todos os grupos desta versão do conteúdo.";
+                sectionsSubTitle = "Edite os detalhes da tela de detalhes para esta versão do conteúdo. Detalhes de uma seção da versão que tenham o título igual a um título de uma seção do conteúdo terão precedência."
                         + sectionsSubTitle;
-                hintsSubTitle = "Edite as dicas da tela de detalhes para esta versão do curso. As dicas da versão serão apresentadas após as dicas do curso."
+                hintsSubTitle = "Edite as dicas da tela de detalhes para esta versão do conteúdo. As dicas da versão serão apresentadas após as dicas do conteúdo."
                         + hintsSubTitle;
-                librariesSubTitle = "Faça o upload dos arquivos da biblioteca dessa versão do curso. Estes arquivos serão apresentados juntamente com os arquivos do curso.";
+                librariesSubTitle = "Faça o upload dos arquivos da biblioteca dessa versão do conteúdo. Estes arquivos serão apresentados juntamente com os arquivos do conteúdo.";
                 break;
             case COURSE_CLASS:
                 AdminAssetsPresenter.entityName = "courseClasses";
                 AdminAssetsPresenter.entityType = CourseClass.TYPE;
-                thumbSubTitle = "Edite o ícone que aparecerá na listagem dos cursos na tela inicial do participante. Este ícone será aplicado somente a esta turma. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
-                certificateDetailsSubTitle = "Edite o plano de fundo do certificado para esta turma.";
-                sectionsSubTitle = "Edite os detalhes da tela de detalhes para esta turma. Detalhes de uma seção da turma que tenham o título igual a um título de uma seção do curso ou da versão terão precedência."
+                thumbSubTitle = "Edite o ícone que aparecerá na listagem dos conteúdos na tela inicial do participante. Este ícone será aplicado somente a este grupo. Observação: a propagação do ícone para todos os participantes pode levar alguns minutos.";
+                certificateDetailsSubTitle = "Edite o plano de fundo do certificado para este grupo.";
+                sectionsSubTitle = "Edite os detalhes da tela de detalhes para este grupo. Detalhes de uma seção do grupo que tenham o título igual a um título de uma seção do conteúdo ou da versão terão precedência."
                         + sectionsSubTitle;
-                hintsSubTitle = "Edite as dicas da tela de detalhes para esta turma. As dicas da versão serão apresentadas após as dicas do curso e da versão do curso."
+                hintsSubTitle = "Edite as dicas da tela de detalhes para este grupo. As dicas da versão serão apresentadas após as dicas do conteúdo e da versão do conteúdo."
                         + hintsSubTitle;
-                librariesSubTitle = "Faça o upload dos arquivos da biblioteca dessa versão do curso. Estes arquivos serão apresentados juntamente com os arquivos do curso e da versão do curso.";
+                librariesSubTitle = "Faça o upload dos arquivos da biblioteca dessa versão do conteúdo. Estes arquivos serão apresentados juntamente com os arquivos do conteúdo e da versão do conteúdo.";
                 break;
         }
 

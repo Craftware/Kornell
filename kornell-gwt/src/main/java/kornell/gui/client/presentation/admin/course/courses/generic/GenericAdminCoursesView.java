@@ -74,7 +74,7 @@ public class GenericAdminCoursesView extends Composite implements AdminCoursesVi
             final ViewFactory viewFactory) {
         this.placeCtrl = placeCtrl;
         initWidget(uiBinder.createAndBindUi(this));
-        btnAddCourse.setText("Criar Novo Curso");
+        btnAddCourse.setText("Criar Novo Conteúdo");
 
         bus.addHandler(PlaceChangeEvent.TYPE, new PlaceChangeEvent.Handler() {
             @Override
@@ -115,7 +115,7 @@ public class GenericAdminCoursesView extends Composite implements AdminCoursesVi
             }
         });
 
-        table.initColumn("Curso", 20, "c.name", new Column<CourseTO, CourseTO>(buildCourseCell()) {
+        table.initColumn("Conteúdo", 20, "c.name", new Column<CourseTO, CourseTO>(buildCourseCell()) {
             @Override
             public CourseTO getValue(CourseTO courseTO) {
                 return courseTO;
@@ -190,7 +190,7 @@ public class GenericAdminCoursesView extends Composite implements AdminCoursesVi
         }
         table.build(coursesWrapper, courseTOs);
 
-        title.setText("Gerenciar Cursos   (" + presenter.getTotalRowCount() + ")");
+        title.setText("Gerenciar Conteúdos   (" + presenter.getTotalRowCount() + ")");
 
         adminHomePanel.setVisible(true);
     }

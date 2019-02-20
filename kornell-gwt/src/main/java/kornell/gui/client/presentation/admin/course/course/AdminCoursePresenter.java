@@ -76,7 +76,7 @@ public class AdminCoursePresenter implements AdminCourseView.Presenter {
                 public void ok(CourseClassTO courseClassTO) {
                     bus.fireEvent(new ShowPacifierEvent(false));
                     placeController.goTo(new AdminCourseVersionPlace(courseClassTO.getCourseVersionTO().getCourseVersion().getUUID()));
-                    KornellNotification.show("Curso criado com sucesso! Você pode gerenciar sua versão se desejar, ou pode publicar seu conteúdo.", 5000);
+                    KornellNotification.show("Conteúdo criado com sucesso! Você pode gerenciar sua versão se desejar, ou pode publicar seu material.", 5000);
                     PlaceUtils.reloadCurrentPlace(bus, placeController);
                 }
 

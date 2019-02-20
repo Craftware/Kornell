@@ -2,7 +2,7 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
 	<g:FlowPanel>
-		<g:HTMLPanel ui:field="title" addStyleNames="title unclear fillWidth marginBottom25">Conteúdo da Versão do Curso</g:HTMLPanel>
+		<g:HTMLPanel ui:field="title" addStyleNames="title unclear fillWidth marginBottom25">Conteúdo da Versão do Conteúdo</g:HTMLPanel>
 		<g:FlowPanel ui:field="courseVersionUpload" addStyleNames="fieldsWrapper"/>
 		<g:Button ui:field="sandboxButton" addStyleNames="btnAction clearer marginLeft7 marginBottom25">Ir para sala de aula "sandbox"</g:Button>
 		<g:FlowPanel ui:field="wizardContainer"/>

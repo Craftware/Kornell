@@ -85,7 +85,7 @@ public class GenericAdminCourseClassesView extends Composite implements AdminCou
             final PlaceController placeCtrl, final ViewFactory viewFactory) {
         this.placeCtrl = placeCtrl;
         initWidget(uiBinder.createAndBindUi(this));
-        btnAddCourseClass.setText("Criar Nova Turma");
+        btnAddCourseClass.setText("Criar Novo Grupo");
 
         bus.addHandler(PlaceChangeEvent.TYPE, new PlaceChangeEvent.Handler() {
             @Override
@@ -115,7 +115,7 @@ public class GenericAdminCourseClassesView extends Composite implements AdminCou
     private void initTable() {
         table = new KornellTable<>(presenter, "courseClassesCellTable");
 
-        table.initColumn("Curso", 20, "c.name", new Column<CourseClassTO, CourseClassTO>(buildCourseCell()) {
+        table.initColumn("Conteúdo", 20, "c.name", new Column<CourseClassTO, CourseClassTO>(buildCourseCell()) {
             @Override
             public CourseClassTO getValue(CourseClassTO courseClassTO) {
                 return courseClassTO;
@@ -129,7 +129,7 @@ public class GenericAdminCourseClassesView extends Composite implements AdminCou
             }
         });
 
-        table.initColumn("Turma", 25, "cc.name", new Column<CourseClassTO, CourseClassTO>(buildCourseClassCell()) {
+        table.initColumn("Grupo", 25, "cc.name", new Column<CourseClassTO, CourseClassTO>(buildCourseClassCell()) {
             @Override
             public CourseClassTO getValue(CourseClassTO courseClassTO) {
                 return courseClassTO;
@@ -221,7 +221,7 @@ public class GenericAdminCourseClassesView extends Composite implements AdminCou
         }
         table.build(courseClassesWrapper, courseClassTOs);
 
-        title.setText("Gerenciar Turmas (" + presenter.getTotalRowCount() + ")");
+        title.setText("Gerenciar Grupos (" + presenter.getTotalRowCount() + ")");
         adminHomePanel.setVisible(true);
     }
 

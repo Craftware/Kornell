@@ -155,7 +155,7 @@ implements AdminCourseVersionsView.Presenter {
             blockActions = true;
 
             confirmModal.showModal(
-                    "Tem certeza que deseja reiniciar todas as matrículas da turma \"SANDBOX\" da versão \"" + courseVersionTO.getCourseVersion().getName() + "\"? O progresso de todos os administradores e publicadores de conteúdo será reiniciado. Essa operação não pode ser desfeita.",
+                    "Tem certeza que deseja reiniciar todas as matrículas do grupo \"SANDBOX\" da versão \"" + courseVersionTO.getCourseVersion().getName() + "\"? O progresso de todos os administradores e publicadores de conteúdo será reiniciado. Essa operação não pode ser desfeita.",
                     new com.google.gwt.core.client.Callback<Void, Void>() {
                         @Override
                         public void onSuccess(Void result) {
@@ -166,7 +166,7 @@ implements AdminCourseVersionsView.Presenter {
                                 public void ok(Void str) {
                                     blockActions = false;
                                     bus.fireEvent(new ShowPacifierEvent(false));
-                                    KornellNotification.show("As matrículas da turma sandbox foram reiniciadas com sucesso.");
+                                    KornellNotification.show("As matrículas do grupo sandbox foram reiniciadas com sucesso.");
                                     updateData();
                                 }
 
@@ -174,7 +174,7 @@ implements AdminCourseVersionsView.Presenter {
                                 public void internalServerError(KornellErrorTO error) {
                                     blockActions = false;
                                     bus.fireEvent(new ShowPacifierEvent(false));
-                                    KornellNotification.show("Erro ao tentar reiniciar as matrículas da turma sandbox.",
+                                    KornellNotification.show("Erro ao tentar reiniciar as matrículas do grupo sandbox.",
                                             AlertType.ERROR);
                                 }
                             });

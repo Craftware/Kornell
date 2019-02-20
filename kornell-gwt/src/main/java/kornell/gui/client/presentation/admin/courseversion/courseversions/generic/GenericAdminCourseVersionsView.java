@@ -121,7 +121,7 @@ public class GenericAdminCourseVersionsView extends Composite implements AdminCo
     private void initTable() {
         table = new KornellTable<>(presenter, "courseVersionsCellTable");
 
-        table.initColumn("Curso", 20, "c.name", new Column<CourseVersionTO, CourseVersionTO>(buildCourseCell()) {
+        table.initColumn("Conteúdo", 20, "c.name", new Column<CourseVersionTO, CourseVersionTO>(buildCourseCell()) {
             @Override
             public CourseVersionTO getValue(CourseVersionTO courseVersionTO) {
                 return courseVersionTO;
@@ -157,7 +157,7 @@ public class GenericAdminCourseVersionsView extends Composite implements AdminCo
             }
         });
 
-        table.initColumn("Turmas", 8, new TextColumn<CourseVersionTO>() {
+        table.initColumn("Grupos", 8, new TextColumn<CourseVersionTO>() {
             @Override
             public String getValue(CourseVersionTO courseVersionTO) {
                 return "" + courseVersionTO.getCourseClassesCount();
@@ -192,7 +192,7 @@ public class GenericAdminCourseVersionsView extends Composite implements AdminCo
     private CompositeCell<CourseVersionTO> buildActionsCell() {
         List<HasCell<CourseVersionTO, ?>> cells = new LinkedList<HasCell<CourseVersionTO, ?>>();
         cells.add(new CourseVersionActionsHasCell("Gerenciar", getGoToCourseVersionDelegate()));
-        cells.add(new CourseVersionActionsHasCell("Reiniciar Matrículas da Turma Sandbox", getResetSandboxEnrollmentsDelegate()));
+        cells.add(new CourseVersionActionsHasCell("Reiniciar Matrículas do Grupo Sandbox", getResetSandboxEnrollmentsDelegate()));
         cells.add(new CourseVersionActionsHasCell("Duplicar", getDuplicateCourseVersionDelegate()));
         cells.add(new CourseVersionActionsHasCell("Excluir", getDeleteCourseVersionDelegate()));
         CompositeCell<CourseVersionTO> cell = new CompositeCell<CourseVersionTO>(cells);
@@ -216,7 +216,7 @@ public class GenericAdminCourseVersionsView extends Composite implements AdminCo
         }
         table.build(courseVersionsWrapper, courseVersionTOs);
 
-        title.setText("Gerenciar Versões de Curso (" + presenter.getTotalRowCount() + ")");
+        title.setText("Gerenciar Versões de Conteúdo (" + presenter.getTotalRowCount() + ")");
 
         adminHomePanel.setVisible(true);
     }
@@ -325,7 +325,7 @@ public class GenericAdminCourseVersionsView extends Composite implements AdminCo
                     } else if ("Duplicar".equals(actionName)) {
                         btn.setIcon(IconType.COPY);
                         btn.addStyleName("btnNotSelected");
-                    } else if ("Reiniciar Matrículas da Turma Sandbox".equals(actionName)) {
+                    } else if ("Reiniciar Matrículas do Grupo Sandbox".equals(actionName)) {
                         btn.setIcon(IconType.ERASER);
                         btn.addStyleName("btnNotSelected");
                     }

@@ -198,10 +198,10 @@ public class AdminCourseClassPresenter extends PaginationPresenterImpl<Enrollmen
                     public void ok(Void to) {
                         bus.fireEvent(new ShowPacifierEvent(false));
                         if (EntityState.inactive.equals(toState)) {
-                            KornellNotification.show("Turma desabilitada com sucesso!");
+                            KornellNotification.show("Grupo desabilitado com sucesso!");
                             updateCourseClass(courseClassTO.getCourseClass().getUUID());
                         } else {
-                            KornellNotification.show("Turma excluída com sucesso!");
+                            KornellNotification.show("Grupo excluído com sucesso!");
                             placeController.goTo(new AdminCourseClassesPlace());
                         }
                     }
@@ -209,7 +209,7 @@ public class AdminCourseClassPresenter extends PaginationPresenterImpl<Enrollmen
                     @Override
                     public void unauthorized(KornellErrorTO kornellErrorTO) {
                         bus.fireEvent(new ShowPacifierEvent(false));
-                        KornellNotification.show("Erro ao tentar excluir a turma.", AlertType.ERROR);
+                        KornellNotification.show("Erro ao tentar excluir o grupo.", AlertType.ERROR);
                         logger.severe(this.getClass().getName() + " - "
                                 + KornellConstantsHelper.getErrorMessage(kornellErrorTO));
                     }
@@ -424,7 +424,7 @@ public class AdminCourseClassPresenter extends PaginationPresenterImpl<Enrollmen
     private void prepareCreateEnrollments(boolean isBatch) {
         enrollmentRequestsTO.setEnrollmentRequests(batchEnrollments);
         if (EntityState.inactive.equals(session.getCurrentCourseClass().getCourseClass().getState())) {
-            KornellNotification.show("Não é possível matricular participantes em uma turma desabilidada.",
+            KornellNotification.show("Não é possível matricular participantes em um grupo desabilidado.",
                     AlertType.ERROR);
             return;
         } else if (enrollmentRequestsTO.getEnrollmentRequests().size() == 0) {
@@ -574,7 +574,7 @@ public class AdminCourseClassPresenter extends PaginationPresenterImpl<Enrollmen
                                 .getMaxEnrollments()) {
                             bus.fireEvent(new ShowPacifierEvent(false));
                             KornellNotification.show(
-                                    "Não foi possível concluir a requisição. Verifique a quantidade de matrículas disponíveis nesta turma",
+                                    "Não foi possível concluir a requisição. Verifique a quantidade de matrículas disponíveis neste grupo",
                                     AlertType.ERROR, 5000);
                         } else {
                             view.showModal(false, "");
@@ -696,7 +696,7 @@ public class AdminCourseClassPresenter extends PaginationPresenterImpl<Enrollmen
                 @Override
                 public void ok(CourseClass courseClass) {
                     bus.fireEvent(new ShowPacifierEvent(false));
-                    KornellNotification.show("Turma criada com sucesso!");
+                    KornellNotification.show("Grupo criado com sucesso!");
                     CourseClassTO courseClassTO2 = session.getCurrentCourseClass();
                     if (courseClassTO2 != null)
                         courseClassTO2.setCourseClass(courseClass);

@@ -559,7 +559,7 @@ public class GenericAdminCourseClassView extends Composite implements AdminCours
             presenter.onModalTransferOkButtonClicked(selectedEnrollment.getEnrollment().getUUID(),
                     courseClassListBox.getSelectedValue());
         } else {
-            KornellNotification.show("Selecione uma turma.", AlertType.ERROR);
+            KornellNotification.show("Selecione um grupo.", AlertType.ERROR);
         }
     }
 
@@ -725,7 +725,7 @@ public class GenericAdminCourseClassView extends Composite implements AdminCours
                         && (!InstitutionType.DASHBOARD.equals(session.getInstitution().getInstitutionType()))) {
                     selectedEnrollment = object;
                     transferModal.setTitle("Transferir Matrícula");
-                    txtModalTransfer1.setText("Selecione a turma desejada para transferir esse participante:");
+                    txtModalTransfer1.setText("Selecione o grupo desejado para transferir esse participante:");
                     bus.fireEvent(new ShowPacifierEvent(true));
                     session.courseClasses().getAdministratedCourseClassesTOByCourseVersion(
                             courseClassTO.getCourseVersionTO().getCourseVersion().getUUID(),
@@ -738,11 +738,11 @@ public class GenericAdminCourseClassView extends Composite implements AdminCours
                                                     && to.getCourseClasses().get(0).getCourseClass().getUUID()
                                                             .equals(courseClassTO.getCourseClass().getUUID()))) {
                                         KornellNotification.show(
-                                                "Nenhuma turma encontrada para a qual esse usuário possa ser transferido.",
+                                                "Nenhum grupo encontrado para a qual esse usuário possa ser transferido.",
                                                 AlertType.ERROR);
                                     } else {
                                         courseClassListBox.clear();
-                                        courseClassListBox.addItem("[Selecione uma turma]", "");
+                                        courseClassListBox.addItem("[Selecione um grupo]", "");
                                         for (CourseClassTO courseClass : to.getCourseClasses()) {
                                             if (!courseClass.getCourseClass().getUUID()
                                                     .equals(courseClassTO.getCourseClass().getUUID()))

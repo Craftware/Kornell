@@ -2,8 +2,8 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:b="urn:import:com.github.gwtbootstrap.client.ui">
 
 	<g:FlowPanel addStyleNames="courseClassConfig">
-		<g:HTMLPanel ui:field="titleEdit" addStyleNames="title unclear fillWidth left">Editar Turma</g:HTMLPanel>
-		<g:HTMLPanel ui:field="titleCreate" addStyleNames="title marginTop25">Criar Turma</g:HTMLPanel>
+		<g:HTMLPanel ui:field="titleEdit" addStyleNames="title unclear fillWidth left">Editar Grupo</g:HTMLPanel>
+		<g:HTMLPanel ui:field="titleCreate" addStyleNames="title marginTop25">Criar Grupo</g:HTMLPanel>
 	    <g:FlowPanel addStyleNames="standardButtonBar unclear right">
 	    </g:FlowPanel>
 			<b:Form ui:field="form" addStyleNames="profileForm left">

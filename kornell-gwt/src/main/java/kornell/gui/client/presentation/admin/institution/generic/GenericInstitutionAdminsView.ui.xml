@@ -4,7 +4,7 @@
   <g:FlowPanel addStyleNames="rolesAdmin">
 	  <g:FlowPanel addStyleNames="multiSelect">
 			<g:HTMLPanel addStyleNames="title">Editar Administradores da Instituição</g:HTMLPanel>
-			<g:Label addStyleNames="subTitle">Escolha na lista abaixo os administradores da instituição. Os administradores da instituição podem alterar as configurações da turma, adicionar novos administradores de turma, criar turmas, matricular alunos e responder as mensagens da turma.</g:Label>
+			<g:Label addStyleNames="subTitle">Escolha na lista abaixo os administradores da instituição. Os administradores da instituição podem alterar as configurações do grupo, adicionar novos administradores de grupo, criar grupos, matricular alunos e responder as mensagens do grupo.</g:Label>
 			<b:Form ui:field="institutionAdminForm" addStyleNames="profileForm">
 				<g:FlowPanel ui:field="institutionAdminFields" addStyleNames="fieldsWrapper marginTop25">
 				</g:FlowPanel>
@@ -17,7 +17,7 @@
 
 	  <g:FlowPanel addStyleNames="multiSelect">
 		  <g:HTMLPanel addStyleNames="title">Editar publicadores de conteúdo</g:HTMLPanel>
-		  <g:Label addStyleNames="subTitle">Escolha na lista abaixo os publicadores de conteúdo. Os publicadores de conteúdo podem alterar as configurações e conteúdos de cursos e versões.</g:Label>
+		  <g:Label addStyleNames="subTitle">Escolha na lista abaixo os publicadores de conteúdo. Os publicadores de conteúdo podem alterar as configurações e o material de conteúdos e versões.</g:Label>
 		  <b:Form ui:field="publisherForm" addStyleNames="profileForm">
 			  <g:FlowPanel ui:field="publisherFields" addStyleNames="fieldsWrapper marginTop25">
 			  </g:FlowPanel>
@@ -29,8 +29,8 @@
 	  </g:FlowPanel>
 
 	  <g:FlowPanel addStyleNames="multiSelect">
-		  <g:HTMLPanel addStyleNames="title">Editar administradores globais de turmas</g:HTMLPanel>
-		  <g:Label addStyleNames="subTitle">Escolha na lista abaixo os administradores globais de turmas. Os administradores globais de turmas podem matricular alunos e responder as mensagens de todas as turmas.</g:Label>
+		  <g:HTMLPanel addStyleNames="title">Editar administradores globais de grupos</g:HTMLPanel>
+		  <g:Label addStyleNames="subTitle">Escolha na lista abaixo os administradores globais de grupos. Os administradores globais de grupos podem matricular alunos e responder as mensagens de todos os grupos.</g:Label>
 		  <b:Form ui:field="institutionCourseClassesAdminForm" addStyleNames="profileForm">
 			  <g:FlowPanel ui:field="institutionCourseClassesAdminFields" addStyleNames="fieldsWrapper marginTop25">
 			  </g:FlowPanel>
@@ -42,8 +42,8 @@
 	  </g:FlowPanel>
 
 	  <g:FlowPanel addStyleNames="multiSelect">
-		  <g:HTMLPanel addStyleNames="title">Editar observadores globais de turmas</g:HTMLPanel>
-		  <g:Label addStyleNames="subTitle">Escolha na lista abaixo os observadores globais de turmas. Os observadores globais de turmas podem visualizar as matrículas e gerar certificados, mas não podem alterar as matrículas nem as configurações da turma.</g:Label>
+		  <g:HTMLPanel addStyleNames="title">Editar observadores globais de grupos</g:HTMLPanel>
+		  <g:Label addStyleNames="subTitle">Escolha na lista abaixo os observadores globais de grupos. Os observadores globais de grupos podem visualizar as matrículas e gerar certificados, mas não podem alterar as matrículas nem as configurações do grupo.</g:Label>
 		  <b:Form ui:field="institutionCourseClassesObserverForm" addStyleNames="profileForm">
 			  <g:FlowPanel ui:field="institutionCourseClassesObserverFields" addStyleNames="fieldsWrapper marginTop25">
 			  </g:FlowPanel>

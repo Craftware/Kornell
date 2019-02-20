@@ -5,7 +5,7 @@
 		<g:FlowPanel ui:field="coursesPanel" addStyleNames="courseClassesHeaderWrapper">
 			<g:FlowPanel addStyleNames="left">
 				<g:Label ui:field="title" addStyleNames="title"></g:Label>
-				<g:HTMLPanel addStyleNames="subTitle">Escolha abaixo o curso que deseja gerenciar</g:HTMLPanel>
+				<g:HTMLPanel addStyleNames="subTitle">Escolha abaixo o conteúdo que deseja gerenciar</g:HTMLPanel>
 			</g:FlowPanel>
 			<b:Button ui:field="btnAddCourse" addStyleNames="btnAction btnIcon right" size="MINI" icon="PLUS_SIGN" />
 		</g:FlowPanel>

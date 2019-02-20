@@ -109,7 +109,7 @@ public class GenericCourseClassAdminsView extends Composite {
 
         FlowPanel labelPanel = new FlowPanel();
         labelPanel.addStyleName("labelPanel");
-        Label lblLabel = new Label("Administradores da Turma");
+        Label lblLabel = new Label("Administradores do Grupo");
         lblLabel.addStyleName("lblLabel");
         labelPanel.add(lblLabel);
         fieldPanelWrapper.add(labelPanel);
@@ -143,7 +143,7 @@ public class GenericCourseClassAdminsView extends Composite {
 
         FlowPanel labelPanel = new FlowPanel();
         labelPanel.addStyleName("labelPanel");
-        Label lblLabel = new Label("Tutores da Turma");
+        Label lblLabel = new Label("Tutores do Grupo");
         lblLabel.addStyleName("lblLabel");
         labelPanel.add(lblLabel);
         fieldPanelWrapper.add(labelPanel);
@@ -177,7 +177,7 @@ public class GenericCourseClassAdminsView extends Composite {
 
         FlowPanel labelPanel = new FlowPanel();
         labelPanel.addStyleName("labelPanel");
-        Label lblLabel = new Label("Observadores da Turma");
+        Label lblLabel = new Label("Observadores do Grupo");
         lblLabel.addStyleName("lblLabel");
         labelPanel.add(lblLabel);
         fieldPanelWrapper.add(labelPanel);
@@ -224,7 +224,7 @@ public class GenericCourseClassAdminsView extends Composite {
             session.courseClass(courseClassTO.getCourseClass().getUUID()).updateAdmins(roles, new Callback<Roles>() {
                 @Override
                 public void ok(Roles to) {
-                    KornellNotification.show("Os administradores da turma foram atualizados com sucesso.");
+                    KornellNotification.show("Os administradores do grupo foram atualizados com sucesso.");
                 }
             });
         }
@@ -238,7 +238,7 @@ public class GenericCourseClassAdminsView extends Composite {
             ListBox multipleSelect = tutorsMultipleSelect.getMultipleSelect();
             if (multipleSelect.getItemCount() == 0 && courseClassTO.getCourseClass().isTutorChatEnabled()) {
                 KornellNotification.show(
-                        "Você não pode remover todos os tutores desta turma. Desabilite a opção \"Permitir tutoria da turma\" na aba Configurações.",
+                        "Você não pode remover todos os tutores deste grupo. Desabilite a opção \"Permitir tutoria do grupo\" na aba Configurações.",
                         AlertType.WARNING, 4000);
                 return;
             }
@@ -256,7 +256,7 @@ public class GenericCourseClassAdminsView extends Composite {
             session.courseClass(courseClassTO.getCourseClass().getUUID()).updateTutors(roles, new Callback<Roles>() {
                 @Override
                 public void ok(Roles to) {
-                    KornellNotification.show("Os tutores da turma foram atualizados com sucesso.");
+                    KornellNotification.show("Os tutores do grupo foram atualizados com sucesso.");
                 }
             });
         }
@@ -282,7 +282,7 @@ public class GenericCourseClassAdminsView extends Composite {
             session.courseClass(courseClassTO.getCourseClass().getUUID()).updateObservers(roles, new Callback<Roles>() {
                 @Override
                 public void ok(Roles to) {
-                    KornellNotification.show("Os observadores da turma foram atualizados com sucesso.");
+                    KornellNotification.show("Os observadores do grupo foram atualizados com sucesso.");
                 }
             });
         }

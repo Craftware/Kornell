@@ -8,9 +8,9 @@
 				<g:FlowPanel>
     				<g:Label ui:field="title" addStyleNames="title"></g:Label>
 					<g:FlowPanel addStyleNames="subTitle">
-						<g:Label addStyleNames="inlineLabel">Matriculados na turma</g:Label>
+						<g:Label addStyleNames="inlineLabel">Matriculados no grupo</g:Label>
 						<g:Label ui:field="lblCourseClassName" addStyleNames="inlineLabel lblHighlight"></g:Label>
-						<g:Label addStyleNames="inlineLabel">do curso</g:Label>
+						<g:Label addStyleNames="inlineLabel">do conteúdo</g:Label>
 						<g:Label ui:field="lblCourseName" addStyleNames="inlineLabel lblHighlight"></g:Label>
 						<g:Label addStyleNames="inlineLabel marginLeft25"> (</g:Label>
 						<g:Label ui:field="lblEnrollmentsCount" addStyleNames="inlineLabel lblHighlight"></g:Label>

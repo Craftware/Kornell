@@ -127,7 +127,7 @@ implements AdminCourseClassesView.Presenter {
             blockActions = true;
 
             confirmModal.showModal(
-                    "Tem certeza que deseja excluir a turma \"" + courseClassTO.getCourseClass().getName() + "\"?",
+                    "Tem certeza que deseja excluir o grupo \"" + courseClassTO.getCourseClass().getName() + "\"?",
                     new com.google.gwt.core.client.Callback<Void, Void>() {
                         @Override
                         public void onSuccess(Void result) {
@@ -138,7 +138,7 @@ implements AdminCourseClassesView.Presenter {
                                 public void ok(CourseClass to) {
                                     blockActions = false;
                                     bus.fireEvent(new ShowPacifierEvent(false));
-                                    KornellNotification.show("Turma excluída com sucesso.");
+                                    KornellNotification.show("Grupo excluído com sucesso.");
                                     updateData();
                                 }
 
@@ -146,7 +146,7 @@ implements AdminCourseClassesView.Presenter {
                                 public void internalServerError(KornellErrorTO error) {
                                     blockActions = false;
                                     bus.fireEvent(new ShowPacifierEvent(false));
-                                    KornellNotification.show("Erro ao tentar excluir a turma.",
+                                    KornellNotification.show("Erro ao tentar excluir o grupo.",
                                             AlertType.ERROR);
                                 }
                             });
@@ -179,7 +179,7 @@ implements AdminCourseClassesView.Presenter {
             blockActions = false;
 
             confirmModal.showModal(
-                    "Tem certeza que deseja duplicar a turma \"" + courseClassTO.getCourseClass().getName() + "\"?",
+                    "Tem certeza que deseja duplicar o grupo \"" + courseClassTO.getCourseClass().getName() + "\"?",
                     new com.google.gwt.core.client.Callback<Void, Void>() {
                         @Override
                         public void onSuccess(Void result) {
@@ -190,7 +190,7 @@ implements AdminCourseClassesView.Presenter {
                                 public void ok(CourseClass courseClass) {
                                     blockActions = false;
                                     bus.fireEvent(new ShowPacifierEvent(false));
-                                    KornellNotification.show("Turma duplicada com sucesso.");
+                                    KornellNotification.show("Grupo duplicado com sucesso.");
                                     placeController.goTo(new AdminCourseClassPlace(courseClass.getUUID()));
                                 }
 
@@ -198,7 +198,7 @@ implements AdminCourseClassesView.Presenter {
                                 public void internalServerError(KornellErrorTO error) {
                                     blockActions = false;
                                     bus.fireEvent(new ShowPacifierEvent(false));
-                                    KornellNotification.show("Erro ao tentar duplicar a turma.",
+                                    KornellNotification.show("Erro ao tentar duplicar o grupo.",
                                             AlertType.ERROR);
                                 }
 
@@ -207,7 +207,7 @@ implements AdminCourseClassesView.Presenter {
                                     blockActions = false;
                                     bus.fireEvent(new ShowPacifierEvent(false));
                                     KornellNotification.show(
-                                            "Erro ao tentar duplicar a turma. Verifique se já existe uma turma com o nome \""
+                                            "Erro ao tentar duplicar o grupo. Verifique se já existe um grupo com o nome \""
                                                     + courseClassTO.getCourseClass().getName() + "\" (2).",
                                                     AlertType.ERROR, 5000);
                                 }

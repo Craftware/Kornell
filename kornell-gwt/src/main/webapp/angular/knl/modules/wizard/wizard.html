@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="tree-control-panel">
-                            <a id="treeHelp2" ng-disabled="blockPublishButton" uib-tooltip="Publicar Curso" tooltip-placement="bottom" tooltip-append-to-body="true" class="btn btn-primary btn-sm margin-right-5" ng-click="publishTree()">
+                            <a id="treeHelp2" ng-disabled="blockPublishButton" uib-tooltip="Publicar Conteúdo" tooltip-placement="bottom" tooltip-append-to-body="true" class="btn btn-primary btn-sm margin-right-5" ng-click="publishTree()">
                                 <i class="fa fa-upload"></i>
                             </a>
                             <a id="treeHelp3" ng-disabled="blockPublishButton" uib-tooltip="Descartar Alterações" tooltip-placement="bottom" tooltip-append-to-body="true" class="btn btn-default btn-sm" ng-click="discardTree()">
@@ -42,7 +42,7 @@
         <div class="scroll-body" id="widthUnder991Scroll" slimscroll="{alwaysVisible:true}">
             <div class="col-sm-12">
                 <div class="tree-control-panel">
-                    <a ng-disabled="blockPublishButton" uib-tooltip="Publicar Curso" tooltip-placement="bottom" tooltip-append-to-body="true" class="btn btn-primary btn-sm margin-right-5" ng-click="publishTree()">
+                    <a ng-disabled="blockPublishButton" uib-tooltip="Publicar Conteúdo" tooltip-placement="bottom" tooltip-append-to-body="true" class="btn btn-primary btn-sm margin-right-5" ng-click="publishTree()">
                         <i class="fa fa-upload"></i>
                     </a>
                     <a ng-disabled="blockPublishButton" uib-tooltip="Descartar Alterações" tooltip-placement="bottom" tooltip-append-to-body="true" class="btn btn-default btn-sm margin-right-5" ng-click="discardTree()">
@@ -129,7 +129,7 @@
                         <div class="form-group">
                             <label>Nome da aula</label>
                             <input ng-model="selectedNode.title" class="form-control">
-                            <p class="help-block">Esse nome aparecerá no cabeçalho da aula e no painel de detalhes do curso dentro da Eduvem.</p>
+                            <p class="help-block">Esse nome aparecerá no cabeçalho da aula e no painel de detalhes do conteúdo dentro da Eduvem.</p>
                         </div>
                         
                         <div ng-include="'editLecture_'+selectedNode.type+'.html'"></div>
@@ -176,7 +176,7 @@
         <div class="checkbox checkbox-primary">
             <input class="" ng-model="selectedNode.showWell" type="checkbox" id="checkbox_showWell">
             <label for="checkbox_showWell" id="label_showWell">
-                <span><small>Mostrar texto dentro de uma caixa com a cor principal do tema do curso.</small></span>
+                <span><small>Mostrar texto dentro de uma caixa com a cor principal do tema do conteúdo.</small></span>
             </label>
         </div>
     </div>
@@ -427,23 +427,23 @@
             <div class="row">
                 <div class="col-sm-12">
                     <form role="form">
-                        <h1 class="form-title"><small>Configurações do Curso</small></h1>
+                        <h1 class="form-title"><small>Configurações do Conteúdo</small></h1>
                         <div class="form-group">
-                            <label>Nome do curso</label>
+                            <label>Nome do conteúdo</label>
                             <input ng-model="selectedNode.title" class="form-control">
-                            <p class="help-block">Nome que aparecerá no cabeçalho do curso.</p>
+                            <p class="help-block">Nome que aparecerá no cabeçalho do conteúdo.</p>
                         </div>
 
                         <div class="form-group">
                             <label>Cor principal do tema</label>
                             <color-picker ng-model="selectedNode.colorTheme" options="colorPickeroptions"></color-picker>
-                            <p class="help-block">Essa será a cor usada para a barra do topo do curso, títulos, etc.</p>
+                            <p class="help-block">Essa será a cor usada para a barra do topo do conteúdo, títulos, etc.</p>
                         </div>
 
                         <div class="form-group">
                             <label>Cor da fonte</label>
                             <color-picker ng-model="selectedNode.colorFont" options="colorPickeroptions"></color-picker>
-                            <p class="help-block">Essa é a cor que será utilizada para os textos do curso.</p>
+                            <p class="help-block">Essa é a cor que será utilizada para os textos do conteúdo.</p>
                         </div>
 
                         <div class="form-group">
@@ -492,7 +492,7 @@
                         <div class="form-group">
                             <label>Nome do módulo</label>
                             <input ng-model="selectedNode.title" class="form-control">
-                            <p class="help-block">Esse nome aparecerá no cabeçalho de cada aula e no painel de detalhes do curso dentro da Eduvem.</p>
+                            <p class="help-block">Esse nome aparecerá no cabeçalho de cada aula e no painel de detalhes do conteúdo dentro da Eduvem.</p>
                         </div>
                     </form>
                 </div>
@@ -515,7 +515,7 @@
             <li ui-tree-node ng-repeat="root in data">
                 <div class="tree-node tree-node-content" ng-class="{selected: selectedNode.uuid === root.uuid}" ng-click="edit(this)">
                     <span class="tree-node-title"><b><i class="fa fa-warning changedFlagIcon" ng-show="isUnpublishedNodes[root.uuid]"></i>{{root.title | limitToDots: limitToDots}}</b></span>
-                    <a id="nodeEdit_{{root.uuid}}" uib-tooltip="Editar curso" tooltip-placement="left" tooltip-append-to-body="true" class="pull-right btn btn-primary btn-xxs" data-nodrag ng-click="edit(this)" style="margin-right: 3px;">
+                    <a id="nodeEdit_{{root.uuid}}" uib-tooltip="Editar conteúdo" tooltip-placement="left" tooltip-append-to-body="true" class="pull-right btn btn-primary btn-xxs" data-nodrag ng-click="edit(this)" style="margin-right: 3px;">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
                     <a id="treeHelp4" uib-tooltip="Adicionar novo módulo" tooltip-placement="left" tooltip-append-to-body="true" class="pull-right btn btn-default btn-xxs" data-nodrag ng-click="newModule(true)" style="margin-right: 3px;">

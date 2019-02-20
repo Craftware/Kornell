@@ -298,7 +298,7 @@ public class GenericAdminCourseVersionView extends Composite implements AdminCou
             courseVersions.setSelectedValue(
                     courseVersion.getParentVersionUUID() == null ? "null" : courseVersion.getParentVersionUUID());
         }
-        parentCourseVersion = new KornellFormFieldWrapper("Versão Pai do Curso", new ListBoxFormField(courseVersions),
+        parentCourseVersion = new KornellFormFieldWrapper("Versão Pai do Conteúdo", new ListBoxFormField(courseVersions),
                 (isCreationMode || hasPublishingRole));
         fields.add(parentCourseVersion);
         courseVersionFields.add(parentCourseVersion);
@@ -338,7 +338,7 @@ public class GenericAdminCourseVersionView extends Composite implements AdminCou
         if (!isCreationMode) {
             courses.setSelectedValue(courseVersion.getCourseUUID());
         }
-        course = new KornellFormFieldWrapper("Curso", new ListBoxFormField(courses), hasPublishingRole);
+        course = new KornellFormFieldWrapper("Conteúdo", new ListBoxFormField(courses), hasPublishingRole);
 
         if (course != null && courseVersionFields.getElement().isOrHasChild(course.getElement())) {
             fields.remove(course);
@@ -355,7 +355,7 @@ public class GenericAdminCourseVersionView extends Composite implements AdminCou
             name.setError("Insira o nome da versão");
         }
         if (!formHelper.isListBoxSelected((ListBox) course.getFieldWidget())) {
-            course.setError("Escolha o curso");
+            course.setError("Escolha o conteúdo");
         }
         if (!formHelper.isLengthValid(distributionPrefix.getFieldPersistText(), 2, 200)) {
             distributionPrefix.setError("Insira o código");

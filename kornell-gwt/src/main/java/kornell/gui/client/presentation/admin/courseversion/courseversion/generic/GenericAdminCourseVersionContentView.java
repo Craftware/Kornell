@@ -55,7 +55,7 @@ public class GenericAdminCourseVersionContentView extends Composite implements A
         courseVersionUpload.addStyleName("fieldPanelWrapper fileUploadPanel");
 
         //remove below lines when we support unzip
-        Label lblLabel = new Label("Entre em contato com o suporte para atualizar o conteúdo da versão do curso.");
+        Label lblLabel = new Label("Entre em contato com o suporte para atualizar o material da versão do conteúdo.");
         lblLabel.addStyleName("lblLabel");
         courseVersionUpload.add(lblLabel);
         /*FlowPanel labelPanel = new FlowPanel();

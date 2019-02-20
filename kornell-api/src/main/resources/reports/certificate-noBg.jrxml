@@ -40,8 +40,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA["A <style isBold='true' pdfFontName='Helvetica-Bold'>" + ($F{institutionName}).toUpperCase() + "</style> certifica que " + "\n" +
 "<style isBold='true' pdfFontName='Helvetica-Bold'>" + ($F{personFullName}).toUpperCase() + "</style>" + ($F{personCPF} == null ? "" : ", portador(a) do <style isBold='true' pdfFontName='Helvetica-Bold'>CPF " + ($F{personCPF}).substring(0,3) + "." + ($F{personCPF}).substring(3,6) + "." + ($F{personCPF}).substring(6,9) + "-" + ($F{personCPF}).substring(9) + "</style>,") + "\n" +
-"concluiu o <style isBold='true' pdfFontName='Helvetica-Bold'>CURSO DE " + ($F{courseTitle}).toUpperCase() + "</style>,\n" +
-"na turma <style isBold='true' pdfFontName='Helvetica-Bold'>" + ($F{courseClassName}).toUpperCase() + "</style>."]]></textFieldExpression>
+"concluiu o <style isBold='true' pdfFontName='Helvetica-Bold'>CONTEÚDO DE " + ($F{courseTitle}).toUpperCase() + "</style>,\n" +
+"no grupo <style isBold='true' pdfFontName='Helvetica-Bold'>" + ($F{courseClassName}).toUpperCase() + "</style>."]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

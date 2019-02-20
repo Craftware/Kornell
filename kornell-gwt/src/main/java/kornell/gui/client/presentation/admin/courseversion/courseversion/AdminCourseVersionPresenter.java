@@ -69,7 +69,7 @@ public class AdminCourseVersionPresenter implements AdminCourseVersionView.Prese
             session.courseVersions().create(courseVersion, new Callback<CourseVersion>() {
                 @Override
                 public void ok(CourseVersion courseVersion) {
-                    KornellNotification.show("Versão de curso criada com sucesso!");
+                    KornellNotification.show("Versão de conteúdo criada com sucesso!");
                     bus.fireEvent(new ShowPacifierEvent(false));
                     placeController.goTo(new AdminCourseVersionPlace(courseVersion.getUUID()));
                 }

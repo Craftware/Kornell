@@ -158,7 +158,7 @@ public class GenericCourseClassConfigView extends Composite {
             createCoursesField(null);
         }
 
-        name = new KornellFormFieldWrapper("Nome da Turma", formHelper.createTextBoxFormField(courseClass.getName()),
+        name = new KornellFormFieldWrapper("Nome da Grupo", formHelper.createTextBoxFormField(courseClass.getName()),
                 isInstitutionAdmin);
         fields.add(name);
         profileFields.add(name);
@@ -188,7 +188,7 @@ public class GenericCourseClassConfigView extends Composite {
                 : courseClass.getEnrollmentExpiryDays().toString();
         enrollmentExpiryDays = new KornellFormFieldWrapper("Limite de dias para conclusão",
                 formHelper.createTextBoxFormField(enrollmentExpiryDaysStr), isInstitutionAdmin, null,
-                "Se o valor for deixado em branco ou for zero, os participantes não terão prazo limite para concluir o curso.");
+                "Se o valor for deixado em branco ou for zero, os participantes não terão prazo limite para concluir o conteúdo.");
         fields.add(enrollmentExpiryDays);
         profileFields.add(enrollmentExpiryDays);
 
@@ -222,7 +222,7 @@ public class GenericCourseClassConfigView extends Composite {
                 : courseClass.getRequiredScore().toString();
         requiredScore = new KornellFormFieldWrapper("Nota para Aprovação" + (isWizardClass ? " (wizard)" : ""),
                 formHelper.createTextBoxFormField(requiredScoreStr), isInstitutionAdmin && !isWizardClass, null,
-                "Se a nota for deixada como zero, a avaliação não será exigida para que os alunos matriculados finalizem o curso.");
+                "Se a nota for deixada como zero, a avaliação não será exigida para que os alunos matriculados finalizem o conteúdo.");
         fields.add(requiredScore);
         profileFields.add(requiredScore);
         ((TextBox) requiredScore.getFieldWidget()).setEnabled(isAllowCertification);
@@ -244,7 +244,7 @@ public class GenericCourseClassConfigView extends Composite {
         });
 
         Boolean isPublicClass = courseClass.isPublicClass() == null ? false : courseClass.isPublicClass();
-        publicClass = new KornellFormFieldWrapper("Turma pública?", formHelper.createCheckBoxFormField(isPublicClass),
+        publicClass = new KornellFormFieldWrapper("Grupo público?", formHelper.createCheckBoxFormField(isPublicClass),
                 isInstitutionAdmin);
         fields.add(publicClass);
         profileFields.add(publicClass);
@@ -280,7 +280,7 @@ public class GenericCourseClassConfigView extends Composite {
         ((CheckBox) approveEnrollmentsAutomatically.getFieldWidget()).setEnabled(isPublicClass);
 
         Boolean isInvisible = courseClass.isInvisible() == null ? false : courseClass.isInvisible();
-        invisible = new KornellFormFieldWrapper("Turma invisível?", formHelper.createCheckBoxFormField(isInvisible),
+        invisible = new KornellFormFieldWrapper("Grupo invisível?", formHelper.createCheckBoxFormField(isInvisible),
                 isInstitutionAdmin);
         fields.add(invisible);
         profileFields.add(invisible);
@@ -329,7 +329,7 @@ public class GenericCourseClassConfigView extends Composite {
         if (session.isPlatformAdmin()) {
             Boolean isTutorChatEnabled = courseClass.isTutorChatEnabled() == null ? false
                     : courseClass.isTutorChatEnabled();
-            tutorChatEnabled = new KornellFormFieldWrapper("Permitir tutoria da turma?",
+            tutorChatEnabled = new KornellFormFieldWrapper("Permitir tutoria do grupo?",
                     formHelper.createCheckBoxFormField(isTutorChatEnabled), isInstitutionAdmin);
             fields.add(tutorChatEnabled);
             profileFields.add(tutorChatEnabled);
@@ -345,7 +345,7 @@ public class GenericCourseClassConfigView extends Composite {
 
             Boolean isCourseClassChatEnabled = courseClass.isCourseClassChatEnabled() == null ? false
                     : courseClass.isCourseClassChatEnabled();
-            courseClassChatEnabled = new KornellFormFieldWrapper("Chat global da turma?",
+            courseClassChatEnabled = new KornellFormFieldWrapper("Chat global do grupo?",
                     formHelper.createCheckBoxFormField(isCourseClassChatEnabled), isInstitutionAdmin);
             fields.add(courseClassChatEnabled);
             profileFields.add(courseClassChatEnabled);
@@ -365,7 +365,7 @@ public class GenericCourseClassConfigView extends Composite {
 
             Boolean isChatDockEnabled = courseClass.isChatDockEnabled() == null ? false
                     : courseClass.isChatDockEnabled();
-            chatDockEnabled = new KornellFormFieldWrapper("Fixar chat da turma?",
+            chatDockEnabled = new KornellFormFieldWrapper("Fixar chat do grupo?",
                     formHelper.createCheckBoxFormField(isChatDockEnabled), isInstitutionAdmin);
             fields.add(chatDockEnabled);
             profileFields.add(chatDockEnabled);
@@ -430,7 +430,7 @@ public class GenericCourseClassConfigView extends Composite {
         if (!isCreationMode) {
             courses.setSelectedValue(courseClassTO.getCourseVersionTO().getCourseTO().getCourse().getUUID());
         }
-        course = new KornellFormFieldWrapper("Curso", new ListBoxFormField(courses),
+        course = new KornellFormFieldWrapper("Conteúdo", new ListBoxFormField(courses),
                 (isCreationMode || presenter.getEnrollments().size() == 0));
 
         fields.add(course);
@@ -476,7 +476,7 @@ public class GenericCourseClassConfigView extends Composite {
         if (!isCreationMode) {
             courseVersions.setSelectedValue(courseClassTO.getCourseVersionTO().getCourseVersion().getUUID());
         }
-        courseVersion = new KornellFormFieldWrapper("Versão do Curso", new ListBoxFormField(courseVersions),
+        courseVersion = new KornellFormFieldWrapper("Versão do Conteúdo", new ListBoxFormField(courseVersions),
                 (isCreationMode || presenter.getEnrollments().size() == 0));
 
         fields.add(courseVersion);
@@ -487,15 +487,15 @@ public class GenericCourseClassConfigView extends Composite {
 
     private boolean validateFields() {
         if (!formHelper.isListBoxSelected(((ListBox) course.getFieldWidget()))) {
-            course.setError("Selecione o curso.");
+            course.setError("Selecione o conteúdo.");
         }
 
         if (!formHelper.isListBoxSelected(((ListBox) courseVersion.getFieldWidget()))) {
-            courseVersion.setError("Selecione a versão do curso.");
+            courseVersion.setError("Selecione a versão do conteúdo.");
         }
 
         if (!formHelper.isLengthValid(name.getFieldPersistText(), 2, 100)) {
-            name.setError("Insira o nome da turma.");
+            name.setError("Insira o nome do grupo.");
         }
 
         if(!isWizardClass) {
@@ -591,32 +591,32 @@ public class GenericCourseClassConfigView extends Composite {
         this.modalMode = mode;
         if (MODAL_DEACTIVATE.equals(modalMode)) {
             confirmText.setText(
-                    "Tem certeza que deseja desabilitar esta turma? Os participantes matriculados ainda poderão acessar os detalhes da turma e emitir o certificado, mas não terão acesso ao material relacionado à turma."
-                            + "\nEsta operação não pode ser desfeita. Caso deseje evitar que essa turma apareça para os participantes, coloque-a como invisível.");
+                    "Tem certeza que deseja desabilitar este grupo? Os participantes matriculados ainda poderão acessar os detalhes do grupo e emitir o certificado, mas não terão acesso ao material relacionado ao grupo."
+                            + "\nEsta operação não pode ser desfeita. Caso deseje evitar que este grupo apareça para os participantes, coloque-a como invisível.");
         } else if (MODAL_PUBLIC.equals(modalMode)) {
             confirmText.setText(
-                    "ATENÇÃO! Tem certeza que deseja tornar esta turma pública? Ela será visível e disponível para solicitação de matrícula para TODOS os alunos registrados nesta instituição.");
+                    "ATENÇÃO! Tem certeza que deseja tornar este grupo pública? Ela será visível e disponível para solicitação de matrícula para TODOS os alunos registrados nesta instituição.");
         } else if (MODAL_APPROVE_ENROLLMENTS_AUTOMATICALLY.equals(modalMode)) {
             confirmText.setText(
-                    "ATENÇÃO! Tem certeza que deseja aprovar as matrículas automaticamente? Toda vez que um participante solicitar uma matrícula, ele poderá iniciar o curso instantaneamente.");
+                    "ATENÇÃO! Tem certeza que deseja aprovar as matrículas automaticamente? Toda vez que um participante solicitar uma matrícula, ele poderá iniciar o conteúdo instantaneamente.");
         } else if (MODAL_OVERRIDE_ENROLLMENTS.equals(modalMode)) {
             confirmText.setText(
                     "ATENÇÃO! Tem certeza que deseja habilitar a sobrescrita de matrículas? Toda vez que uma matrícula em lote for feita, todas as matrículas já existentes que não estão presentes no lote serão canceladas.");
         } else if (MODAL_INVISIBLE.equals(modalMode)) {
             confirmText.setText(
-                    "ATENÇÃO! Tem certeza que deseja tornar esta turma invisível? Nenhum participante que esteja matriculado poderá ver essa turma, nem será capaz de gerar o certificado caso tenha sido aprovado.");
+                    "ATENÇÃO! Tem certeza que deseja tornar este grupo invisível? Nenhum participante que esteja matriculado poderá ver este grupo, nem será capaz de gerar o certificado caso tenha sido aprovado.");
         } else if (MODAL_ALLOW_BATCH_CANCELLATION.equals(modalMode)) {
             confirmText.setText(
                     "ATENÇÃO! Tem certeza que deseja permitir o cancelamento em lote de matrículas? Um novo botão aparecerá na tela de matrículas, e qualquer administrador poderá cancelar uma lista de matrículas.");
         } else if (MODAL_COURSE_CLASS_CHAT_ENABLED.equals(modalMode)) {
             confirmText.setText(
-                    "ATENÇÃO! Tem certeza que deseja permitir a criação do chat global da turma? Um novo botão aparecerá na tela de detalhes do curso para os participantes, e todos os participantes da turma poderão conversar entre si.");
+                    "ATENÇÃO! Tem certeza que deseja permitir a criação do chat global do grupo? Um novo botão aparecerá na tela de detalhes do conteúdo para os participantes, e todos os participantes do grupo poderão conversar entre si.");
         } else if (MODAL_CHAT_DOCK_ENABLED.equals(modalMode)) {
             confirmText.setText(
-                    "ATENÇÃO! Tem certeza que deseja habilitar a fixação do chat? Um painel aparecerá dentro da turma, ao lado direito, com o chat da turma carregado.");
+                    "ATENÇÃO! Tem certeza que deseja habilitar a fixação do chat? Um painel aparecerá dentro do grupo, ao lado direito, com o chat do grupo carregado.");
         } else if (MODAL_TUTOR_CHAT_ENABLED.equals(modalMode)) {
             confirmText.setText(
-                    "ATENÇÃO! Tem certeza que deseja permitir a criação de chats de tutoria na turma? Um novo botão aparecerá na tela de detalhes do curso para os participantes, e todos os participantes da turma poderão iniciar uma conversa com um tutor. Não se esqueça de configurar o(s) tutor(es)!");
+                    "ATENÇÃO! Tem certeza que deseja permitir a criação de chats de tutoria no grupo? Um novo botão aparecerá na tela de detalhes do conteúdo para os participantes, e todos os participantes do grupo poderão iniciar uma conversa com um tutor. Não se esqueça de configurar o(s) tutor(es)!");
         }
         confirmModal.show();
     }
@@ -665,7 +665,7 @@ public class GenericCourseClassConfigView extends Composite {
                 });
             } else {
                 KornellNotification.show(
-                        "Para habilitar esta opção, você precisa configurar os tutores na aba \"Administradores\" após finalizar a criação da turma.",
+                        "Para habilitar esta opção, você precisa configurar os tutores na aba \"Administradores\" após finalizar a criação do grupo.",
                         AlertType.WARNING, 4000);
             }
         }

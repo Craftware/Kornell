@@ -175,7 +175,7 @@ public class GenericInstitutionAdminsView extends Composite {
 
         FlowPanel labelPanel = new FlowPanel();
         labelPanel.addStyleName("labelPanel");
-        Label lblLabel = new Label("Administradores globais de turmas");
+        Label lblLabel = new Label("Administradores globais de grupos");
         lblLabel.addStyleName("lblLabel");
         labelPanel.add(lblLabel);
         fieldPanelWrapper.add(labelPanel);
@@ -206,7 +206,7 @@ public class GenericInstitutionAdminsView extends Composite {
 
         FlowPanel labelPanel = new FlowPanel();
         labelPanel.addStyleName("labelPanel");
-        Label lblLabel = new Label("Administradores globais de turmas");
+        Label lblLabel = new Label("Administradores globais de grupos");
         lblLabel.addStyleName("lblLabel");
         labelPanel.add(lblLabel);
         fieldPanelWrapper.add(labelPanel);
@@ -302,7 +302,7 @@ public class GenericInstitutionAdminsView extends Composite {
             session.institution(institution.getUUID()).updateInstitutionCourseClassesAdmins(roles, new Callback<Roles>() {
                 @Override
                 public void ok(Roles to) {
-                    KornellNotification.show("Os administradores globais de turmas foram atualizados com sucesso.");
+                    KornellNotification.show("Os administradores globais de grupos foram atualizados com sucesso.");
                 }
             });
         }
@@ -328,7 +328,7 @@ public class GenericInstitutionAdminsView extends Composite {
             session.institution(institution.getUUID()).updateInstitutionCourseClassesObservers(roles, new Callback<Roles>() {
                 @Override
                 public void ok(Roles to) {
-                    KornellNotification.show("Os observadores globais de turmas foram atualizados com sucesso.");
+                    KornellNotification.show("Os observadores globais de grupos foram atualizados com sucesso.");
                 }
             });
         }

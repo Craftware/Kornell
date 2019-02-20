@@ -91,8 +91,8 @@ public class GenericCourseReportItemView extends Composite {
     }
 
     private void displayCourseClassInfo() {
-        this.name = "Relatório de detalhes da turma";
-        this.description = "Geração do relatório de detalhes da turma e de suas matrículas. Por padrão ele é gerado em PDF contendo somente matriculas ativas.";
+        this.name = "Relatório de detalhes do grupo";
+        this.description = "Geração do relatório de detalhes do grupo e de suas matrículas. Por padrão ele é gerado em PDF contendo somente matriculas ativas.";
 
         certificationIcon.setUrl(StringUtils.mkurl(ADMIN_IMAGES_PATH, type + ".png"));
         lblName.setText(name);
@@ -122,7 +122,7 @@ public class GenericCourseReportItemView extends Composite {
         trigger.setTarget("#toggleClassInfoUsernames");
         collapse.setId("toggleClassInfoUsernames");
 
-        checkBoxCollapse = new CheckBox("Gerar somente para um conjunto de participantes dessa turma");
+        checkBoxCollapse = new CheckBox("Gerar somente para um conjunto de participantes deste grupo");
 
         FlowPanel triggerPanel = new FlowPanel();
         triggerPanel.add(checkBoxCollapse);
