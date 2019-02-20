@@ -19,6 +19,9 @@ public interface KornellConstants extends ConstantsWithLookup {
     @DefaultStringValue("Refresh")
     String refresh();
 
+    @DefaultStringValue(" · ")
+    String nameSeparator();
+
     /**
      * GenericClientFactoryImpl
      */
@@ -98,6 +101,15 @@ public interface KornellConstants extends ConstantsWithLookup {
     @DefaultStringValue("Sandbox")
     String sandbox();
 
+    @DefaultStringValue("Content")
+    String homeTitle();
+
+    @DefaultStringValue("Select below")
+    String homeDescription();
+
+    @DefaultStringValue("You are not enrolled in a class and there are no classes available to request a new registration.")
+    String noClassesAvailable();
+
     /**
      *
      * GenericCourseDetailsView
@@ -105,9 +117,6 @@ public interface KornellConstants extends ConstantsWithLookup {
      */
     @DefaultStringValue("Course details: ")
     String detailsHeader();
-
-    @DefaultStringValue("Class: ")
-    String detailsSubHeader();
 
     @DefaultStringValue("About")
     String about();
@@ -572,21 +581,6 @@ public interface KornellConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("on")
     String completedOnToken();
-
-    /**
-     * GenericWelcomeView
-     */
-    @DefaultStringValue("Classes")
-    String homeTitle();
-
-    @DefaultStringValue("Select a class below")
-    String homeDescription();
-
-    @DefaultStringValue("You are not enrolled in a class and there are no classes available to request a new registration.")
-    String noClassesAvailable();
-
-    @DefaultStringValue("Class")
-    String courseClass();
 
     /**
      * Captain

@@ -19,9 +19,9 @@ object CourseCreationService {
     CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.randomUUID.toString, "help",
       "Se precisar entrar em contato, clique em ajuda no menu acima.", CourseDetailsEntityType.COURSE, courseUUID, 1, "fa fa-question-circle"))
     CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.randomUUID.toString, "multimedia-warning",
-      "Este curso contém vídeo e áudio, certifique que seu dispositivo possa reproduzi-los.", CourseDetailsEntityType.COURSE, courseUUID, 2, "fa fa-warning"))
+      "Este conteúdo contém vídeo e áudio, certifique que seu dispositivo possa reproduzi-los.", CourseDetailsEntityType.COURSE, courseUUID, 2, "fa fa-warning"))
     CourseDetailsHintsRepo.create(Entities.newCourseDetailsHint(UUID.randomUUID.toString, "certificate",
-      "Curso com certificação.", CourseDetailsEntityType.COURSE, courseUUID, 3, "fa fa-certificate"))
+      "Conteúdo com certificação.", CourseDetailsEntityType.COURSE, courseUUID, 3, "fa fa-certificate"))
 
     CourseDetailsSectionsRepo.create(Entities.newCourseDetailsSection(UUID.randomUUID.toString, "Apresentação", to.getDescription, CourseDetailsEntityType.COURSE, courseUUID, 0))
   }

@@ -246,7 +246,7 @@ object ChatThreadsRepo {
        |         join Person pin on ctpin.personUUID = pin.uuid
        |       where ctpin.personUUID <> ${personUUID}
        |         and t.uuid = ctpin.chatThreadUUID
-       |     ) else cc.name end) as entityName,
+       |     ) else concat(c.name, ' · ', cc.name) end) as entityName,
        |    (case t.threadType when ${ChatThreadType.DIRECT.toString} then
        |     (select cpin2.personUUID
        |       from ChatThreadParticipant cpin2
@@ -257,6 +257,8 @@ object ChatThreadsRepo {
        | join ChatThread t on t.uuid = pt.chatThreadUUID
        | join Person p on pt.personUUID = p.uuid
        | left join CourseClass cc on t.courseClassUUID = cc.uuid
+       | left join CourseVersion cv on cc.courseVersionUUID = cv.uuid
+       | left join Course c on cv.courseUUID = c.uuid
        | where pt.personUUID = ${personUUID}
        | order by t.lastSentAt desc
         """.map[UnreadChatThreadTO](toUnreadChatThreadTO))

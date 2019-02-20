@@ -394,10 +394,6 @@ public class GenericCourseDetailsView extends Composite implements ShowDetailsEv
         courseNameLabel.addStyleName("courseNameLabel");
         titlePanel.add(courseNameLabel);
 
-        Label subTitleLabel = new Label(constants.detailsSubHeader() + " ");
-        subTitleLabel.addStyleName("titleLabel subTitleLabel");
-        titlePanel.add(subTitleLabel);
-
         Label courseClassNameLabel = new Label(courseClassTO.getCourseClass().getName());
         courseClassNameLabel.addStyleName("courseClassNameLabel");
         titlePanel.add(courseClassNameLabel);

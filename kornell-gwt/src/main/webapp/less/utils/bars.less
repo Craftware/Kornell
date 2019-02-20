@@ -23,7 +23,6 @@
 		.size (@wrapperWidth,@barSouthHeight);
 		margin: 0 auto;
 		.btnPanel{
-			.btnBorder;
 			.cursorPointer;
 		}
 		.btnAction{
@@ -77,7 +76,7 @@
 		}
 		.disabled {
 			.activityBarButtonItem{
-				color: darken(@niceTextColor, 30%);
+				.lightenOrDarkenColor(@niceTextColor, 30%);
 			}
 			.btnPanel{
 				cursor: default;
@@ -85,7 +84,6 @@
 		}
 		.btnProgress{
 			cursor: default;
-			.btnBorder;
 			.boxSizing;
 			&:not(.btnSelected):not(.disabled):hover{
 				.gradient (@barGradientStartColor, @barGradientEndColor);
@@ -176,7 +174,6 @@
 		.buttons{
 			float: right;
 			.menuBarButton{
-				.btnBorder;
 				@paddingTop: 10px;
 				height: @barNorthHeight - @paddingTop;
 				line-height: @barNorthHeight - (@paddingTop*2);

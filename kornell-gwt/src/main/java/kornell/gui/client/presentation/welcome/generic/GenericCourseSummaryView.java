@@ -107,7 +107,7 @@ public class GenericCourseSummaryView extends Composite {
         this.session = session;
         Course course = courseClassTO.getCourseVersionTO().getCourseTO().getCourse();
         hTitle.setText(course.getName());
-        lblSubTitle.setText(constants.courseClass() + ": " + courseClassTO.getCourseClass().getName());
+        lblSubTitle.setText(courseClassTO.getCourseClass().getName());
         pDescription.setText(course.getDescription());
 
         final Teacher teacher = Teachers.of(courseClassTO);

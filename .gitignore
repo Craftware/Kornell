@@ -45,3 +45,5 @@ kornell-gwt/extras/Kornell/rpcPolicyManifest/
 sh.exe.stackdump
 kornell-api/.cache-*
 kornell-gwt/src/main/webapp/css/
+kornell-gwt/src/main/webapp/less/utils/bars.css
+kornell-gwt/src/main/webapp/less/utils/forms.css
