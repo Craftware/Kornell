@@ -114,6 +114,7 @@ object EmailService {
       values("PERSON_FULLNAME") = person.getFullName
       values("BUTTON_LINK") = institution.getBaseURL + "#message:"
       values("INSTITUTION_SHORTNAME") = institution.getName
+      values("INSTITUTION_NAME") = institution.getFullName
       values("PARTICIPANT_FULLNAME") = participant.getFullName
       values("PARTICIPANT_EMAIL") = participant.getEmail
       values("THREAD_MESSAGE") = message.replace("\n", "<br />\n")
@@ -122,8 +123,6 @@ object EmailService {
           courseClass.getName
         else ""
       }
-      // must be done after setting the CLASS_NAME
-      values("THREAD_SUBJECT") = processTitle(templateType, values)
 
       val from = getFromEmail(institution)
       val to = person.getEmail
@@ -189,15 +188,6 @@ object EmailService {
       title = title.replaceAll("\\$\\$" + x._1 + "\\$\\$", x._2)
     }
     (title, output)
-  }
-
-  private def processTitle(templateType: EmailTemplateType, values: scala.collection.mutable.Map[String, String]): String = {
-    val template = EmailTemplatesRepo.getTemplate(templateType, UserLocale.getLocale.get).get
-    var title = template.getTitle
-    values.foreach { x =>
-      title = title.replaceAll("\\$\\$" + x._1 + "\\$\\$", x._2)
-    }
-    title
   }
 
   private def getInstitutionLogoImage(institution: Institution): java.io.File = {
