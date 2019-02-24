@@ -15,8 +15,8 @@ import scala.collection.JavaConverters.seqAsJavaListConverter
 
 package object report {
 
-  def getReportBytesFromStream(certificateData: List[Any], parameters: HashMap[String, Object], jasperStream: InputStream): Array[Byte] =
-    getReportBytesFromStream(certificateData, parameters, jasperStream, "pdf")
+  def getReportBytesFromStream(certificateData: List[Any], parameters: HashMap[String, Object], jasperStream: InputStream, fileType: String): Array[Byte] =
+    runReportToPdf(certificateData, parameters, JRLoader.loadObject(jasperStream).asInstanceOf[JasperReport], fileType)
 
   def getReportBytesFromJrxml(certificateData: List[Any], parameters: HashMap[String, Object], jrxmlFileName: String, fileType: String): Array[Byte] = {
     val jrxmlFilePath = getClass.getResource("/reports/" + jrxmlFileName + ".jrxml").getPath

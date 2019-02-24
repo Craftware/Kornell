@@ -130,7 +130,7 @@ object ReportCertificateGenerator {
 
     val cl = Thread.currentThread.getContextClassLoader
     val stream = cl.getResourceAsStream(certificateDetails.getCertificateType.getPath)
-    getReportBytesFromStream(certificateData, parameters, stream)
+    getReportBytesFromStream(certificateData, parameters, stream, "pdf")
 
   }
 
