@@ -1,6 +1,6 @@
 package kornell.server.report
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File, FileInputStream, FileOutputStream}
+import java.io.ByteArrayInputStream
 import java.math.BigDecimal
 import java.net.{HttpURLConnection, URL}
 import java.sql.ResultSet
@@ -20,11 +20,7 @@ import kornell.server.jdbc.SQL.SQLHelper
 import kornell.server.jdbc.repository.{ContentRepositoriesRepo, CourseClassRepo, CourseRepo, InstitutionRepo, PersonRepo}
 import kornell.server.repository.TOs
 import kornell.server.service.ContentService
-import kornell.server.util.{DateConverter, Settings}
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
-import net.sf.jasperreports.engine.export.JRPdfExporter
-import net.sf.jasperreports.engine.{DefaultJasperReportsContext, JREmptyDataSource, JRFont, JRPropertiesUtil, JasperCompileManager, JasperFillManager}
-import net.sf.jasperreports.export.{SimpleExporterInput, SimpleOutputStreamExporterOutput}
+import kornell.server.util.DateConverter
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer

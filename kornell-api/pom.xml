@@ -33,7 +33,7 @@
 		</repository>
 		<repository>
 			<id>jasper</id>
-			<url>http://jasperreports.sourceforge.net/maven2/</url>
+			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/</url>
 		</repository>
 		<repository>
 			<id>sonatype</id>
