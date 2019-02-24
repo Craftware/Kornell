@@ -123,8 +123,6 @@ object ReportCourseClassAuditGenerator {
     order by eventFiredAt desc
       """.map[CourseClassAuditTO](toCourseClassAuditTO)
 
-    val cl = Thread.currentThread.getContextClassLoader
-    val jasperStream = cl.getResourceAsStream("reports/courseClassAuditXLS.jasper")
-    getReportBytesFromStream(courseClassAuditTO, parameters, jasperStream, "xls")
+    getReportBytesFromJrxml(courseClassAuditTO, parameters, "courseClassAuditXLS", "xls")
   }
 }

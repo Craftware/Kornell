@@ -52,9 +52,7 @@ object ReportInstitutionBillingGenerator {
         ORDER BY LOWER(p.fullName)
       """.map[InstitutionBillingMonthlyReportTO](toInstitutionBillingMonthlyReportTO)
 
-    val cl = Thread.currentThread.getContextClassLoader
-    val jasperStream = cl.getResourceAsStream("reports/institutionBillingXLS_monthly.jasper")
-    getReportBytesFromStream(institutionBillingReportTO, parameters, jasperStream, "xls")
+    getReportBytesFromJrxml(institutionBillingReportTO, parameters, "institutionBillingXLS_monthly", "xls")
   }
 
   private def generateInstitutionBillingEnrollmentReport(institutionUUID: String, periodStart: String, periodEnd: String, parameters: util.HashMap[String, Object]): Array[Byte] = {
@@ -102,8 +100,6 @@ object ReportInstitutionBillingGenerator {
       ORDER BY c.name, cv.name, cc.name, p.fullName
       """.map[InstitutionBillingEnrollmentReportTO](toInstitutionBillingEnrollmentReportTO)
 
-    val cl = Thread.currentThread.getContextClassLoader
-    val jasperStream = cl.getResourceAsStream("reports/institutionBillingXLS_enrollment.jasper")
-    getReportBytesFromStream(institutionBillingReportTO, parameters, jasperStream, "xls")
+    getReportBytesFromJrxml(institutionBillingReportTO, parameters, "institutionBillingXLS_enrollment", "xls")
   }
 }

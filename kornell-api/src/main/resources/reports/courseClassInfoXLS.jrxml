@@ -167,7 +167,7 @@
 					<font fontName="Serif" size="9" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Criada em: ]]></text>
+				<text><![CDATA[Criado em: ]]></text>
 			</staticText>
 			<textField>
 				<reportElement uuid="5b7d1755-e284-4c23-8b2c-2d48ea28e5bb" mode="Opaque" x="0" y="0" width="680" height="20" forecolor="#000000" backcolor="#FFFFFF"/>

@@ -174,7 +174,7 @@ public class GenericCourseReportItemView extends Composite {
 
                     @Override
                     public void ok(String url) {
-                        KornellNotification.show("O relatório de detalhes da classe foi gerado.", AlertType.WARNING, 2000);
+                        KornellNotification.show("O relatório de detalhes do grupo foi gerado.", AlertType.WARNING, 2000);
                         displayActionCell(url);
                         bus.fireEvent(new ShowPacifierEvent(false));
                     }

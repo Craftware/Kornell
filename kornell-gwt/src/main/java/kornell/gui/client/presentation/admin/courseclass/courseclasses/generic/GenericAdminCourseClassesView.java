@@ -146,7 +146,7 @@ public class GenericAdminCourseClassesView extends Composite implements AdminCou
             }
         });
 
-        table.initColumn("Criada em", 10, "cc.createdAt", false, new TextColumn<CourseClassTO>() {
+        table.initColumn("Criado em", 10, "cc.createdAt", false, new TextColumn<CourseClassTO>() {
             @Override
             public String getValue(CourseClassTO courseClassTO) {
                 return formHelper.dateToString(courseClassTO.getCourseClass().getCreatedAt());

@@ -199,7 +199,7 @@ public interface KornellConstants extends ConstantsWithLookup {
     @DefaultStringValue("Your registration has expired. Get in touch with support if you with to extend it.<br><br> The material in this class is inaccessible.<br>")
     String expiredEnrollment();
 
-    @DefaultStringValue("Ainda não existe conteúdo publicado para esta classe.<br><br> Entre em contato com o suporte clicando na interrogação no menu.<br>")
+    @DefaultStringValue("Ainda não existe conteúdo publicado para este grupo.<br><br> Entre em contato com o suporte clicando na interrogação no menu.<br>")
     String noPublishedContentForClassroom();
 
     @DefaultStringValue("Your registration has not yet been approved by the institution.")

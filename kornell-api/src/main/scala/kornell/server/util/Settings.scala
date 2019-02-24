@@ -94,10 +94,5 @@ object Settings extends Enum {
   val BUILT_ON = settting("built.on")
   val DEFAULT_LOCALE = "pt_BR"
 
-  //??  
-  def tmpDir =
-    if (System.getProperty("java.io.tmpdir").endsWith("\\"))
-      System.getProperty("java.io.tmpdir")
-    else
-      System.getProperty("java.io.tmpdir") + "/"
+  def TMP_DIR =  System.getProperty("java.io.tmpdir")
 }

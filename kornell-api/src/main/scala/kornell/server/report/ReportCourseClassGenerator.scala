@@ -1,6 +1,6 @@
 package kornell.server.report
 
-import java.io.ByteArrayInputStream
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File, FileInputStream, FileOutputStream}
 import java.math.BigDecimal
 import java.net.{HttpURLConnection, URL}
 import java.sql.ResultSet
@@ -20,7 +20,11 @@ import kornell.server.jdbc.SQL.SQLHelper
 import kornell.server.jdbc.repository.{ContentRepositoriesRepo, CourseClassRepo, CourseRepo, InstitutionRepo, PersonRepo}
 import kornell.server.repository.TOs
 import kornell.server.service.ContentService
-import kornell.server.util.DateConverter
+import kornell.server.util.{DateConverter, Settings}
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
+import net.sf.jasperreports.engine.export.JRPdfExporter
+import net.sf.jasperreports.engine.{DefaultJasperReportsContext, JREmptyDataSource, JRFont, JRPropertiesUtil, JasperCompileManager, JasperFillManager}
+import net.sf.jasperreports.export.{SimpleExporterInput, SimpleOutputStreamExporterOutput}
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ListBuffer
@@ -28,11 +32,12 @@ import scala.collection.mutable.ListBuffer
 object ReportCourseClassGenerator {
 
   def newCourseClassReportTO: CourseClassReportTO = new CourseClassReportTO
+
   def newCourseClassReportTO(fullName: String, username: String, email: String, cpf: String, state: String, progressState: String,
-    progress: Int, assessmentScore: BigDecimal, preAssessmentScore: BigDecimal, postAssessmentScore: BigDecimal,
-    certifiedAt: Date, enrolledAt: Date, courseName: String, courseVersionName: String, courseClassName: String,
-    company: String, title: String, sex: String, birthDate: String, telephone: String, country: String, stateProvince: String,
-    city: String, addressLine1: String, addressLine2: String, postalCode: String): CourseClassReportTO = {
+                             progress: Int, assessmentScore: BigDecimal, preAssessmentScore: BigDecimal, postAssessmentScore: BigDecimal,
+                             certifiedAt: Date, enrolledAt: Date, courseName: String, courseVersionName: String, courseClassName: String,
+                             company: String, title: String, sex: String, birthDate: String, telephone: String, country: String, stateProvince: String,
+                             city: String, addressLine1: String, addressLine2: String, postalCode: String): CourseClassReportTO = {
     val to = newCourseClassReportTO
     to.setFullName(fullName)
     to.setUsername(username)
@@ -93,11 +98,13 @@ object ReportCourseClassGenerator {
       rs.getString("postalCode"))
 
   type BreakdownData = (String, Integer)
+
   implicit def breakdownConvertion(rs: ResultSet): BreakdownData = (rs.getString(1), rs.getInt(2))
 
   def generateCourseClassReport(courseUUID: String, courseClassUUID: String, fileType: String, peopleTO: SimplePeopleTO): String = {
     if (courseUUID != null || courseClassUUID != null) {
-      var sql = s"""
+      var sql =
+        s"""
         select
           p.fullName,
           if(pw.username is not null, pw.username, p.email) as username,
@@ -163,7 +170,8 @@ object ReportCourseClassGenerator {
 
       if (sql.contains("--")) throw new EntityConflictException("invalidValue")
 
-      sql += s"""
+      sql +=
+        s"""
         order by
           case
             when e.state = '${EnrollmentState.enrolled.toString}' then 1
@@ -196,14 +204,9 @@ object ReportCourseClassGenerator {
       enrollmentBreakdowns += TOs.newEnrollmentsBreakdownTO("aa", new Integer(1))
       enrollmentBreakdowns.toList
 
-      val cl = Thread.currentThread.getContextClassLoader
-      val jasperStream = {
-        if (fileType == "xls")
-          cl.getResourceAsStream("reports/courseClassInfoXLS.jasper")
-        else
-          cl.getResourceAsStream("reports/courseClassInfo.jasper")
-      }
-      val report = getReportBytesFromStream(courseClassReportTO, parameters, jasperStream, fileType)
+      val fileName = if (fileType == "xls") "courseClassInfoXLS" else "courseClassInfo"
+      val report = getReportBytesFromJrxml(courseClassReportTO, parameters, fileName, fileType)
+
       val bs = new ByteArrayInputStream(report)
       val person = PersonRepo(ThreadLocalAuthenticator.getAuthenticatedPersonUUID.get).get
       val repo = ContentManagers.forRepository(ContentRepositoriesRepo.firstRepositoryByInstitution(person.getInstitutionUUID).get.getUUID)
@@ -229,6 +232,7 @@ object ReportCourseClassGenerator {
   }
 
   type ReportHeaderData = (String, String, String, Date, String, String, Date, String, String)
+
   implicit def headerDataConvertion(rs: ResultSet): ReportHeaderData = (rs.getString(1), rs.getString(2), rs.getString(3), rs.getDate(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getString(8), rs.getString(9))
 
   private def addInfoParameters(courseUUID: String, courseClassUUID: String, parameters: util.HashMap[String, Object]) = {
@@ -277,7 +281,8 @@ object ReportCourseClassGenerator {
 
   private def getTotalsAsParameters(courseUUID: String, courseClassUUID: String, fileType: String, usernames: String): util.HashMap[String, Object] = {
 
-    var sql = s"""
+    var sql =
+      s"""
         select
           case
             when progress is null OR progress = 0 then 'notStarted'
@@ -306,7 +311,8 @@ object ReportCourseClassGenerator {
 
     if (sql.contains("--")) throw new EntityConflictException("invalidValue")
 
-    sql += s"""
+    sql +=
+      s"""
         group by
           case
             when progress is null OR progress = 0 then 'notStarted'
@@ -337,7 +343,7 @@ object ReportCourseClassGenerator {
   def getFileName(courseUUID: String, courseClassUUID: String): String = {
     val title = if (courseUUID != null) CourseRepo(courseUUID).get.getName else CourseClassRepo(courseClassUUID).get.getName
     val normalizeTitle = Normalizer.normalize(title, Normalizer.Form.NFD)
-    val replaceTitle = normalizeTitle.replaceAll("[^\\p{ASCII}]", "").replaceAll(" ", "_")
+    val replaceTitle = normalizeTitle.replaceAll("[^\\p{ASCII}]", "").replaceAll("[^a-zA-Z0-9\\.\\-]", "_")
     replaceTitle + "_" + new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())
   }
 
