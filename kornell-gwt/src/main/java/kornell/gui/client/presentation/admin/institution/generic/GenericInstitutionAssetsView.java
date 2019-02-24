@@ -108,7 +108,7 @@ public class GenericInstitutionAssetsView extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 String test = fileName.replace(".", "%2E");
-                String[] allowedFileExtensions = {"jpg", "jpeg", "png", "gif"};
+                String[] allowedFileExtensions = "favicon.ico".equals(fileName) ?  new String[]{"ico"} : new String[]{"jpg", "jpeg", "png", "gif"};
                 session.institution(institution.getUUID()).getUploadURL(test, new Callback<String>() {
                     @Override
                     public void ok(String url) {
