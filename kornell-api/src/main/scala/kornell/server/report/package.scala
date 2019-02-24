@@ -19,9 +19,7 @@ package object report {
     runReportToPdf(certificateData, parameters, JRLoader.loadObject(jasperStream).asInstanceOf[JasperReport], fileType)
 
   def getReportBytesFromJrxml(certificateData: List[Any], parameters: HashMap[String, Object], jrxmlFileName: String, fileType: String): Array[Byte] = {
-    val jrxmlFilePath = getClass.getResource("/reports/" + jrxmlFileName + ".jrxml").getPath
-    val reportFile = new File(jrxmlFilePath)
-    val inputStreamJR = new FileInputStream(reportFile)
+    val inputStreamJR = getClass.getResourceAsStream("/reports/" + jrxmlFileName + ".jrxml")
     val reportCompiled = JasperCompileManager.compileReport(inputStreamJR)
     runReportToPdf(certificateData, parameters, reportCompiled, fileType)
   }
