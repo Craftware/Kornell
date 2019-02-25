@@ -19,7 +19,7 @@ object ChatThreadsRepo {
     val courseClass = CourseClassRepo(courseClassUUID).get
     val chatThreadUUID = getCourseClassChatThreadUUID(personUUID, courseClass.getUUID, threadType)
     if (chatThreadUUID.isEmpty) {
-      val course = CoursesRepo.byCourseClassUUID(courseClassUUID)
+      val course = CoursesRepo.byCourseClassUUID(courseClassUUID).get
       val chatThread = createChatThread(courseClass.getInstitutionUUID, courseClass.getUUID, personUUID, threadType)
       updateChatThreadParticipants(chatThread.getUUID, personUUID, courseClass, threadType, courseClass.getInstitutionUUID)
       createChatThreadMessage(chatThread.getUUID, personUUID, message)
