@@ -94,7 +94,7 @@ object EmailService {
     }
   }
 
-  def sendEmailNewChatThread(person: Person, institution: Institution, courseClass: CourseClass, chatThread: ChatThread, message: String): Unit = {
+  def sendEmailNewChatThread(person: Person, institution: Institution, courseClass: CourseClass, course: Course, chatThread: ChatThread, message: String): Unit = {
     val participant = PersonRepo(chatThread.getPersonUUID).get
     if (checkWhitelistForDomain(institution, person.getEmail) && person.isReceiveEmailCommunication && !participant.getUUID.equals(person.getUUID)) {
       val templateType = {
@@ -121,6 +121,11 @@ object EmailService {
       values("CLASS_NAME") = {
         if (courseClass != null)
           courseClass.getName
+        else ""
+      }
+      values("COURSE_NAME") = {
+        if (course != null)
+          course.getName
         else ""
       }
 

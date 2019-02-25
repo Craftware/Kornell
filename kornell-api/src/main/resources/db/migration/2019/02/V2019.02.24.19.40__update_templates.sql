@@ -2,7 +2,7 @@ UPDATE EmailTemplate set title = '$$COURSE_NAME$$ disponível em $$INSTITUTION_N
 template = '<div style="width: 700px;margin: 0 auto;padding: 20px 50px;border: 1px solid #CACACA;color: #444444;font-size: 18px;font-family: Helvetica,Arial,sans-serif;-webkit-box-shadow: 14px 14px 5px #AFAFAF;-moz-box-shadow: 14px 14px 5px #AFAFAF;box-shadow: 14px 14px 5px #AFAFAF;margin-bottom: 30px;border-radius: 10px;">
 <p>Ol&aacute;, <b>$$PERSON_FULLNAME$$</b></p>
 <p>&nbsp;</p>
-<p>O conte&uacute;do <b>$$CLASS_NAME$$</b> &centerdot; <b>$$COURSE_NAME$$</b> oferecido por <b>$$INSTITUTION_NAME$$</b> est&aacute; dispon&iacute;vel para voc&ecirc;.</p>
+<p>O conte&uacute;do <b>$$CLASS_NAME$$</b> · <b>$$COURSE_NAME$$</b> oferecido por <b>$$INSTITUTION_NAME$$</b> est&aacute; dispon&iacute;vel para voc&ecirc;.</p>
 <p>Utilize o bot&atilde;o abaixo para acessar.</p>
 <div style="width: 300px;margin: 0 auto;margin-bottom: 50px;margin-top: 50px;text-align: center;display: block;height: auto;">
 	<a href="$$BUTTON_LINK$$" target="_blank" style="text-decoration: none;">
@@ -21,7 +21,7 @@ UPDATE EmailTemplate set title = 'Uma nova conversa de ajuda criada para: $$CLAS
 template = '<div style="width: 700px;margin: 0 auto;padding: 20px 50px;border: 1px solid #CACACA;color: #444444;font-size: 18px;font-family: Helvetica,Arial,sans-serif;-webkit-box-shadow: 14px 14px 5px #AFAFAF;-moz-box-shadow: 14px 14px 5px #AFAFAF;box-shadow: 14px 14px 5px #AFAFAF;margin-bottom: 30px;border-radius: 10px;">
 <p>Ol&aacute;, <b>$$PERSON_FULLNAME$$</b></p>
 <p>&nbsp;</p>
-<p><b>$$PARTICIPANT_FULLNAME$$</b> <b>($$PARTICIPANT_EMAIL$$)</b> criou uma nova conversa de ajuda sobre: <b>$$CLASS_NAME$$</b> &centerdot; <b>$$COURSE_NAME$$</b>.</p>
+<p><b>$$PARTICIPANT_FULLNAME$$</b> <b>($$PARTICIPANT_EMAIL$$)</b> criou uma nova conversa de ajuda sobre: <b>$$CLASS_NAME$$</b> · <b>$$COURSE_NAME$$</b>.</p>
 <p>&nbsp;</p>
 <p>Mensagem: <br /><br /><i>$$THREAD_MESSAGE$$</i></p>
 <div style="width: 300px;margin: 0 auto;margin-bottom: 50px;margin-top: 50px;text-align: center;display: block;height: auto;">

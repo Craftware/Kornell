@@ -19,10 +19,11 @@ object ChatThreadsRepo {
     val courseClass = CourseClassRepo(courseClassUUID).get
     val chatThreadUUID = getCourseClassChatThreadUUID(personUUID, courseClass.getUUID, threadType)
     if (chatThreadUUID.isEmpty) {
+      val course = CoursesRepo.byCourseClassUUID(courseClassUUID)
       val chatThread = createChatThread(courseClass.getInstitutionUUID, courseClass.getUUID, personUUID, threadType)
       updateChatThreadParticipants(chatThread.getUUID, personUUID, courseClass, threadType, courseClass.getInstitutionUUID)
       createChatThreadMessage(chatThread.getUUID, personUUID, message)
-      sendEmailForThreadCreation(courseClass, chatThread, threadType, message, courseClass.getInstitutionUUID)
+      sendEmailForThreadCreation(courseClass, course, chatThread, threadType, message, courseClass.getInstitutionUUID)
     } else {
       createChatThreadMessage(chatThreadUUID.get, personUUID, message)
     }
@@ -34,7 +35,7 @@ object ChatThreadsRepo {
       val chatThread = createChatThread(institutionUUID, null, personUUID, threadType)
       updateChatThreadParticipants(chatThread.getUUID, personUUID, null, threadType, institutionUUID)
       createChatThreadMessage(chatThread.getUUID, personUUID, message)
-      sendEmailForThreadCreation(null, chatThread, threadType, message, institutionUUID)
+      sendEmailForThreadCreation(null, null, chatThread, threadType, message, institutionUUID)
     } else {
       createChatThreadMessage(chatThreadUUID.get, personUUID, message)
     }
@@ -65,17 +66,17 @@ object ChatThreadsRepo {
     }
   }
 
-  def sendEmailForThreadCreation(courseClass: CourseClass, chatThread: ChatThread, threadType: ChatThreadType, message: String, institutionUUID: String): Unit = {
+  def sendEmailForThreadCreation(courseClass: CourseClass, course: Course, chatThread: ChatThread, threadType: ChatThreadType, message: String, institutionUUID: String): Unit = {
     val institution = new InstitutionRepo(chatThread.getInstitutionUUID).get
     threadType match {
       case ChatThreadType.SUPPORT => new RolesRepo().getCourseClassSupportThreadParticipants(courseClass.getUUID, courseClass.getInstitutionUUID, RoleCategory.BIND_WITH_PERSON)
-        .getRoleTOs.asScala.filter(role => !chatThread.getPersonUUID.equals(role.getPerson.getUUID)).foreach(role => EmailService.sendEmailNewChatThread(role.getPerson, institution, courseClass, chatThread, message))
+        .getRoleTOs.asScala.filter(role => !chatThread.getPersonUUID.equals(role.getPerson.getUUID)).foreach(role => EmailService.sendEmailNewChatThread(role.getPerson, institution, courseClass, course, chatThread, message))
       case ChatThreadType.TUTORING => new RolesRepo().getUsersForCourseClassByRole(courseClass.getUUID, RoleType.tutor, RoleCategory.BIND_WITH_PERSON)
-        .getRoleTOs.asScala.filter(role => !chatThread.getPersonUUID.equals(role.getPerson.getUUID)).foreach(role => EmailService.sendEmailNewChatThread(role.getPerson, institution, courseClass, chatThread, message))
+        .getRoleTOs.asScala.filter(role => !chatThread.getPersonUUID.equals(role.getPerson.getUUID)).foreach(role => EmailService.sendEmailNewChatThread(role.getPerson, institution, courseClass, course, chatThread, message))
       case ChatThreadType.INSTITUTION_SUPPORT => new RolesRepo().getPlatformSupportThreadParticipants(institutionUUID, RoleCategory.BIND_WITH_PERSON)
-        .getRoleTOs.asScala.filter(role => !chatThread.getPersonUUID.equals(role.getPerson.getUUID)).foreach(role => EmailService.sendEmailNewChatThread(role.getPerson, institution, courseClass, chatThread, message))
+        .getRoleTOs.asScala.filter(role => !chatThread.getPersonUUID.equals(role.getPerson.getUUID)).foreach(role => EmailService.sendEmailNewChatThread(role.getPerson, institution, courseClass, course, chatThread, message))
       case ChatThreadType.PLATFORM_SUPPORT => new RolesRepo().getPlatformSupportThreadParticipants(institutionUUID, RoleCategory.BIND_WITH_PERSON)
-        .getRoleTOs.asScala.filter(role => !chatThread.getPersonUUID.equals(role.getPerson.getUUID)).foreach(role => EmailService.sendEmailNewChatThread(role.getPerson, institution, courseClass, chatThread, message))
+        .getRoleTOs.asScala.filter(role => !chatThread.getPersonUUID.equals(role.getPerson.getUUID)).foreach(role => EmailService.sendEmailNewChatThread(role.getPerson, institution, courseClass, course, chatThread, message))
       case ChatThreadType.COURSE_CLASS | ChatThreadType.DIRECT => throw new IllegalStateException("not-supported-for-this-type")
     }
   }
