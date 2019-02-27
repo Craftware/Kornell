@@ -197,7 +197,7 @@ class RolesRepo {
         ${role.getUUID},
         ${role.getPersonUUID},
         ${role.getRoleType.toString},
-        ${role.getInstitutionAdminRole.getInstitutionUUID})
+        ${RoleCategory.getInstitutionUUID(role)})
       """.executeUpdate
     }
   }

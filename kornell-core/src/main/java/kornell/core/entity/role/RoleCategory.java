@@ -234,4 +234,18 @@ public class RoleCategory {
         }
     }
 
+    public static String getInstitutionUUID(Role role){
+        if (RoleType.institutionAdmin.equals(role.getRoleType())) {
+            return role.getInstitutionAdminRole().getInstitutionUUID();
+        } else if (RoleType.publisher.equals(role.getRoleType())) {
+            return role.getPublisherRole().getInstitutionUUID();
+        } else if (RoleType.institutionCourseClassesAdmin.equals(role.getRoleType())) {
+            return role.getInstitutionCourseClassesAdminRole().getInstitutionUUID();
+        } else if (RoleType.institutionCourseClassesObserver.equals(role.getRoleType())) {
+            return role.getInstitutionCourseClassesObserverRole().getInstitutionUUID();
+        } else {
+            return "";
+        }
+    }
+
 }
