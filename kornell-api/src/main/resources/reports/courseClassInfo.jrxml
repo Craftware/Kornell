@@ -33,8 +33,8 @@
 	<title>
 		<band height="257">
 			<image scaleImage="FillFrame">
-				<reportElement uuid="4ae187a6-07c8-4f8b-bea5-4d8af25bef59" x="3" y="10" width="150" height="22"/>
-				<imageExpression><![CDATA[$P{assetsURL} + "/logo300x45.png"]]></imageExpression>
+				<reportElement uuid="4ae187a6-07c8-4f8b-bea5-4d8af25bef59" x="3" y="0" width="150" height="40"/>
+				<imageExpression><![CDATA[$P{assetsURL} + "/logo300x80.png"]]></imageExpression>
 			</image>
 			<line>
 				<reportElement uuid="ce1d68c5-e63c-4ee8-944c-8ff1aa0eed4d" positionType="Float" x="12" y="58" width="540" height="1" forecolor="#666666"/>
