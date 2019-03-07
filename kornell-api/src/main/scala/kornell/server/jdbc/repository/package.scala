@@ -41,14 +41,14 @@ package object repository {
       InstitutionType.valueOf(rs.getString("institutionType")),
       rs.getString("dashboardVersionUUID"),
       rs.getBoolean("useEmailWhitelist"),
-      rs.getString("assetsRepositoryUUID"),
       rs.getString("timeZone"),
       rs.getString("institutionSupportEmail"),
       rs.getBoolean("advancedMode"),
       rs.getBoolean("notifyInstitutionAdmins"),
       rs.getString("allowedLanguages"),
       rs.getBoolean("disabled"),
-      rs.getBoolean("enforceSequentialProgress"))
+      rs.getBoolean("enforceSequentialProgress"),
+      rs.getBoolean("showPlatformPanel"))
 
   implicit def toContentRepository(rs: ResultSet): ContentRepository =
     newContentRepository(rs.getString("uuid"),

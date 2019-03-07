@@ -4,11 +4,10 @@ import java.io.InputStream
 
 import kornell.core.lom.Contents
 import kornell.core.entity.{ContentSpec, Enrollment, Person}
-import kornell.core.util.StringUtils
 import kornell.core.util.StringUtils._
 import kornell.server.content.ContentManagers
 import kornell.server.dev.util.{ContentsParser, WizardParser}
-import kornell.server.jdbc.repository.{CourseClassRepo, CourseClassesRepo, CourseRepo, CourseVersionRepo, CourseVersionsRepo, CoursesRepo, InstitutionRepo, PersonRepo}
+import kornell.server.jdbc.repository.{ContentRepositoriesRepo, CourseClassRepo, CourseClassesRepo, CourseRepo, CourseVersionRepo, CoursesRepo, PersonRepo}
 import kornell.server.scorm12.ManifestParser
 import kornell.server.service.ContentService
 
@@ -74,9 +73,8 @@ object ContentRepository {
   }
 
   private def getPrefix(enrollment: Enrollment, person: Person): String = {
-    val institutionRepo = InstitutionRepo(person.getInstitutionUUID)
-    val repositoryUUID = institutionRepo.get.getAssetsRepositoryUUID
-    val repo = ContentManagers.forRepository(repositoryUUID)
+    val contentRepo = ContentRepositoriesRepo.firstRepositoryByInstitution(person.getInstitutionUUID).get
+    val repo = ContentManagers.forRepository(contentRepo.getUUID)
     val version = {
       if (enrollment.getCourseVersionUUID != null)
         CourseVersionRepo(enrollment.getCourseVersionUUID)
@@ -97,9 +95,8 @@ object ContentRepository {
   private def getVersionManifestContent(courseVersionUUID: String, filename: String): InputStream = {
     val version = CourseVersionRepo(courseVersionUUID).get
     val course = CourseRepo(version.getCourseUUID).get
-    val institution = InstitutionRepo(course.getInstitutionUUID).get
-    val repositoryUUID = institution.getAssetsRepositoryUUID
-    val repo = ContentManagers.forRepository(repositoryUUID)
+    val contentRepo = ContentRepositoriesRepo.firstRepositoryByInstitution(course.getInstitutionUUID).get
+    val repo = ContentManagers.forRepository(contentRepo.getUUID)
     val url = mkurl(course.getCode, version.getDistributionPrefix, filename)
     val structureIn = repo.inputStream(ContentService.CLASSROOMS, url).get
     structureIn
@@ -108,10 +105,10 @@ object ContentRepository {
   private def getClassManifestContent(courseClassUUID: String, filename: String): InputStream = {
     val classRepo = CourseClassesRepo(courseClassUUID)
     val institution = classRepo.institution.get
-    val repositoryUUID = institution.getAssetsRepositoryUUID
+    val contentRepo = ContentRepositoriesRepo.firstRepositoryByInstitution(institution.getUUID).get
     val versionRepo = classRepo.version
     val version = versionRepo.get
-    val repo = ContentManagers.forRepository(repositoryUUID)
+    val repo = ContentManagers.forRepository(contentRepo.getUUID)
     val course = CourseRepo(version.getCourseUUID).get
     val structureIn = repo.inputStream(ContentService.CLASSROOMS, mkurl(course.getCode, version.getDistributionPrefix, filename)).get
     structureIn

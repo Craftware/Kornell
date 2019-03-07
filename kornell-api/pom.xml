@@ -212,6 +212,12 @@
 			<artifactId>azure-storage</artifactId>
 			<version>8.0.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-scala_2.11</artifactId>
+			<version>2.7.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -286,6 +292,7 @@
 				<artifactId>wildfly-swarm-plugin</artifactId>
 				<!-- later versions of the plugin remove packaging of transitive dependencies -->
 				<!-- See https://github.com/wildfly-swarm/wildfly-swarm/commit/59fead67993910ef18c88e71fc637555cc612526 for more info -->
+				<!-- Also maven > 3.5.4 does not work with this version of the plugin so let's stick with lower versions -->
 				<version>2016.10.0</version>
 				<configuration>
 				</configuration>

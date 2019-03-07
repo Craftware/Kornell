@@ -13,7 +13,7 @@ object AssetService {
 
   def copyAssets(institutionUUID: String, entityType: CourseDetailsEntityType, sourceEntityUUID: String, targetEntityUUID: String, thumbUrl: String): Unit = {
     val institution = InstitutionRepo(institutionUUID).get
-    val bucketName = ContentRepositoriesRepo.firstRepository(institution.getAssetsRepositoryUUID).get.getBucketName
+    val bucketName = ContentRepositoriesRepo.firstRepositoryByInstitution(institution.getUUID).get.getBucketName
     val s3 = S3ContentManager.getAmazonS3Client(institution.getUUID)
 
     //copy thumbnail

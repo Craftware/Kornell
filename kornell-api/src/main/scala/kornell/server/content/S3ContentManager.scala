@@ -88,7 +88,7 @@ class S3ContentManager(repo: ContentRepository)
 object S3ContentManager {
   def getAmazonS3Client(institutionUUID: String): AmazonS3Client = {
     val institution = InstitutionRepo(institutionUUID).get
-    val repo = ContentRepositoriesRepo.firstRepository(institution.getAssetsRepositoryUUID).get
+    val repo = ContentRepositoriesRepo.firstRepositoryByInstitution(institution.getUUID).get
     val s3 = if (isSome(repo.getAccessKeyId))
       new AmazonS3Client(new BasicAWSCredentials(repo.getAccessKeyId, repo.getSecretAccessKey))
     else

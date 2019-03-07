@@ -9,7 +9,7 @@ import kornell.core.event.{EntityChanged, EventFactory}
 import kornell.core.to._
 import kornell.core.to.report.{CourseClassAuditTO, EnrollmentsBreakdownTO, InstitutionBillingEnrollmentReportTO, InstitutionBillingMonthlyReportTO}
 import kornell.server.content.ContentManagers
-import kornell.server.jdbc.repository.InstitutionRepo
+import kornell.server.jdbc.repository.{ContentRepositoriesRepo, InstitutionRepo}
 import kornell.server.util.DateConverter
 
 import scala.collection.JavaConverters.seqAsJavaListConverter
@@ -28,6 +28,7 @@ object TOs {
   def newCourseClassesTO: CourseClassesTO = tos.newCourseClassesTO.as
   def newLibraryFileTO: LibraryFileTO = tos.newLibraryFileTO.as
   def newEntityChangedEventsTO: EntityChangedEventsTO = tos.newEntityChangedEventsTO.as
+  def newCreateInstitutionTO: CreateInstitutionTO = tos.newCreateInstitutionTO.as
 
   def newEnrollmentsTO(enrollmentList: List[EnrollmentTO]): EnrollmentsTO = {
     val enrollments: EnrollmentsTO = newEnrollmentsTO
@@ -82,9 +83,8 @@ object TOs {
 
   def newCourseVersionTO(course: Course, version: CourseVersion): CourseVersionTO = {
     val versionTO = tos.newCourseVersionTO.as
-    val institutionRepo = InstitutionRepo(course.getInstitutionUUID)
-    val repositoryUUID = institutionRepo.get.getAssetsRepositoryUUID
-    val repo = ContentManagers.forRepository(repositoryUUID)
+    val contentRepo = ContentRepositoriesRepo.firstRepositoryByInstitution(course.getInstitutionUUID).get
+    val repo = ContentManagers.forRepository(contentRepo.getUUID)
     versionTO.setDistributionURL(repo.url(""))
     versionTO.setCourseTO(newCourseTO(course))
     versionTO.setCourseVersion(version)

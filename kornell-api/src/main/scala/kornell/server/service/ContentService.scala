@@ -72,7 +72,7 @@ object ContentService {
 
   def getRepositoryUrl(institutionUUID: String): String = {
     val institution = InstitutionRepo(institutionUUID).get
-    val repo = ContentRepositoriesRepo.firstRepository(institution.getAssetsRepositoryUUID).get
+    val repo = ContentRepositoriesRepo.firstRepositoryByInstitution(institution.getUUID).get
     mkurl("repository", repo.getUUID)
   }
 

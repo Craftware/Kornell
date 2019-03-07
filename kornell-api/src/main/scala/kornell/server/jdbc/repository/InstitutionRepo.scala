@@ -29,7 +29,6 @@ class InstitutionRepo(uuid: String) {
     | i.institutionType = ${institution.getInstitutionType.toString},
     | i.dashboardVersionUUID = ${institution.getDashboardVersionUUID},
     | i.useEmailWhitelist = ${institution.isUseEmailWhitelist},
-    | i.assetsRepositoryUUID = ${institution.getAssetsRepositoryUUID},
     | i.timeZone = ${institution.getTimeZone},
     | i.institutionSupportEmail = ${institution.getInstitutionSupportEmail},
     | i.advancedMode = ${institution.isAdvancedMode},

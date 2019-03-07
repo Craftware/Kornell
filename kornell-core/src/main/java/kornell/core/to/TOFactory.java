@@ -48,4 +48,5 @@ public interface TOFactory  extends AutoBeanFactory {
     AutoBean<CourseDetailsLibrariesTO> newCourseDetailsLibrariesTO();
     AutoBean<TrackTO> newTrackTO();
     AutoBean<TrackItemTO> newTrackItemTO();
+    AutoBean<CreateInstitutionTO> newCreateInstitutionTO();
 }

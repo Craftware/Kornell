@@ -10,7 +10,7 @@ import kornell.core.entity._
 import kornell.core.entity.role.RoleType
 import kornell.core.util.StringUtils
 import kornell.core.util.StringUtils._
-import kornell.server.jdbc.repository.{CourseClassRepo, CourseRepo, CourseVersionRepo, EmailTemplatesRepo, InstitutionEmailWhitelistRepo, InstitutionsRepo, PersonRepo, RolesRepo}
+import kornell.server.jdbc.repository.{ContentRepositoriesRepo, CourseClassRepo, CourseRepo, CourseVersionRepo, EmailTemplatesRepo, InstitutionEmailWhitelistRepo, InstitutionsRepo, PersonRepo, RolesRepo}
 import kornell.server.service.ContentService
 import kornell.server.util.Settings._
 import org.apache.commons.io.FileUtils
@@ -196,6 +196,7 @@ object EmailService {
   }
 
   private def getInstitutionLogoImage(institution: Institution): java.io.File = {
+    val contentRepo = ContentRepositoriesRepo.firstRepositoryByInstitution(institution.getUUID).get
     val logoImageName: String = "logo300x80.png"
     val tempDir: Path = Paths.get(System.getProperty("java.io.tmpdir"))
     val imgPath = tempDir.resolve(institution.getUUID + "-" + logoImageName)
@@ -207,7 +208,7 @@ object EmailService {
 
     if (!imgFile.exists) {
       //TODO: Use ContentStore API
-      val url = new URL(mkurl(institution.getBaseURL, "repository", institution.getAssetsRepositoryUUID, ContentService.PREFIX, ContentService.INSTITUTION, logoImageName))
+      val url = new URL(mkurl(institution.getBaseURL, "repository", contentRepo.getUUID, ContentService.PREFIX, ContentService.INSTITUTION, logoImageName))
       try {
         FileUtils.copyURLToFile(url, imgFile)
       } catch {

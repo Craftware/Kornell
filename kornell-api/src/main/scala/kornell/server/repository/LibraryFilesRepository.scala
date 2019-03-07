@@ -4,7 +4,7 @@ import kornell.core.to.{LibraryFileTO, LibraryFilesTO}
 import kornell.core.util.StringUtils
 import kornell.server.content.ContentManagers
 import kornell.server.dev.util.LibraryFilesParser
-import kornell.server.jdbc.repository.{CourseClassesRepo, CourseRepo}
+import kornell.server.jdbc.repository.{ContentRepositoriesRepo, CourseClassesRepo, CourseRepo}
 import kornell.server.service.ContentService
 
 object LibraryFilesRepository {
@@ -12,8 +12,8 @@ object LibraryFilesRepository {
   def findLibraryFiles(courseClassUUID: String): LibraryFilesTO = {
     val classRepo = CourseClassesRepo(courseClassUUID)
     val institutionRepo = classRepo.institution
-    val repositoryUUID = institutionRepo.get.getAssetsRepositoryUUID
-    val repo = ContentManagers.forRepository(repositoryUUID)
+    val contentRepo = ContentRepositoriesRepo.firstRepositoryByInstitution(institutionRepo.get.getUUID).get
+    val repo = ContentManagers.forRepository(contentRepo.getUUID)
     val versionRepo = classRepo.version
     val version = versionRepo.get
     val course = CourseRepo(version.getCourseUUID).get

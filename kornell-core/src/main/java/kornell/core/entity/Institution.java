@@ -68,4 +68,7 @@ public interface Institution extends Named {
 
     boolean isEnforceSequentialProgress();
     void setEnforceSequentialProgress(boolean enforceSequentialProgress);
+
+    boolean isShowPlatformPanel();
+    void setShowPlatformPanel(boolean showPlatformPanel);
 }

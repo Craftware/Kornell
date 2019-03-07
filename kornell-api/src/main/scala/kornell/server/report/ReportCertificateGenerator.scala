@@ -73,14 +73,14 @@ object ReportCertificateGenerator {
     resp.addHeader("Content-disposition", "attachment; filename=Certificado.pdf")
 
     val certificateData = sql"""
-        select p.fullName, c.name as courseName, cc.name, i.fullName as institutionName, i.assetsRepositoryUUID, cv.distributionPrefix, p.cpf, e.certifiedAt, cv.uuid as courseVersionUUID, cc.uuid as courseClassUUID, c.uuid as courseUUID, i.baseURL, s.repositoryType, c.code
+        select p.fullName, c.name as courseName, cc.name, i.fullName as institutionName, cr.uuid as repositoryUUID, cv.distributionPrefix, p.cpf, e.certifiedAt, cv.uuid as courseVersionUUID, cc.uuid as courseClassUUID, c.uuid as courseUUID, i.baseURL, cr.repositoryType, c.code
           from Person p
           join Enrollment e on p.uuid = e.personUUID
           join CourseClass cc on cc.uuid = e.courseClassUUID
           join CourseVersion cv on cv.uuid = cc.courseVersionUUID
           join Course c on c.uuid = cv.courseUUID
         join Institution i on i.uuid = cc.institutionUUID
-        join ContentRepository s on s.uuid = i.assetsRepositoryUUID
+        join ContentRepository cr on cr.institutionUUID = i.uuid
         where e.certifiedAt is not null and
               p.uuid = $userUUID and
           cc.uuid = $courseClassUUID
@@ -100,14 +100,14 @@ object ReportCertificateGenerator {
   def getCertificateInformationTOsByCourseClass(courseClassUUID: String, enrollments: String): List[CertificateInformationTO] = {
 
     var sql =
-      """select p.fullName, c.name as courseName, cc.name, i.fullName as institutionName, i.assetsRepositoryUUID, cv.distributionPrefix, p.cpf, e.certifiedAt, cv.uuid as courseVersionUUID, cc.uuid as courseClassUUID, c.uuid as courseUUID, i.baseURL, s.repositoryType, c.code
+      """select p.fullName, c.name as courseName, cc.name, i.fullName as institutionName, cr.uuid as repositoryUUID, cv.distributionPrefix, p.cpf, e.certifiedAt, cv.uuid as courseVersionUUID, cc.uuid as courseClassUUID, c.uuid as courseUUID, i.baseURL, cr.repositoryType, c.code
       from Person p
       join Enrollment e on p.uuid = e.personUUID
       join CourseClass cc on cc.uuid = e.courseClassUUID
       join CourseVersion cv on cv.uuid = cc.courseVersionUUID
       join Course c on c.uuid = cv.courseUUID
       join Institution i on i.uuid = cc.institutionUUID
-      join ContentRepository s on s.uuid = i.assetsRepositoryUUID
+      join ContentRepository cr on cr.institutionUUID = i.uuid
       where e.certifiedAt is not null and
       e.state <> 'cancelled' and """ +
         s"""cc.uuid = '$courseClassUUID' """

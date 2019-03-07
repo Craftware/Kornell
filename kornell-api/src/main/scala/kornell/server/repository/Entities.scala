@@ -162,15 +162,15 @@ object Entities {
   def newInstitution(uuid: String = randUUID, name: String, fullName: String, terms: String, baseURL: String,
     demandsPersonContactDetails: Boolean, validatePersonContactDetails: Boolean, allowRegistration: Boolean, allowRegistrationByUsername: Boolean,
     activatedAt: Date, skin: String, billingType: BillingType, institutionType: InstitutionType, dashboardVersionUUID: String,
-    useEmailWhitelist: Boolean = false, assetsRepositoryUUID: String = null, timeZone: String, institutionSupportEmail: String, advancedMode: Boolean,
-    notifyInstitutionAdmins: Boolean, allowedLanguages: String, disabled: Boolean, enforceSequentialProgress: Boolean): Institution = {
+    useEmailWhitelist: Boolean = false, timeZone: String, institutionSupportEmail: String, advancedMode: Boolean,
+    notifyInstitutionAdmins: Boolean, allowedLanguages: String, disabled: Boolean, enforceSequentialProgress: Boolean,
+    showPlatformPanel: Boolean): Institution = {
     val i = factory.newInstitution.as
     i.setName(name)
     i.setFullName(fullName)
     i.setUUID(uuid)
     if (terms != null)
       i.setTerms(terms.stripMargin)
-    i.setAssetsRepositoryUUID(assetsRepositoryUUID)
     i.setBaseURL(baseURL)
     i.setDemandsPersonContactDetails(demandsPersonContactDetails)
     i.setValidatePersonContactDetails(validatePersonContactDetails)
@@ -189,6 +189,7 @@ object Entities {
     i.setAllowedLanguages(allowedLanguages)
     i.setDisabled(disabled)
     i.setEnforceSequentialProgress(enforceSequentialProgress)
+    i.setShowPlatformPanel(showPlatformPanel)
     i
   }
 

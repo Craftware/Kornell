@@ -64,7 +64,7 @@ object InstitutionsRepo {
       institution.setActivatedAt(new Date)
     }
     sql"""
-    | insert into Institution (uuid,name,terms,baseURL,demandsPersonContactDetails,validatePersonContactDetails,fullName,allowRegistration,allowRegistrationByUsername,activatedAt,skin,billingType,institutionType,dashboardVersionUUID,useEmailWhitelist,assetsRepositoryUUID,timeZone,institutionSupportEmail,advancedMode, notifyInstitutionAdmins, allowedLanguages)
+    | insert into Institution (uuid,name,terms,baseURL,demandsPersonContactDetails,validatePersonContactDetails,fullName,allowRegistration,allowRegistrationByUsername,activatedAt,skin,billingType,institutionType,dashboardVersionUUID,useEmailWhitelist,timeZone,institutionSupportEmail,advancedMode, notifyInstitutionAdmins, allowedLanguages,disabled,enforceSequentialProgress,showPlatformPanel)
     | values(
     | ${institution.getUUID},
     | ${institution.getName},
@@ -81,12 +81,14 @@ object InstitutionsRepo {
     | ${institution.getInstitutionType.toString},
     | ${institution.getDashboardVersionUUID},
     | ${institution.isUseEmailWhitelist},
-    | ${institution.getAssetsRepositoryUUID},
     | ${institution.getTimeZone},
     | ${institution.getInstitutionSupportEmail},
     | ${institution.isAdvancedMode},
     | ${institution.isNotifyInstitutionAdmins},
-    | ${institution.getAllowedLanguages})""".executeUpdate
+    | ${institution.getAllowedLanguages},
+    | ${institution.isDisabled},
+    | ${institution.isEnforceSequentialProgress},
+    | ${institution.isShowPlatformPanel})""".executeUpdate
 
     //log creation event
     EventsRepo.logEntityChange(institution.getUUID, AuditedEntityType.institution, institution.getUUID, null, institution)

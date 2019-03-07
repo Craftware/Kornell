@@ -239,7 +239,7 @@ object ReportCourseClassGenerator {
         cc.name as 'courseClassName',
         cc.createdAt,
         cc.maxEnrollments,
-        i.assetsRepositoryUUID,
+        cr.uuid,
         (select eventFiredAt from CourseClassStateChanged
           where toState = 'inactive' and courseClassUUID = cc.uuid
           order by eventFiredAt desc) as disabledAt,
@@ -254,6 +254,7 @@ object ReportCourseClassGenerator {
         join CourseVersion cv on cc.courseVersionUUID = cv.uuid
         join Course c on cv.courseUUID = c.uuid
         join Institution i on i.uuid = cc.institutionUUID
+        join ContentRepository cr on cr.institutionUUID = i.uuid
       where (cc.uuid = ${courseClassUUID} or ${courseClassUUID} is null) and
         (cv.courseUUID = ${courseUUID} or ${courseUUID} is null) and
           cc.state <> ${EntityState.deleted.toString} and
